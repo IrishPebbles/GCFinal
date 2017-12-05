@@ -7,6 +7,6 @@
 <title>Voting</title>
 </head>
 <body>
-
+${result }
 </body>
 </html>
