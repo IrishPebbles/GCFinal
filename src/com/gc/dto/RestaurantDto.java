@@ -2,7 +2,7 @@ package com.gc.dto;
 
 import java.io.Serializable;
 
-public class RestarantDto implements  Serializable {
+public class RestaurantDto implements  Serializable {
 		
 	/**
 	 * 
@@ -12,11 +12,11 @@ public class RestarantDto implements  Serializable {
 	private String restaurantLocation;
 	private double restaurantRating;
 	
-	public RestarantDto() {
+	public RestaurantDto() {
 		
 	}
 
-	public RestarantDto(int restaurantID, String restaurantLocation, double restaurantRating) {
+	public RestaurantDto(int restaurantID, String restaurantLocation, double restaurantRating) {
 		super();
 		this.restaurantID = restaurantID;
 		this.restaurantLocation = restaurantLocation;

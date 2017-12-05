@@ -8,13 +8,13 @@ public class OutingDto {
 	private String outingName;
 	private Date dateOfEvent;
 	private String finalLocation;
-	private String organizer;
+	private int organizer;
 	
 	OutingDto(){
 		
 	}
 
-	public OutingDto(int outingID, String outingName, Date dateOfEvent, String finalLocation, String organizer) {
+	public OutingDto(int outingID, String outingName, Date dateOfEvent, String finalLocation, int organizer) {
 		super();
 		this.outingID = outingID;
 		this.outingName = outingName;
@@ -55,11 +55,11 @@ public class OutingDto {
 		this.finalLocation = finalLocation;
 	}
 
-	public String getOrganizer() {
+	public int getOrganizer() {
 		return organizer;
 	}
 
-	public void setOrganizer(String organizer) {
+	public void setOrganizer(int organizer) {
 		this.organizer = organizer;
 	}
 

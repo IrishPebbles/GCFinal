@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.gc.dto.PersonDto" table="Outing"
+		schema="outingsapp">
+
+
+		<id name="userID">
+			
+			<column name="userID" sql-type="int"></column>
+		</id>
+
+		<property name="userEmail">
+			<column name="userEmail" sql-type="varchar(255)" length="(255)"></column>
+		</property>
+		<property name="userPass">
+			<column name="userPass" sql-type="varchar(255)" length="255"></column>
+		</property>
+	</class>
+</hibernate-mapping>
