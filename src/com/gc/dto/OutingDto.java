@@ -1,9 +1,14 @@
 package com.gc.dto;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class OutingDto {
+public class OutingDto implements  Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4L;
 	private int outingID;
 	private String outingName;
 	private Date dateOfEvent;
