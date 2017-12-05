@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,8 @@ import com.gc.api.Credentials;
 public class LenaController {
 	@RequestMapping("/geolocation")
 	public ModelAndView latitudeAndLongitude(Model model) {
-		String latitude = "";
-		String longitude = "";
+		double latitude = 0.0;
+		double longitude = 0.0;
 		String forPrint = "";
 
 		try {
@@ -38,24 +39,28 @@ public class LenaController {
 			String line = reader.readLine();
 
 			while (line != null) {
-				System.out.println(line);
 				jsonStr += line;
 				line = reader.readLine();
 
 			}
-			System.out.println(jsonStr);
-			
 
-			JSONArray json = new JSONArray(jsonStr);
-			latitude = json.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lat");
-			longitude = json.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getString("lng");
+			JSONObject jsonObj = new JSONObject(jsonStr);
+			
+			System.out.println(jsonStr);
+			JSONArray jsonAr = jsonObj.getJSONArray("results");
+			
+			System.out.println(jsonAr);
+			latitude = jsonAr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble("lat");
+			longitude = jsonAr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble("lng");
 
 			forPrint += ("<h2>" + latitude + ", " + longitude + "</h2>");
+			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return new ModelAndView("geolocation","latLongData",forPrint);
 	}
 
