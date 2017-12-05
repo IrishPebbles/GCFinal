@@ -8,6 +8,6 @@
 </head>
 <body>
 <h2> Welcome to Outings</h2>
-
+<Button action="preferences">Click here to create an outing</Button>
 </body>
 </html>
