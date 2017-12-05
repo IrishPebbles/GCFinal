@@ -7,6 +7,6 @@
 <title>Locations</title>
 </head>
 <body>
-
+${latLongData}
 </body>
 </html>
