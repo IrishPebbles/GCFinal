@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gc.api.Credentials;
+import com.gc.util.GeolocationAPI;
 
 @Controller
 public class LenaController {
@@ -20,7 +21,15 @@ public class LenaController {
 		double latitude = 0.0;
 		double longitude = 0.0;
 		String forPrint = "";
-
+		
+		String myStreet ="1117 Burgoyne Blvd";
+		String myCity ="Rochester Hills";
+		String myState = "MI";
+		
+		GeolocationAPI coordinates = new GeolocationAPI(myStreet, myCity, myState);
+		coordinates.calculateLatLong();
+		forPrint = coordinates.getLatitude() + " , " + coordinates.getLongitude();
+		/*
 		try {
 			// this is how we create the url code in order to call the JSON response
 			// with the info we request
@@ -60,7 +69,7 @@ public class LenaController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		return new ModelAndView("geolocation","latLongData",forPrint);
 	}

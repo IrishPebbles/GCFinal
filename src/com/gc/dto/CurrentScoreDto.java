@@ -10,15 +10,26 @@ public class CurrentScoreDto implements  Serializable{
 	private static final long serialVersionUID = 5L;
 	private int restaurantID;
 	private int totalScore;
+	private int currentScoreID;
 	
 	public CurrentScoreDto() {
 		
 	}
+	
 
-	public CurrentScoreDto(int restaurantID, int totalScore) {
+	public CurrentScoreDto(int restaurantID, int totalScore, int currentScoreID) {
 		super();
 		this.restaurantID = restaurantID;
 		this.totalScore = totalScore;
+		this.currentScoreID = currentScoreID;
+	}
+
+	public int getCurrentScoreID() {
+		return currentScoreID;
+	}
+
+	public void setCurrentScoreID(int currentScoreID) {
+		this.currentScoreID = currentScoreID;
 	}
 
 	public int getRestaurantID() {
@@ -39,7 +50,8 @@ public class CurrentScoreDto implements  Serializable{
 
 	@Override
 	public String toString() {
-		return "currentScoreDto [restaurantID=" + restaurantID + ", totalScore=" + totalScore + "]";
+		return "CurrentScoreDto [restaurantID=" + restaurantID + ", totalScore=" + totalScore + ", currentScoreID="
+				+ currentScoreID + "]";
 	}
 	
 	

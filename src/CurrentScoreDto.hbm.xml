@@ -4,20 +4,18 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.gc.dto.SurveyDto" table="Survey"
+	<class name="com.gc.dto.CurrentScoreDto" table="CurrentScore"
 		schema="outingsapp">
 
-
-		<id name="surveyID">
-			
-			<column name="surveyID" sql-type="int"></column>
+		<id name="currentScoreID">
+			<column name="currentScoreID" sql-type="int"></column>
 		</id>
-
-		<property name="hasVoted">
-			<column name="hasVoted" sql-type="boolean"></column>
+		
+		<property name="totalScore">
+			<column name="totalScore" sql-type="int"></column>
 		</property>
 		<property name="restaurantID">
 			<column name="restaurantID" sql-type="int"></column>
-		</property>
+		</property> //test
 	</class>
 </hibernate-mapping>
