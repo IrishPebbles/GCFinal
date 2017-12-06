@@ -51,7 +51,8 @@ public class LenaController {
 			
 			System.out.println(jsonAr);
 			latitude = jsonAr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble("lat");
-			longitude = jsonAr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble("lng");
+			longitude = jsonAr.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").getDouble
+					("lng");
 
 			forPrint += ("<h2>" + latitude + ", " + longitude + "</h2>");
 			
