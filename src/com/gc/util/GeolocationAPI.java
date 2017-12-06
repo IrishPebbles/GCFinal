@@ -17,7 +17,7 @@ public class GeolocationAPI {
 	 private double longitude;
  
 	
-	//this fields will come fromt he form  
+	//this fields will come from the form  
 	public GeolocationAPI(String typedStreet, String typedCity, String typedState) {
 		this.typedStreet = typedStreet;
 		this.typedCity = typedCity;
