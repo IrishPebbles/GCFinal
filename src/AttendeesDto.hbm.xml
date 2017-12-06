@@ -7,7 +7,9 @@
 	<class name="com.gc.dto.AttendeesDto" table="Attendees"
 		schema="outingsapp">
 
-
+		<id name="attendeesID">
+			<column name="attendeesID" sql-type="int"></column>
+		</id>
 		
 		<property name="outingID">
 			<column name="outingID" sql-type="int"></column>

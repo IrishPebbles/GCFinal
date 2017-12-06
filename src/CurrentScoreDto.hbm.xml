@@ -7,7 +7,9 @@
 	<class name="com.gc.dto.CurrentScoreDto" table="CurrentScore"
 		schema="outingsapp">
 
-
+		<id name="currentScoreID">
+			<column name="currentScoreID" sql-type="int"></column>
+		</id>
 		
 		<property name="totalScore">
 			<column name="totalScore" sql-type="int"></column>
