@@ -10,12 +10,13 @@
 		<id name="currentScoreID">
 			<column name="currentScoreID" sql-type="int"></column>
 		</id>
-		
+
 		<property name="totalScore">
 			<column name="totalScore" sql-type="int"></column>
 		</property>
 		<property name="restaurantID">
 			<column name="restaurantID" sql-type="int"></column>
-		</property> //test
+		</property>
+	
 	</class>
 </hibernate-mapping>
