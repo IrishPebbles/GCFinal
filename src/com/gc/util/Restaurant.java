@@ -1,3 +1,4 @@
+package com.gc.util;
 
 public class Restaurant {
 

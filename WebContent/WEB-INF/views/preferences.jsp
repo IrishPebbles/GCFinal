@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Select your preferences</h1>
-<form action="voting" method="POST" >
+<form action="votingJenna" method="POST" >
 Name your event <input type="text" name="title" required><br>
 Who do you want to invite <input type="email" name="person1" required><br>
 Who do you want to invite <input type="email" name="person2" ><br>
