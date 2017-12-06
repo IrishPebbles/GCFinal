@@ -16,6 +16,6 @@
 		</property>
 		<property name="restaurantID">
 			<column name="restaurantID" sql-type="int"></column>
-		</property>
+		</property> //test
 	</class>
 </hibernate-mapping>
