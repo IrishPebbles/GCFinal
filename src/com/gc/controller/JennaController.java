@@ -27,7 +27,7 @@ import com.gc.util.Person;
 public class JennaController {
 
 	@RequestMapping(value= "votingJenna", method = RequestMethod.POST)
-	public ModelAndView voting(@RequestParam("person1") String emailPerson1,@RequestParam("person2") String emailPerson2, @RequestParam("person3") String emailPerson3, @RequestParam("date") String dateString, @RequestParam("time") String timeString, @RequestParam("location") String location, @RequestParam("timelimit") String timeLimit, Model model) {
+	public ModelAndView voting(@RequestParam("person1") String emailPerson1,@RequestParam("person2") String emailPerson2, @RequestParam("person3") String emailPerson3, @RequestParam("date") String dateString, @RequestParam("location") String location, @RequestParam("timelimit") String timeLimit, Model model) {
 		Person organizer = new Person("jenna.otto@gmail.com", "nope", null);
 		Person attendee1 = new Person(emailPerson1, "nope", null);
 		Person attendee2 = new Person(emailPerson2, "nope", null);
@@ -39,7 +39,7 @@ public class JennaController {
 		attendees.add(attendee1);
 		attendees.add(attendee2);
 		attendees.add(attendee3);
-		Outing constructingOuting = new Outing(dateString, timeString, null, organizer, attendees);
+		Outing constructingOuting = new Outing(dateString, location, null, organizer, attendees);
 				
 		//create a survey based on the location
 		
