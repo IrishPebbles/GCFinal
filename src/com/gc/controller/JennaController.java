@@ -32,13 +32,18 @@ public class JennaController {
 		Person attendee1 = new Person(emailPerson1, "nope", null);
 		Person attendee2 = new Person(emailPerson2, "nope", null);
 		Person attendee3 = new Person(emailPerson3, "nope", null);
-		
+		// constructing a basic outing
+
 		ArrayList<Person> attendees = new ArrayList<>();
 		attendees.add(organizer);
 		attendees.add(attendee1);
 		attendees.add(attendee2);
 		attendees.add(attendee3);
 		Outing constructingOuting = new Outing(dateString, timeString, null, organizer, attendees);
+				
+		//create a survey based on the location
+		
+		//make a call to the api and get the location 
 		
 		
 		return new ModelAndView("voting","result", constructingOuting.toString());
