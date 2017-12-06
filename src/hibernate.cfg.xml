@@ -8,11 +8,11 @@
 	<!-- a SessionFactory instance -->
 	<session-factory>
 		<!-- This is the same connection info we used for JDBC -->
-		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/outingsapp</property>
+		<property name="hibernate.connection.url">jdbc:mysql://outingsdb.cmzvhfw6o6dw.us-east-2.rds.amazonaws.com/outingsapp</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.username">mmm</property>
-		<property name="hibernate.connection.password">mmm</property>
+		<property name="hibernate.connection.username">gcoutingsadmin</property>
+		<property name="hibernate.connection.password">JavaOctober2017</property>
 		<!-- The show-sql property set to true is used for testing and allows us 
 			to see the hibernate queries in our console -->
 		<property name="show_sql">true</property>
