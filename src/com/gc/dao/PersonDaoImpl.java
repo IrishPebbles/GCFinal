@@ -13,6 +13,8 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
+import com.gc.dto.CurrentScoreDto;
+
 import com.gc.dto.PersonDto;
 
 
@@ -32,8 +34,10 @@ public class PersonDaoImpl implements PersonDao {
 	}
 
 	@Override
+
 	public List<PersonDto> addID(PersonDto userID, String userEmail, String userPassword) {
-		
+	
+
 		List<PersonDto> restList = new ArrayList<PersonDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -47,6 +51,7 @@ public class PersonDaoImpl implements PersonDao {
 		session.save(userID);
 		tx.commit();
 		session.close();
+	
 		return restList;
 	}
 
@@ -78,13 +83,13 @@ public class PersonDaoImpl implements PersonDao {
 	 * @see com.gc.dao.PersonDao#unpdateID(com.gc.dto.PersonDto)
 	 */
 	@Override
-	public List<PersonDto> unpdateID(PersonDto userID) {
+	public List<PersonDto> updateID(PersonDto userID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<PersonDto> getID(PersonDto userID) {
+	public List<PersonDto> getID(PersonDto userID, String userEmail, String userPassword) {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
 		SessionFactory sessionFactory = config.buildSessionFactory();

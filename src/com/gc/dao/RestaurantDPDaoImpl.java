@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package com.gc.dao;
 
 import java.util.ArrayList;

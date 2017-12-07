@@ -10,7 +10,9 @@
 <title>Preferences</title>
 </head>
 <body>
-<form:form action="votingJenna" method="post" modelAttribute="attendeeList">
+
+<form action="votingJenna" method="post">
+
 		<fieldset>
 			Log in or provide email address:
 			<input type="email" name="organizerEmail" placeholder="email@domain.com"><br>
@@ -57,7 +59,7 @@
 		</fieldset>
 			<input type="submit" value="Submit"> 
 			<input type="reset" value="Reset">
-	</form:form>
+	</form>
 	<script>
     function createEmailFields(val){
         document.getElementById("email").innerHTML = "<div></div>";

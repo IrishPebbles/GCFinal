@@ -12,7 +12,7 @@ public class AttendeesDto implements  Serializable {
 	private int outingID;
 	private int attendeesID;
 	
-	AttendeesDto(){
+	public AttendeesDto(){
 		
 	}
 	

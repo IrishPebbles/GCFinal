@@ -3,8 +3,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Outing {
+
 	private Date dateOfEvent;
-	private Restaurant finalLocation;
+	private RestaurantObj finalLocation;
 	private Person organizer;
 	private ArrayList<Person> attendees;
 
@@ -12,9 +13,10 @@ public class Outing {
 
 	}
 
-	public Outing(Date dateOfEvent, Restaurant finalLocation, Person organizer,
+
+	public Outing(Date dateOfEvent, RestaurantObj finalLocation, Person organizer,
 			ArrayList<Person> attendees) {
-		super();
+		
 		this.dateOfEvent = dateOfEvent;
 		this.finalLocation = finalLocation;
 		this.organizer = organizer;
@@ -29,11 +31,13 @@ public class Outing {
 		this.dateOfEvent = dateOfEvent;
 	}
 
-	public Restaurant getFinalLocation() {
+	
+	public RestaurantObj getFinalLocation() {
+	
 		return finalLocation;
 	}
 
-	public void setFinalLocation(Restaurant finalLocation) {
+	public void setFinalLocation(RestaurantObj finalLocation) {
 		this.finalLocation = finalLocation;
 	}
 

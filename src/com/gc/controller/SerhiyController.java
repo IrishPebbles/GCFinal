@@ -1,6 +1,6 @@
 package com.gc.controller;
 
-import java.io.BufferedReader;  
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -34,92 +34,87 @@ import com.gc.dao.RestaurantDPDaoImpl;
 import com.gc.dao.RestaurantDao;
 import com.gc.dao.RestaurantDaoImpl;
 import com.gc.dto.RestaurantDto;
+import com.gc.util.GeolocationAPI;
+import com.gc.util.ZoomatoAPI;
 
 @Controller
 public class SerhiyController {
-	@RequestMapping("/zomato2")
-	public ModelAndView index2(Model model) {
-		
-		RestaurantDao restDao = new RestaurantDaoImpl();
-		List<RestaurantDto> restList = restDao.getList(0.0, 0.0, 0.0);// lant, lont and range
-		
-		
-		// this is Antonella's test
-		RestaurantDPDaoImpl test1 = new RestaurantDPDaoImpl();
-		test1.addID(null, "testing", 2.2);
-		
-		PersonDaoImpl test2 = new PersonDaoImpl();
-		test2.addID(null, "userEmail", "userPassword");
-		return new ModelAndView("zomato2", "restdata", restList );
-	}
 	@RequestMapping("/zomato")
-	public ModelAndView index(Model model) {
-		String results = "";
-		String restarantText = "";
-		try {
-			// the HttpCLient Interface represents the contract for the HTTP request
-			// execution
-			HttpClient http = HttpClientBuilder.create().build();
+	public ModelAndView index2(Model model) {
 
-			// HttpHost holds the variables needed for the connection
-			// default port for http is 80
-			// default port for https is 443
-			HttpHost host = new HttpHost("developers.zomato.com", 443 , "https");
+		GeolocationAPI myLocation = new GeolocationAPI("1570 Woodward Ave", "Detroit", "MI");
+		myLocation.calculateLatLong();
 
-			// HttpGet retrieves the info identified by the request url (returns as an
-			// entity)
-			HttpGet getPage = new HttpGet("/api/v2.1/search?entity_id=5&entity_type=city&lat=42.337067&lon=83.052578&radius=20000");  //TODO need to change parameters later using https://developers.zomato.com/documentation#!/restaurant/search
-			getPage.setHeader("user-key", Credentials.ZOMATO_API);
-			HttpResponse resp = http.execute(host, getPage);
+		ZoomatoAPI zAPI = new ZoomatoAPI(myLocation);
+		String hmtlDisplay = "";
+		for (int i = 0; i < zAPI.getRestID().size(); i++) { // zAPI.getRestID() is an array of Strings
+			
+			hmtlDisplay += "<h6>" + zAPI.getRestID().get(i) + "</h6>";
 
-			String jsonString = EntityUtils.toString(resp.getEntity());
-			JSONObject objJson = new JSONObject(jsonString);
-			results = objJson.get("results_shown").toString();
-			System.out.println(jsonString);
-			System.out.println("Response code: " + resp.getStatusLine().getStatusCode() + " " + results);
-			
-			
-			// assign the returned result to a json object
-			
-			
-			JSONArray restArray = objJson.getJSONArray("restaurants");// we are creating an array from JSON tree
-			JSONObject restaurant ;
-			for (int i = 0; i < restArray.length(); i++) {
-				//String resultsshown = "";
-			
-			//	 restarant = restArray.getJSONObject(i);
-				 restarantText += "<h6>" + restArray.getJSONObject(i).getJSONObject("restaurant").getString("name") + "</h6>";
-				 restarantText += "<h6>" + restArray.getJSONObject(i).getJSONObject("restaurant").getJSONObject("user_rating").getString("aggregate_rating") + "</h6>";
-				
-				/*city = 
-				 * json.getJSONObject(i).getString("city");
-				contact = json.getJSONObject(i).getString("contact");
-
-				forPrint += ("<h2>" + center + ", " + city + ", " + contact + "</h2>");*/
-				
 		}
-			//prodCenter = String.valueOf(objJson.getInt("results_shown"));
 
-		
-			// the next step is showing how to dig deeper into the json data
-			//String text = "";
-			// created an array to hold the array for text from json
-			//JSONArray ar = json.getJSONObject("data").getJSONArray("text");
-
-			//for (int i = 0; i < ar.length(); i++) {
-			//	text += ("<h6>" + ar.getString(i) + "</h6>");
-
-		//	}
-
-		//	model.addAttribute("jsonArray", text);
-
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return new ModelAndView("zomato", "restdata", restarantText);
+		return new ModelAndView("zomato", "restdata", hmtlDisplay);
 	}
 }
+/*
+ * @RequestMapping("/zomato") public ModelAndView index(Model model) { String
+ * results = ""; String restarantText = ""; try { // the HttpCLient Interface
+ * represents the contract for the HTTP request // execution HttpClient http =
+ * HttpClientBuilder.create().build();
+ * 
+ * // HttpHost holds the variables needed for the connection // default port for
+ * http is 80 // default port for https is 443 HttpHost host = new
+ * HttpHost("developers.zomato.com", 443 , "https");
+ * 
+ * // HttpGet retrieves the info identified by the request url (returns as an //
+ * entity) HttpGet getPage = new HttpGet(
+ * "/api/v2.1/search?entity_id=5&entity_type=city&lat=42.337067&lon=83.052578&radius=20000"
+ * ); //TODO need to change parameters later using
+ * https://developers.zomato.com/documentation#!/restaurant/search
+ * getPage.setHeader("user-key", Credentials.ZOMATO_API); HttpResponse resp =
+ * http.execute(host, getPage);
+ * 
+ * String jsonString = EntityUtils.toString(resp.getEntity()); JSONObject
+ * objJson = new JSONObject(jsonString); results =
+ * objJson.get("results_shown").toString(); System.out.println(jsonString);
+ * System.out.println("Response code: " + resp.getStatusLine().getStatusCode() +
+ * " " + results);
+ * 
+ * 
+ * // assign the returned result to a json object
+ * 
+ * 
+ * JSONArray restArray = objJson.getJSONArray("restaurants");// we are creating
+ * an array from JSON tree JSONObject restaurant ; for (int i = 0; i <
+ * restArray.length(); i++) { //String resultsshown = "";
+ * 
+ * // restarant = restArray.getJSONObject(i); restarantText += "<h6>" +
+ * restArray.getJSONObject(i).getJSONObject("restaurant").getString("name") +
+ * "</h6>"; restarantText += "<h6>" +
+ * restArray.getJSONObject(i).getJSONObject("restaurant").getJSONObject(
+ * "user_rating").getString("aggregate_rating") + "</h6>";
+ * 
+ * city = json.getJSONObject(i).getString("city"); contact =
+ * json.getJSONObject(i).getString("contact");
+ * 
+ * forPrint += ("<h2>" + center + ", " + city + ", " + contact + "</h2>");
+ * 
+ * } //prodCenter = String.valueOf(objJson.getInt("results_shown"));
+ * 
+ * 
+ * // the next step is showing how to dig deeper into the json data //String
+ * text = ""; // created an array to hold the array for text from json
+ * //JSONArray ar = json.getJSONObject("data").getJSONArray("text");
+ * 
+ * //for (int i = 0; i < ar.length(); i++) { // text += ("<h6>" +
+ * ar.getString(i) + "</h6>");
+ * 
+ * // }
+ * 
+ * // model.addAttribute("jsonArray", text);
+ * 
+ * } catch (ClientProtocolException e) { // TODO Auto-generated catch block
+ * e.printStackTrace(); } catch (IOException e) { // TODO Auto-generated catch
+ * block e.printStackTrace(); } return new ModelAndView("zomato", "restdata",
+ * restarantText); } }
+ */

@@ -5,15 +5,16 @@ package com.gc.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import org.hibernate.cfg.Configuration;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+
 import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.AttendeesDto;
+import com.gc.dto.RestaurantDto;
 
 /**
  * @author Serhiy Bardysh
@@ -27,8 +28,21 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	 * @see com.gc.factory.AttendeesDao#addUser(com.gc.dto.AttendeesDto)
 	 */
 	@Override
-	public void addUser(AttendeesDto newUser) {
+	public List<AttendeesDto> addNewAttendee(AttendeesDto newUser, int userID, int outingID) {
+		List<AttendeesDto> attenList = new ArrayList<AttendeesDto>();
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+		SessionFactory sessionFactory = config.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		AttendeesDto newAttenDto = new AttendeesDto();
 
+		newAttenDto.setPersonID(userID);
+		newAttenDto.setOutingID(outingID);
+
+		session.save(newUser);
+		tx.commit();
+		session.close();
+		return attenList;
 	}
 
 	/*
@@ -36,7 +50,7 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	 * 
 	 * @see com.gc.factory.AttendeesDao#addNewID(com.gc.dto.AttendeesDto)
 	 */
-	@Override
+
 	public List<AttendeesDto> addNewID(AttendeesDto newUser) {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();

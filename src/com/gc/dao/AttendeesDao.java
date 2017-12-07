@@ -5,9 +5,9 @@ import java.util.List;
 import com.gc.dto.AttendeesDto;
 
 public interface AttendeesDao {
-	void addUser (AttendeesDto newUser);
+	List<AttendeesDto> addNewAttendee(AttendeesDto attenID, int userID, int outingID);
 	
-	List<AttendeesDto> addNewID (AttendeesDto newUser);
+	List<AttendeesDto> addNewID (AttendeesDto newUser );
 	// adding new ID
 	
 	List<AttendeesDto> searchID (AttendeesDto newUser);
