@@ -1,4 +1,4 @@
-package com.gc.factory;
+package com.gc.dao;
 
 import java.util.List;
 
@@ -9,9 +9,6 @@ public interface AttendeesDao {
 	
 	List<AttendeesDto> addNewID (AttendeesDto newUser);
 	// adding new ID
-	
-	List<AttendeesDto> getID (AttendeesDto newUser);
-	// getting ID
 	
 	List<AttendeesDto> searchID (AttendeesDto newUser);
 	// searching ID

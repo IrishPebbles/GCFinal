@@ -29,6 +29,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import com.gc.api.Credentials;
+import com.gc.dao.RestaurantDPDaoImpl;
 import com.gc.dao.RestaurantDao;
 import com.gc.dao.RestaurantDaoImpl;
 import com.gc.dto.RestaurantDto;
@@ -40,6 +41,11 @@ public class SerhiyController {
 		
 		RestaurantDao restDao = new RestaurantDaoImpl();
 		List<RestaurantDto> restList = restDao.getList(0.0, 0.0, 0.0);// lant, lont and range
+		
+		
+		// this is Antonella's test
+		RestaurantDPDaoImpl test1 = new RestaurantDPDaoImpl();
+		test1.addID(null, "testing", 2.2);
 		
 		return new ModelAndView("zomato2", "restdata", restList );
 	}
