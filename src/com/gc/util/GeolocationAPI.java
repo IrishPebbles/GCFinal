@@ -22,6 +22,7 @@ public class GeolocationAPI {
 		this.typedStreet = typedStreet;
 		this.typedCity = typedCity;
 		this.typedState = typedState;
+		calculateLatLong();
 	}
 	
 	public String getTypedStreet() {

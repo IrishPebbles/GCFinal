@@ -33,7 +33,7 @@ public class PersonDaoImpl implements PersonDao {
 
 	@Override
 
-	public List<PersonDto> addID(PersonDto userID, String userEmail, String userPassword) {
+	public List<PersonDto> addID(String userEmail, String userPassword) {
 	
 
 		List<PersonDto> restList = new ArrayList<PersonDto>();
@@ -44,9 +44,9 @@ public class PersonDaoImpl implements PersonDao {
 		PersonDto newPersonDto = new PersonDto();
 		
 		newPersonDto.setUserEmail(userEmail);
-		newPersonDto.setUserPass(userPassword);
+		newPersonDto.setUserPassword(userPassword);
 		
-		session.save(userID);
+		session.save(newPersonDto);
 		tx.commit();
 		session.close();
 	

@@ -42,7 +42,12 @@ public class SurveyDaoImpl implements SurveyDao {
 		Transaction tx = session.beginTransaction();
 		SurveyDto newServDto = new SurveyDto();
 		
-		newServDto.setRestaurantID(restID);
+		newServDto.setfinalVenueID(restID);
+		newServDto.setOptVenueID1(restID);
+		newServDto.setOptVenueID2(restID);
+		newServDto.setOptVenueID3(restID);
+		newServDto.setOptVenueID4(restID);
+		newServDto.setOptVenueID5(restID);
 		newServDto.setHasVoted(hasVoted);
 
 		

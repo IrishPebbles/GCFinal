@@ -30,10 +30,6 @@ import org.xml.sax.InputSource;
 
 import com.gc.api.Credentials;
 import com.gc.dao.PersonDaoImpl;
-import com.gc.dao.RestaurantDPDaoImpl;
-import com.gc.dao.RestaurantDao;
-import com.gc.dao.RestaurantDaoImpl;
-import com.gc.dto.RestaurantDto;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.ZoomatoAPI;
 

@@ -91,6 +91,7 @@ public class JennaController {
 		
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
 	}
+
 	@RequestMapping("/eventbrite")
 	public ModelAndView eventbriteAPI(Model model) {
 		String text = "";

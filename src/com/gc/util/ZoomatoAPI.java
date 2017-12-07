@@ -21,7 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.gc.api.Credentials;
-import com.gc.dto.RestaurantDto;
 import com.sun.jersey.json.impl.writer.JsonEncoder;
 
 /**

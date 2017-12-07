@@ -4,20 +4,41 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.gc.dto.SurveyDto" table="Survey"
-		schema="outingsapp">
+	<class name="com.gc.dto.SurveyDto" table="Survey" schema="outingsapp">
 
 
 		<id name="surveyID">
-			
+
 			<column name="surveyID" sql-type="int"></column>
 		</id>
 
-		<property name="hasVoted">
+			<property name="hasVoted">
 			<column name="hasVoted" sql-type="boolean"></column>
-		</property>
-		<property name="restaurantID">
-			<column name="restaurantID" sql-type="int"></column>
-		</property>
+			</property>
+		
+			<property name="finalVenueID">
+			<column name="finalVenueID" sql-type="int"></column>
+			</property>
+			
+			<property name="optVenueID1">
+			<column name="optVenueID1" sql-type="int"></column>
+			</property>
+			
+			<property name="optVenueID2">
+			<column name="optVenueID2" sql-type="int"></column>
+			</property>
+			
+			<property name="optVenueID3">
+			<column name="optVenueID3" sql-type="int"></column>
+			</property>
+			
+			<property name="optVenueID4">
+			<column name="optVenueID4" sql-type="int"></column>
+			</property>
+			
+			<property name="optVenueID5">
+			<column name="optVenueID5" sql-type="int"></column>
+			</property>
+		
 	</class>
 </hibernate-mapping>
