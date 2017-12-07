@@ -10,16 +10,11 @@ import com.gc.util.GeolocationAPI;
 @Controller
 public class LenaController {
 	
-	@RequestMapping("/testcreation")
-	public void form() {
-		
-	}
-	
 	@RequestMapping("/geolocation")
 	public ModelAndView latitudeAndLongitude(Model model) {
 		String forPrint = "";
 		
-		String myStreet ="";
+		String myStreet = "";
 		String myCity ="";
 		String myState = "";
 		
