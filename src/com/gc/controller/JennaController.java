@@ -39,11 +39,13 @@ public class JennaController {
 		
 		for(int i=0; i<emailAddresses.length; i++ ) {
 			attendees.add(new Person(emailAddresses[i], null, null));
-			//we can drop the name req form the constructor OR get their name for oauth OR get it from the database
+			//we can drop the name req form the constructor OR get their name for oAuth OR get it from the database
 		}
 	
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
+		//passing location to create and return survey
 		Outing constructingOuting = new Outing(eventDate, location, organizer, attendees);//date and final location are null
+		
 		
 		
 		//create the table that we need to view based on the voting object
