@@ -1,31 +1,22 @@
 package com.gc.util;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 public class Survey {
 
 	private ArrayList<Person> voters;
-	private ArrayList<RestaurantObj> potentialVenues;
+	private ArrayList<String> potentialVenues;
 	private ArrayList<Integer> numVotes;
+	
 
 	public ArrayList<Person> getVoters() {
 		return voters;
 	}
 
-	public void setVoters(ArrayList<Person> voters) {
-		this.voters = voters;
-	}
-
-	public ArrayList<RestaurantObj> getPotentialVenues() {
-		return potentialVenues;
-	}
-
-	public void setPotentialVenues(ArrayList<RestaurantObj> potentialVenues) {
-		this.potentialVenues = potentialVenues;
-	}
-
 	public Survey() {
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	public int updateScore() {
 		return 0;
@@ -39,19 +30,18 @@ public class Survey {
 		return false;
 	}
 
-	public Survey(ArrayList<Person> voters, ArrayList<RestaurantObj> potentialVenues, ArrayList<Integer> numVotes) {
-		super();
-		this.voters = voters;
-		this.potentialVenues = potentialVenues;
-		this.numVotes = numVotes;
-	}
-
 	public ArrayList<Integer> getNumVotes() {
 		return numVotes;
 	}
 
 	public void setNumVotes(ArrayList<Integer> numVotes) {
 		this.numVotes = numVotes;
+	}
+	
+	public void createPotentialList(GeolocationAPI location) {
+		ZoomatoAPI zApi = new ZoomatoAPI(location);
+		
+		
 	}
 
 	@Override

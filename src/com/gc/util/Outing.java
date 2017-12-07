@@ -8,19 +8,25 @@ public class Outing {
 	private RestaurantObj finalLocation;
 	private Person organizer;
 	private ArrayList<Person> attendees;
+	private Survey potentialLocations;
+	private GeolocationAPI location;
 
 	public Outing() {
 
 	}
 
 
-	public Outing(Date dateOfEvent, RestaurantObj finalLocation, Person organizer,
+	public Outing(Date dateOfEvent, GeolocationAPI location , Person organizer,
 			ArrayList<Person> attendees) {
 		
 		this.dateOfEvent = dateOfEvent;
 		this.finalLocation = finalLocation;
 		this.organizer = organizer;
 		this.attendees = attendees;
+		this.location = location;
+		//crate survey item we need the locations 
+		
+		
 	}
 
 	public Date getDateOfEvent() {
