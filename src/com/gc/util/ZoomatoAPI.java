@@ -89,7 +89,7 @@ public class ZoomatoAPI {
 		String restRating = restaurant.getJSONObject("user_rating").getString("aggregate_rating");
 		String restCuisine = restaurant.getString("cuisines");//this may have to be parsed if there are more than one type
 			
-		RestaurantObj myRest	= new RestaurantObj(restName, restLocation, restRating);
+		RestaurantObj myRest	= new RestaurantObj(restName, restLocation, restRating, restID);
 		return myRest;
 	}
 	

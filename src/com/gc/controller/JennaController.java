@@ -47,6 +47,7 @@ public class JennaController {
 		//passing location to create and return survey
 		Outing constructingOuting = new Outing(eventDate, location, organizer, attendees);//date and final location are null
 		Survey mySurvey = constructingOuting.getPotentialEvent();
+		System.out.println(mySurvey.getPotentialVenues().toString());
 		
 		
 		
@@ -81,7 +82,7 @@ public class JennaController {
 		
 		return new ModelAndView("voting","result", outingObjHTML);
 	}
-	
+	/*
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model) {
 		
@@ -90,7 +91,7 @@ public class JennaController {
 		//let the person know they have voted
 		
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
-	}
+	}*/
 
 	@RequestMapping("/eventbrite")
 	public ModelAndView eventbriteAPI(Model model) {
