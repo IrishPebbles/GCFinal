@@ -3,7 +3,7 @@
  */
 package com.gc.dao;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.Criteria;
@@ -14,7 +14,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.AttendeesDto;
-import com.gc.dto.RestaurantDto;
 
 /**
  * @author Serhiy Bardysh
