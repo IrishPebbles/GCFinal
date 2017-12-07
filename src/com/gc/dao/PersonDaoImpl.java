@@ -83,13 +83,13 @@ public class PersonDaoImpl implements PersonDao {
 	 * @see com.gc.dao.PersonDao#unpdateID(com.gc.dto.PersonDto)
 	 */
 	@Override
-	public List<PersonDto> unpdateID(PersonDto userID) {
+	public List<PersonDto> updateID(PersonDto userID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<PersonDto> getID(PersonDto userID) {
+	public List<PersonDto> getID(PersonDto userID, String userEmail, String userPassword) {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -102,12 +102,6 @@ public class PersonDaoImpl implements PersonDao {
 		session.close();
 		return getList;
 		
-	}
-
-	@Override
-	public List<PersonDto> addID(PersonDto userID, String userEmail, String userPassword) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

@@ -23,7 +23,7 @@ List<PersonDto> searchID(PersonDto userID);
 List<PersonDto> getID(PersonDto userID, String userEmail, String userPassword);
 	
 
-List<PersonDto> unpdateID(PersonDto userID);
+List<PersonDto> updateID(PersonDto userID);
 	// TODO Auto-generated method stub
 
 }
