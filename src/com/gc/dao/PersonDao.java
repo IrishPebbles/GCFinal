@@ -5,7 +5,6 @@ package com.gc.dao;
 
 import java.util.List;
 
-import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.PersonDto;
 
 /**
@@ -16,12 +15,14 @@ public interface PersonDao {
 	public void getUserID(PersonDto userID); 
 	// TODO Auto-generated method stub
 
-List<CurrentScoreDto> getID(PersonDto userID);
-	// TODO Auto-generated method stub
+List<PersonDto> addID(PersonDto userID, String userEmail, String userPassword);
+	
 
-List<CurrentScoreDto> searchID(PersonDto userID);
-	// TODO Auto-generated method stub
+List<PersonDto> searchID(PersonDto userID);
 
-List<CurrentScoreDto> unpdateID(PersonDto userID);
+List<PersonDto> getID(PersonDto userID);
+	
+
+List<PersonDto> unpdateID(PersonDto userID);
 	// TODO Auto-generated method stub
 }

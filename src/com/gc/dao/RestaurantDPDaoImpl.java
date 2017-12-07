@@ -6,10 +6,12 @@ package com.gc.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.RestaurantDto;
 
@@ -51,13 +53,25 @@ public class RestaurantDPDaoImpl implements RestaurantDBDao {
 		return restList;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.gc.dao.RestaurantDBDao#searchID(com.gc.dto.RestaurantDto)
-	 */
 	@Override
 	public List<RestaurantDto> searchID(RestaurantDto restID) {
-		// TODO Auto-generated method stub
-		return null;
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+
+		SessionFactory sessionFactory = config.buildSessionFactory();
+
+		Session session = sessionFactory.openSession();
+
+		Transaction tx = session.beginTransaction();
+
+		Criteria crit = session.createCriteria(RestaurantDto.class);
+
+		crit.add(Restrictions.like("restID",  restID));
+
+		ArrayList<RestaurantDto> restList = (ArrayList<RestaurantDto>) crit.list();
+		tx.commit();
+		session.close();
+
+		return restList;
 	}
 
 	/* (non-Javadoc)
@@ -67,6 +81,21 @@ public class RestaurantDPDaoImpl implements RestaurantDBDao {
 	public List<RestaurantDto> unpdateID(RestaurantDto restID) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<RestaurantDto> getID(RestaurantDto restID) {
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+
+		SessionFactory sessionFactory = config.buildSessionFactory();
+
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria crit = session.createCriteria(RestaurantDto.class);
+		ArrayList<RestaurantDto> getList = (ArrayList<RestaurantDto>) crit.list();
+		tx.commit();
+		session.close();
+		return getList;
 	}
 
 }
