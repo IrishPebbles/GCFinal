@@ -13,8 +13,6 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
-import com.gc.dto.CurrentScoreDto;
-
 import com.gc.dto.PersonDto;
 
 
@@ -79,9 +77,7 @@ public class PersonDaoImpl implements PersonDao {
 		return personList;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.gc.dao.PersonDao#unpdateID(com.gc.dto.PersonDto)
-	 */
+	
 	@Override
 	public List<PersonDto> updateID(PersonDto userID) {
 		// TODO Auto-generated method stub
