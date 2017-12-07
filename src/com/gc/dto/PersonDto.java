@@ -9,16 +9,16 @@ public class PersonDto  implements  Serializable{
 	private static final long serialVersionUID = 1L;
 		private int userID;
 		private String userEmail;
-		private String userPass;
+		private String userPassword;
 		
 	public	PersonDto(){
 	}
 
-	public PersonDto(int userID, String userEmail, String userPass) {
+	public PersonDto(int userID, String userEmail, String userPassword) {
 		super();
 		this.userID = userID;
 		this.userEmail = userEmail;
-		this.userPass = userPass;
+		this.userPassword = userPassword;
 	}
 
 	public int getUserID() {
@@ -37,17 +37,17 @@ public class PersonDto  implements  Serializable{
 		this.userEmail = userEmail;
 	}
 
-	public String getUserPass() {
-		return userPass;
+	public String getUserPassword() {
+		return userPassword;
 	}
 
-	public void setUserPass(String userPass) {
-		this.userPass = userPass;
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 
 	@Override
 	public String toString() {
-		return "PersonDto [userID=" + userID + ", userEmail=" + userEmail + ", userPass=" + userPass + "]";
+		return "PersonDto [userID=" + userID + ", userEmail=" + userEmail + ", userPass=" + userPassword + "]";
 	}
 	
 	

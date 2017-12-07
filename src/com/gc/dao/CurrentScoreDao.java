@@ -18,7 +18,7 @@ public interface CurrentScoreDao {
 	List<CurrentScoreDto> getID(CurrentScoreDto restID);
 		// TODO Auto-generated method stub
 	
-	List<CurrentScoreDto> addcurrentScore(CurrentScoreDto scoredto, int totalscore, int restID);
+	List<CurrentScoreDto> addcurrentScore(int totalscore, int restID);
 
 	List<CurrentScoreDto> searchID(CurrentScoreDto restID);
 		// TODO Auto-generated method stub

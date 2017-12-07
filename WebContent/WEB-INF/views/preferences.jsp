@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<form action="votingJenna" method="post">
+<form action="voting" method="post">
 
 		<fieldset>
 			Log in or provide email address:
