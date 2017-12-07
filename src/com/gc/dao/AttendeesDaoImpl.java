@@ -1,7 +1,7 @@
-/**
+/** 
  * 
  */
-package com.gc.factory;
+package com.gc.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +21,19 @@ import com.gc.dto.AttendeesDto;
  */
 public class AttendeesDaoImpl implements AttendeesDao {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.gc.factory.AttendeesDao#addUser(com.gc.dto.AttendeesDto)
 	 */
 	@Override
 	public void addUser(AttendeesDto newUser) {
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.gc.factory.AttendeesDao#addNewID(com.gc.dto.AttendeesDto)
 	 */
 	@Override
@@ -44,16 +48,9 @@ public class AttendeesDaoImpl implements AttendeesDao {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.gc.factory.AttendeesDao#getID(com.gc.dto.AttendeesDto)
-	 */
-	@Override
-	public List<AttendeesDto> getID(AttendeesDto newUser) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.gc.factory.AttendeesDao#searchID(com.gc.dto.AttendeesDto)
 	 */
 	@Override
@@ -68,7 +65,7 @@ public class AttendeesDaoImpl implements AttendeesDao {
 
 		Criteria crit = session.createCriteria(AttendeesDto.class);
 
-		crit.add(Restrictions.like("code", " " ));
+		crit.add(Restrictions.like("attendeesID", "id"));
 
 		ArrayList<AttendeesDto> list = (ArrayList<AttendeesDto>) crit.list();
 		tx.commit();
@@ -76,7 +73,9 @@ public class AttendeesDaoImpl implements AttendeesDao {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.gc.factory.AttendeesDao#unpdateID(com.gc.dto.AttendeesDto)
 	 */
 	@Override

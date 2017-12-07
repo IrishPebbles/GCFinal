@@ -17,9 +17,6 @@
 		<property name="restaurantID">
 			<column name="restaurantID" sql-type="int"></column>
 		</property>
-<<<<<<< HEAD
-=======
-	
->>>>>>> 94c5d64072516958883d531b5a277ba4e070f874
+
 	</class>
 </hibernate-mapping>
