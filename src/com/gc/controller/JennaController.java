@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gc.api.Credentials;
+import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
 import com.gc.util.Person;
 
@@ -27,11 +28,11 @@ import com.gc.util.Person;
 public class JennaController {
 
 	@RequestMapping(value= "votingJenna", method = RequestMethod.POST)
-	public ModelAndView voting(@RequestParam("person1") String emailPerson1,@RequestParam("person2") String emailPerson2, @RequestParam("person3") String emailPerson3, @RequestParam("date") String dateString, @RequestParam("location") String location, @RequestParam("timelimit") String timeLimit, Model model) {
+	public ModelAndView voting(@RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, Model model) {
 		Person organizer = new Person("jenna.otto@gmail.com", "nope", null);
-		Person attendee1 = new Person(emailPerson1, "nope", null);
-		Person attendee2 = new Person(emailPerson2, "nope", null);
-		Person attendee3 = new Person(emailPerson3, "nope", null);
+		Person attendee1 = new Person("person1@nothanks.com", "nope", null);
+		Person attendee2 = new Person("person1@nothanks.com", "nope", null);
+		Person attendee3 = new Person("person1@nothanks.com", "nope", null);
 		// constructing a basic outing
 
 		ArrayList<Person> attendees = new ArrayList<>();
@@ -39,12 +40,17 @@ public class JennaController {
 		attendees.add(attendee1);
 		attendees.add(attendee2);
 		attendees.add(attendee3);
-		Outing constructingOuting = new Outing(dateString, location, null, organizer, attendees);
-				
+		
+		GeolocationAPI location = new GeolocationAPI(street, city, state);
+		location.calculateLatLong();
+		double locationLat = location.getLatitude();
+		double locationLng = location.getLongitude();
+		
 		//create a survey based on the location
 		
 		//make a call to the api and get the location 
 		
+		Outing constructingOuting = new Outing(null, null, organizer, attendees);
 		
 		return new ModelAndView("voting","result", constructingOuting.toString());
 	}

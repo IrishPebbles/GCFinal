@@ -19,7 +19,7 @@ public class LenaController {
 	public ModelAndView latitudeAndLongitude(Model model) {
 		String forPrint = "";
 		
-		String myStreet ="";
+		String myStreet = "";
 		String myCity ="";
 		String myState = "";
 		

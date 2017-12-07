@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,9 +10,15 @@
 <title>Preferences</title>
 </head>
 <body>
-<form>
+<form:form action="jennaVoting" method="post" modelAttribute="attendeeList">
 		<fieldset>
-			Please enter an address at the center of the search area: <br>
+			Log in or provide email address:
+			<input type="email" name="organizerEmail" placeholder="email@domain.com"><br>
+		
+			Choose a date for your Outing: 
+   			<input type="date" name="outing"><br><br>
+		
+			Enter an address at the center of the search area: <br>
 			Street: <input type="text" name="street" placeholder="123 Main St"><br>
 			City: <input type="text" name="city" placeholder="Detroit"><br>
 			State: <input type="text" name="state" placeholder="MI"><br>
@@ -48,24 +57,27 @@
 		</fieldset>
 			<input type="submit" value="Submit"> 
 			<input type="reset" value="Reset">
-	</form>
+	</form:form>
 	<script>
-	function createEmailFields(val){
-		document.getElementById("email").innerHTML = "<div></div>";
-		for(i = 0; i < val.value; i++){
-			var node = document.createElement("INPUT");
-			var textnode = document.createTextNode("Email Address " + (i + 1) + ": ");
-			var brk = document.createElement("BR"); 
-			
-			document.getElementById("email").appendChild(textnode);
-			document.getElementById("email").appendChild(node);
-			document.getElementById("email").appendChild(brk);
-			
-		}
-		var disable = document.createAttribute("DISABLED")
-		document.getElementById("selection").appendChild(disable);
-		console.log(val.value);
-	}
-	</script>
+    function createEmailFields(val){
+        document.getElementById("email").innerHTML = "<div></div>";
+        for(i = 0; i < val.value; i++){
+            
+            var node = document.createElement("INPUT");
+            var nameAttribute ="attendeeList[${status.index}]";
+            node.setAttribute('name', nameAttribute);
+            var valueAttribute ="${person.email}";
+            node.setAttribute('value', valueAttribute);
+            var textnode = document.createTextNode("Email Address " + (i + 1) + ": ");
+            var brk = document.createElement("BR"); 
+            
+            document.getElementById("email").appendChild(textnode);
+            document.getElementById("email").appendChild(node);
+            document.getElementById("email").appendChild(brk);
+            
+        }
+        console.log(val.value);
+    }
+    </script>
 </body>
 </html>
