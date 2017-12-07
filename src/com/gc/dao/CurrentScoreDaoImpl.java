@@ -3,6 +3,7 @@
  */
 package com.gc.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -11,6 +12,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.gc.dto.CurrentScoreDto;
+import com.gc.dto.RestaurantDto;
 
 /**
  * @author Serhiy Bardysh
@@ -56,6 +58,30 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 	 */
 	@Override
 	public List<CurrentScoreDto> unpdateID(CurrentScoreDto restID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CurrentScoreDto> addcurrentScore(CurrentScoreDto scoredto, int totalscore, int restID) {
+		List<CurrentScoreDto> scoreList = new ArrayList<CurrentScoreDto>();
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+		SessionFactory sessionFactory = config.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		CurrentScoreDto newScoreDto = new CurrentScoreDto();
+		
+		newScoreDto.setRestaurentID(restID);
+		newScoreDto.setTotalScore(totalscore);
+		
+		session.save(scoredto);
+		tx.commit();
+		session.close();
+		return scoreList;
+	}
+
+	@Override
+	public List<CurrentScoreDto> updateID(CurrentScoreDto restID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
