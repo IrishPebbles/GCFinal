@@ -10,7 +10,7 @@
 <title>Preferences</title>
 </head>
 <body>
-<form:form action="jennaVoting" method="post" modelAttribute="attendeeList">
+<form:form action="votingJenna" method="post" modelAttribute="attendeeList">
 		<fieldset>
 			Log in or provide email address:
 			<input type="email" name="organizerEmail" placeholder="email@domain.com"><br>
@@ -64,10 +64,8 @@
         for(i = 0; i < val.value; i++){
             
             var node = document.createElement("INPUT");
-            var nameAttribute ="attendeeList[${status.index}]";
+            var nameAttribute ="emailAddress";
             node.setAttribute('name', nameAttribute);
-            var valueAttribute ="${person.email}";
-            node.setAttribute('value', valueAttribute);
             var textnode = document.createTextNode("Email Address " + (i + 1) + ": ");
             var brk = document.createElement("BR"); 
             

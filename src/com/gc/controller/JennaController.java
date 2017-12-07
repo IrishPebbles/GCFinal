@@ -1,5 +1,4 @@
 package com.gc.controller;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -23,13 +22,15 @@ import com.gc.api.Credentials;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
 import com.gc.util.Person;
+import com.gc.util.Survey;
 
 @Controller
 public class JennaController {
 
 	@RequestMapping(value= "votingJenna", method = RequestMethod.POST)
-	public ModelAndView voting(@RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, Model model) {
-		Person organizer = new Person("jenna.otto@gmail.com", "nope", null);
+	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, Model model) {
+		System.out.println(emailAddress);
+		Person organizer = new Person(organizerEmail, "nope", null);
 		Person attendee1 = new Person("person1@nothanks.com", "nope", null);
 		Person attendee2 = new Person("person1@nothanks.com", "nope", null);
 		Person attendee3 = new Person("person1@nothanks.com", "nope", null);
@@ -43,6 +44,7 @@ public class JennaController {
 		
 		
 		//create a survey based on the location
+		Survey outSurvey= new Survey();
 		
 		//make a call to the api and get the location 
 		
@@ -51,10 +53,47 @@ public class JennaController {
 		double locationLat = location.getLatitude();
 		double locationLng = location.getLongitude();
 		Outing constructingOuting = new Outing(null, null, organizer, attendees);
+		//create the table that we need to view based on the voting object
+		String outingObjHTML ="<h1> Welcome to the  event !</h1>\n" + 
+				"\n" + 
+				"<h3> Please vote the restaurants you would like to go, you may choose more than one, if you have a restaurant you have a strong preference for chose just that one.</h3>\n" + 
+				"<!--  We need to check some weight math logic. If someone chooses more than one their vote counts for 1/2 or 1/3 of a point, whichever restaurant has  points wins-->\n" + 
+				"<h3> ${timelime }</h3>	\n" + 
+				"	<form action=\"recordVote\" method =\"post\">\n" + 
+				"	<table>\n" + 
+				"	<tr> <!-- I think zumato will send us code --> \n" + 
+				"		<td> <input type=\"checkbox\" name=\"restaurant1\" >Restaurant 1 </td><td> Rating </td>\n" + 
+				"	</tr>\n" + 
+				"	<tr> <!-- I think zumato will send us code --> \n" + 
+				"		<td> <input type=\"checkbox\" name=\"restaurant2\" > Restaurant 2 </td><td> Rating </td>\n" + 
+				"	</tr>\n" + 
+				"	<tr> <!-- I think zumato will send us code --> \n" + 
+				"		<td> <input type=\"checkbox\" name=\"restaurant3\" > Restaurant 3 </td><td> Rating </td>\n" + 
+				"	</tr>\n" + 
+				"	<tr> <!-- I think zumato will send us code --> \n" + 
+				"		<td> <input type=\"checkbox\" name=\"restaurant4\" > Restaurant 4 </td><td> Rating </td>\n" + 
+				"	</tr>\n" + 
+				"	<tr> <!-- I think zumato will send us code --> \n" + 
+				"		<td> <input type=\"checkbox\" name=\"restaurant5\" > Restaurant 5 </td><td> Rating </td>\n" + 
+				"	</tr>\n" + 
+				"	</table>\n" + 
+				"	\n" + 
+				"		<input type=\"submit\" value=\"Vote\" > \n" + 
+				"	</form>";
 		
-		return new ModelAndView("voting","result", constructingOuting.toString());
+		
+		return new ModelAndView("voting","result", outingObjHTML);
 	}
 	
+	@RequestMapping("/recordVote")
+	public ModelAndView recordVote(Model model) {
+		
+		// get survey object (from Outing object)
+		//update the object 
+		//let the person know they have voted
+		
+		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
+	}
 	@RequestMapping("/eventbrite")
 	public ModelAndView eventbriteAPI(Model model) {
 		String text = "";
