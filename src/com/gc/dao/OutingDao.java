@@ -26,7 +26,7 @@ List<OutingDto> searchID(OutingDto outingID);
 	// TODO Auto-generated method stub
 
 
-List<OutingDto> unpdateID(OutingDto outingID);
+List<OutingDto> updateID(OutingDto outingID);
 	// TODO Auto-generated method stub
 
 }

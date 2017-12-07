@@ -13,6 +13,8 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
+import com.gc.dto.CurrentScoreDto;
+
 import com.gc.dto.PersonDto;
 
 
@@ -33,7 +35,7 @@ public class PersonDaoImpl implements PersonDao {
 
 	@Override
 
-	public List<PersonDto> getID(PersonDto userID, String userEmail, String userPassword) {
+	public List<PersonDto> addID(PersonDto userID, String userEmail, String userPassword) {
 	
 
 		List<PersonDto> restList = new ArrayList<PersonDto>();

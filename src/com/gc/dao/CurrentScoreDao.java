@@ -27,4 +27,6 @@ public interface CurrentScoreDao {
 	List<CurrentScoreDto> updateID(CurrentScoreDto restID);
 		// TODO Auto-generated method stub
 
+	
+
 }
