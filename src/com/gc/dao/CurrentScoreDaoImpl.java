@@ -3,7 +3,7 @@
  */
 package com.gc.dao;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 
 import org.hibernate.Session;
@@ -12,7 +12,6 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.gc.dto.CurrentScoreDto;
-import com.gc.dto.RestaurantDto;
 
 /**
  * @author Serhiy Bardysh
