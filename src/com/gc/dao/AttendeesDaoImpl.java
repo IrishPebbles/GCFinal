@@ -14,6 +14,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.AttendeesDto;
+import com.gc.dto.CurrentScoreDto;
 
 /**
  * @author Serhiy Bardysh
@@ -21,63 +22,27 @@ import com.gc.dto.AttendeesDto;
  */
 public class AttendeesDaoImpl implements AttendeesDao {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gc.factory.AttendeesDao#addUser(com.gc.dto.AttendeesDto)
-	 */
-	/*@Override
-	public List<AttendeesDto> addNewAttendee(AttendeesDto newUser, int userID, int outingID) {
-		List<AttendeesDto> attenList = new ArrayList<AttendeesDto>();
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-		SessionFactory sessionFactory = config.buildSessionFactory();
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		AttendeesDto newAttenDto = new AttendeesDto();
-
-		newAttenDto.setPersonID(userID);
-		newAttenDto.setOutingID(outingID);
-
-		session.save(newUser);
-		tx.commit();
-		session.close();
-		return attenList;
-	}*/
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gc.factory.AttendeesDao#addNewID(com.gc.dto.AttendeesDto)
-	 */
-
-	public List<AttendeesDto> addNewID(AttendeesDto newUser) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-		SessionFactory sessionFactory = config.buildSessionFactory();
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.save(newUser);
-		tx.commit();
-		session.close();
-		return null;
-	}
 	
+	//Working add function
 	@Override
-	public List<AttendeesDto> addNewAttendee(AttendeesDto newUser, int userID, int outingID) {
-		List<AttendeesDto> attenList = new ArrayList<AttendeesDto>();
+	public List<AttendeesDto> addNewID(int userID, int outingID) {
+		List<AttendeesDto> scoreList = new ArrayList<AttendeesDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		AttendeesDto newAttenDto = new AttendeesDto();
-
-		newAttenDto.setPersonID(userID);
-		newAttenDto.setOutingID(outingID);
-
-		session.save(newUser);
+		AttendeesDto newAttendees = new AttendeesDto();
+		
+		newAttendees.setOutingID(outingID);
+		newAttendees.setPersonID(userID);
+		
+		session.save(newAttendees);
 		tx.commit();
 		session.close();
-		return attenList;
+		return scoreList;
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -111,6 +76,20 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	 */
 	@Override
 	public List<AttendeesDto> unpdateID(AttendeesDto newUser) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void getUserID(AttendeesDto attenID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public List<AttendeesDto> getID(AttendeesDto newUser) {
 		// TODO Auto-generated method stub
 		return null;
 	}
