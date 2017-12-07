@@ -14,10 +14,10 @@
 		</id>
 
 		<property name="restaurantLocation">
-			<column name="restaurantLocation" sql-type="varchar(255)" length="(255)"></column>
+			<column name="location" sql-type="varchar(255)" length="255"></column>
 		</property>
 		<property name="restaurantRating">
-			<column name="restaurantRating" sql-type="double"></column>
+			<column name="rating" sql-type="double"></column>
 		</property>
 	</class>
 </hibernate-mapping>

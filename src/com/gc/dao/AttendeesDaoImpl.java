@@ -27,7 +27,7 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	 * 
 	 * @see com.gc.factory.AttendeesDao#addUser(com.gc.dto.AttendeesDto)
 	 */
-	@Override
+	/*@Override
 	public List<AttendeesDto> addNewAttendee(AttendeesDto newUser, int userID, int outingID) {
 		List<AttendeesDto> attenList = new ArrayList<AttendeesDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
@@ -43,7 +43,7 @@ public class AttendeesDaoImpl implements AttendeesDao {
 		tx.commit();
 		session.close();
 		return attenList;
-	}
+	}*/
 
 	/*
 	 * (non-Javadoc)
@@ -60,6 +60,24 @@ public class AttendeesDaoImpl implements AttendeesDao {
 		tx.commit();
 		session.close();
 		return null;
+	}
+	
+	@Override
+	public List<AttendeesDto> addNewAttendee(AttendeesDto newUser, int userID, int outingID) {
+		List<AttendeesDto> attenList = new ArrayList<AttendeesDto>();
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+		SessionFactory sessionFactory = config.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		AttendeesDto newAttenDto = new AttendeesDto();
+
+		newAttenDto.setPersonID(userID);
+		newAttenDto.setOutingID(outingID);
+
+		session.save(newUser);
+		tx.commit();
+		session.close();
+		return attenList;
 	}
 
 	/*

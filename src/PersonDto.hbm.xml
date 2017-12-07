@@ -4,7 +4,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.gc.dto.PersonDto" table="Outing"
+	<class name="com.gc.dto.PersonDto" table="Person"
 		schema="outingsapp">
 
 
@@ -14,10 +14,10 @@
 		</id>
 
 		<property name="userEmail">
-			<column name="userEmail" sql-type="varchar(255)" length="(255)"></column>
+			<column name="userEmail" sql-type="varchar(255)" length="255"></column>
 		</property>
-		<property name="userPass">
-			<column name="userPass" sql-type="varchar(255)" length="255"></column>
+		<property name="userPassword">
+			<column name="userPassword" sql-type="varchar(255)" length="255"></column>
 		</property>
 	</class>
 </hibernate-mapping>

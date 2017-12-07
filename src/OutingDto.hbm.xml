@@ -23,7 +23,7 @@
 			<column name="organizer" sql-type="int"></column>
 		</property>
 		<property name="outingName">
-		<column name="outingName" sql-type="varchar(255)" length="(255)"></column>
+		<column name="outName" sql-type="varchar(50)" length="50"></column>
 		</property>
 	</class>
 </hibernate-mapping>

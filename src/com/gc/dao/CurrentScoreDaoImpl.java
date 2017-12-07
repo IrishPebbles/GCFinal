@@ -63,7 +63,7 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 	}
 
 	@Override
-	public List<CurrentScoreDto> addcurrentScore(CurrentScoreDto scoredto, int totalscore, int restID) {
+	public List<CurrentScoreDto> addcurrentScore(int totalscore, int restID) {
 		List<CurrentScoreDto> scoreList = new ArrayList<CurrentScoreDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -74,7 +74,7 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 		newScoreDto.setRestaurantID(restID);
 		newScoreDto.setTotalScore(totalscore);
 		
-		session.save(scoredto);
+		session.save(newScoreDto);
 		tx.commit();
 		session.close();
 		return scoreList;

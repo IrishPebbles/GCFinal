@@ -4,7 +4,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.gc.dto.CurrentScoreDto" table="CurrentScore"
+	<class name="com.gc.dto.CurrentScoreDto" table="currentScore"
 		schema="outingsapp">
 
 		<id name="currentScoreID">
