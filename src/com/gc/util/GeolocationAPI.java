@@ -62,7 +62,7 @@ public class GeolocationAPI {
 	}
 	 
 	public void calculateLatLong() {
-		String formattedAddress= formatAddress();
+		String formattedAddress = formatAddress();
 
 		try {
 			

@@ -12,7 +12,7 @@ public class SurveyDto  implements  Serializable{
 	private int restaurantID;
 	private boolean hasVoted;
 	
-	SurveyDto(){
+	public SurveyDto(){
 		
 	}
 

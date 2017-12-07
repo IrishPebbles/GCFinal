@@ -3,18 +3,20 @@
  */
 package com.gc.dao;
 
+import java.util.ArrayList; 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
-import com.gc.dto.CurrentScoreDto;
-import com.gc.dto.SurveyDto;
+ import com.gc.dto.SurveyDto;
 
 /**
- * @author Beowolf
+ * @author Serhiy Bardysh
  *
  */
 public class SurveyDaoImpl implements SurveyDao {
@@ -32,33 +34,73 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * @see com.gc.dao.SurveyDao#getID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public List<CurrentScoreDto> getID(SurveyDto servID) {
+	public List<SurveyDto> addID(SurveyDto servID, int restID, boolean hasVoted) {
+		List<SurveyDto> serveyList = new ArrayList<SurveyDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.save(servID);
+		SurveyDto newServDto = new SurveyDto();
+		
+		newServDto.setRestaurantID(restID);
+		newServDto.setHasVoted(hasVoted);
+
+		
+		session.save(restID);
 		tx.commit();
 		session.close();
-		return null;
+		return serveyList;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.gc.dao.SurveyDao#searchID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public List<CurrentScoreDto> searchID(SurveyDto servID) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<SurveyDto> searchID(SurveyDto servID) {
+		
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+
+		SessionFactory sessionFactory = config.buildSessionFactory();
+
+		Session session = sessionFactory.openSession();
+
+		Transaction tx = session.beginTransaction();
+
+		Criteria crit = session.createCriteria(SurveyDto.class);
+
+		crit.add(Restrictions.like("servID",  servID));
+
+		ArrayList<SurveyDto> serveyList = (ArrayList<SurveyDto>) crit.list();
+		tx.commit();
+		session.close();
+
+		return serveyList;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.gc.dao.SurveyDao#unpdateID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public List<CurrentScoreDto> unpdateID(SurveyDto servID) {
+	public List<SurveyDto> unpdateID(SurveyDto servID) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<SurveyDto> getID(SurveyDto servID) {
+		
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+
+		SessionFactory sessionFactory = config.buildSessionFactory();
+
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria crit = session.createCriteria(SurveyDto.class);
+		ArrayList<SurveyDto> getList = (ArrayList<SurveyDto>) crit.list();
+		tx.commit();
+		session.close();
+		return getList;
+		
 	}
 
 }

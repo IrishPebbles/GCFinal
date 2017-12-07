@@ -1,9 +1,9 @@
 package com.gc.util;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Outing {
-	private String dateOfEvent;
-	private String timeOfEvent;
+	private Date dateOfEvent;
 	private Restaurant finalLocation;
 	private Person organizer;
 	private ArrayList<Person> attendees;
@@ -12,30 +12,21 @@ public class Outing {
 
 	}
 
-	public Outing(String dateOfEvent, String timeOfEvent, Restaurant finalLocation, Person organizer,
+	public Outing(Date dateOfEvent, Restaurant finalLocation, Person organizer,
 			ArrayList<Person> attendees) {
 		super();
 		this.dateOfEvent = dateOfEvent;
-		this.timeOfEvent = timeOfEvent;
 		this.finalLocation = finalLocation;
 		this.organizer = organizer;
 		this.attendees = attendees;
 	}
 
-	public String getDateOfEvent() {
+	public Date getDateOfEvent() {
 		return dateOfEvent;
 	}
 
-	public void setDateOfEvent(String dateOfEvent) {
+	public void setDateOfEvent(Date dateOfEvent) {
 		this.dateOfEvent = dateOfEvent;
-	}
-
-	public String getTimeOfEvent() {
-		return timeOfEvent;
-	}
-
-	public void setTimeOfEvent(String timeOfEvent) {
-		this.timeOfEvent = timeOfEvent;
 	}
 
 	public Restaurant getFinalLocation() {
@@ -64,7 +55,7 @@ public class Outing {
 
 	@Override
 	public String toString() {
-		return "Outing [dateOfEvent=" + dateOfEvent + ", timeOfEvent=" + timeOfEvent + ", finalLocation="
+		return "Outing [dateOfEvent=" + dateOfEvent + ", finalLocation="
 				+ finalLocation + ", organizer=" + organizer + ", attendees=" + attendees + "]";
 	}
 

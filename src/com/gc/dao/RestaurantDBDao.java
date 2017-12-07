@@ -5,7 +5,6 @@ package com.gc.dao;
 
 import java.util.List;
 
-import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.RestaurantDto;
 
 /**
@@ -20,6 +19,8 @@ List<RestaurantDto> addID(RestaurantDto restID, String restLocation, double rest
 	// TODO Auto-generated method stub
 
 List<RestaurantDto> searchID(RestaurantDto restID);
+
+List<RestaurantDto> getID(RestaurantDto restID);
 	// TODO Auto-generated method stub
 
 List<RestaurantDto> unpdateID(RestaurantDto restID);

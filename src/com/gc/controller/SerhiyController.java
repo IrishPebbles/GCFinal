@@ -29,6 +29,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import com.gc.api.Credentials;
+import com.gc.dao.PersonDaoImpl;
 import com.gc.dao.RestaurantDPDaoImpl;
 import com.gc.dao.RestaurantDao;
 import com.gc.dao.RestaurantDaoImpl;
@@ -47,6 +48,8 @@ public class SerhiyController {
 		RestaurantDPDaoImpl test1 = new RestaurantDPDaoImpl();
 		test1.addID(null, "testing", 2.2);
 		
+		PersonDaoImpl test2 = new PersonDaoImpl();
+		test2.addID(null, "userEmail", "userPassword");
 		return new ModelAndView("zomato2", "restdata", restList );
 	}
 	@RequestMapping("/zomato")
