@@ -1,6 +1,7 @@
 package com.gc.controller;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -28,37 +29,29 @@ import com.gc.util.Survey;
 public class JennaController {
 
 	@RequestMapping(value= "votingJenna", method = RequestMethod.POST)
-	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, Model model) {
-		System.out.println(emailAddress);
-		Person organizer = new Person(organizerEmail, "nope", null);
-		Person attendee1 = new Person("person1@nothanks.com", "nope", null);
-		Person attendee2 = new Person("person1@nothanks.com", "nope", null);
-		Person attendee3 = new Person("person1@nothanks.com", "nope", null);
-		// constructing a basic outing
-
-		ArrayList<Person> attendees = new ArrayList<>();
+	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
+		Date eventDate = new Date("date");
+		String[] emailAddresses = emailAddress.split(",");
+		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);//when can from here search the database to see if these people already exist
+		
+		Person organizer = new Person(organizerEmail, "nope", null);//we may want the organizer's name
 		attendees.add(organizer);
-		attendees.add(attendee1);
-		attendees.add(attendee2);
-		attendees.add(attendee3);
 		
-		
-		//create a survey based on the location
-		Survey outSurvey= new Survey();
-		
-		//make a call to the api and get the location 
-		
+		for(int i=0; i<emailAddresses.length; i++ ) {
+			attendees.add(new Person(emailAddresses[i], null, null));
+			//we can drop the name req form the constructor OR get their name for oauth OR get it from the database
+		}
+	
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
-		location.calculateLatLong();
-		double locationLat = location.getLatitude();
-		double locationLng = location.getLongitude();
-		Outing constructingOuting = new Outing(null, null, organizer, attendees);
+		Outing constructingOuting = new Outing(eventDate, location, organizer, attendees);//date and final location are null
+		
+		
 		//create the table that we need to view based on the voting object
 		String outingObjHTML ="<h1> Welcome to the  event !</h1>\n" + 
 				"\n" + 
 				"<h3> Please vote the restaurants you would like to go, you may choose more than one, if you have a restaurant you have a strong preference for chose just that one.</h3>\n" + 
 				"<!--  We need to check some weight math logic. If someone chooses more than one their vote counts for 1/2 or 1/3 of a point, whichever restaurant has  points wins-->\n" + 
-				"<h3> ${timelime }</h3>	\n" + 
+				"<h3> </h3>	\n" + 
 				"	<form action=\"recordVote\" method =\"post\">\n" + 
 				"	<table>\n" + 
 				"	<tr> <!-- I think zumato will send us code --> \n" + 
