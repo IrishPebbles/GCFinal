@@ -10,7 +10,7 @@
 <title>Preferences</title>
 </head>
 <body>
-<form:form action="jennaVoting" method="post" modelAttribute="attendeeList">
+<form:form action="votingLena" method="post" modelAttribute="attendeeList">
 		<fieldset>
 			Log in or provide email address:
 			<input type="email" name="organizerEmail" placeholder="email@domain.com"><br>
