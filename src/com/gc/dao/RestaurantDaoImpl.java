@@ -44,7 +44,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
 			// HttpGet retrieves the info identified by the request url (returns as an
 			// entity)
-			HttpGet getPage = new HttpGet("/api/v2.1/search?entity_id=5&entity_type=city&lat=42.337067&lon=83.052578&radius=20000");  //TODO need to change parameters later using https://developers.zomato.com/documentation#!/restaurant/search
+			HttpGet getPage = new HttpGet("/api/v2.1/search?radius=8046.72");  //TODO need to change parameters later using https://developers.zomato.com/documentation#!/restaurant/search
 			getPage.setHeader("user-key", Credentials.ZOMATO_API);
 			HttpResponse resp = http.execute(host, getPage);
 
@@ -65,6 +65,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 			
 			//	 restarant = restArray.getJSONObject(i);
 				 restarantText += "<h6>" + restArray.getJSONObject(i).getJSONObject("restaurant").getString("name") + "</h6>";
+				 restarantText += "<h6>" + restArray.getJSONObject(i).getJSONObject("restaurant").getString("cuisines") + "</h6>";
 				 restarantText += "<h6>" + restArray.getJSONObject(i).getJSONObject("restaurant").getJSONObject("user_rating").getString("aggregate_rating") + "</h6>";
 				
 				/*city = 

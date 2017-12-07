@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Survey {
 
 	private ArrayList<Person> voters;
-	private ArrayList<Restaurant> potentialVenues;
+	private ArrayList<RestaurantObj> potentialVenues;
 	private ArrayList<Integer> numVotes;
 
 	public ArrayList<Person> getVoters() {
@@ -15,11 +15,11 @@ public class Survey {
 		this.voters = voters;
 	}
 
-	public ArrayList<Restaurant> getPotentialVenues() {
+	public ArrayList<RestaurantObj> getPotentialVenues() {
 		return potentialVenues;
 	}
 
-	public void setPotentialVenues(ArrayList<Restaurant> potentialVenues) {
+	public void setPotentialVenues(ArrayList<RestaurantObj> potentialVenues) {
 		this.potentialVenues = potentialVenues;
 	}
 
@@ -31,7 +31,7 @@ public class Survey {
 		return 0;
 	}
 
-	public Restaurant finalResult() {
+	public RestaurantObj finalResult() {
 		return null;
 	}
 
@@ -39,7 +39,7 @@ public class Survey {
 		return false;
 	}
 
-	public Survey(ArrayList<Person> voters, ArrayList<Restaurant> potentialVenues, ArrayList<Integer> numVotes) {
+	public Survey(ArrayList<Person> voters, ArrayList<RestaurantObj> potentialVenues, ArrayList<Integer> numVotes) {
 		super();
 		this.voters = voters;
 		this.potentialVenues = potentialVenues;

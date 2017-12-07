@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Outing {
 	private String dateOfEvent;
 	private String timeOfEvent;
-	private Restaurant finalLocation;
+	private RestaurantObj finalLocation;
 	private Person organizer;
 	private ArrayList<Person> attendees;
 
@@ -12,7 +12,7 @@ public class Outing {
 
 	}
 
-	public Outing(String dateOfEvent, String timeOfEvent, Restaurant finalLocation, Person organizer,
+	public Outing(String dateOfEvent, String timeOfEvent, RestaurantObj finalLocation, Person organizer,
 			ArrayList<Person> attendees) {
 		super();
 		this.dateOfEvent = dateOfEvent;
@@ -38,11 +38,11 @@ public class Outing {
 		this.timeOfEvent = timeOfEvent;
 	}
 
-	public Restaurant getFinalLocation() {
+	public RestaurantObj getFinalLocation() {
 		return finalLocation;
 	}
 
-	public void setFinalLocation(Restaurant finalLocation) {
+	public void setFinalLocation(RestaurantObj finalLocation) {
 		this.finalLocation = finalLocation;
 	}
 
