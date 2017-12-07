@@ -18,7 +18,7 @@
 			<input type="email" name="organizerEmail" placeholder="email@domain.com"><br>
 		
 			Choose a date for your Outing: 
-   			<input type="date" name="outing"><br><br>
+   			<input type="date" name="date"><br><br>
 		
 			Enter an address at the center of the search area: <br>
 			Street: <input type="text" name="street" placeholder="123 Main St"><br>

@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import com.gc.api.Credentials;
 import com.gc.dto.RestaurantDto;
+import com.sun.jersey.json.impl.writer.JsonEncoder;
 
 /**
  * @author Serhiy Bardysh
@@ -60,10 +61,42 @@ public class ZoomatoAPI {
 	}
 
 	public ArrayList<String> getList() {
-		String results = "";
-		String restaurantText = "";
 		restID = new ArrayList<String>();
+		JSONObject objJson =connectToAPI(buildParameterforList("8046.72"));//this number is a radius of 5 miles in meters
+		JSONObject restaurant = null;
+		
+		// assign the returned result to a json object
+		JSONArray restArray = objJson.getJSONArray("restaurants");// we are creating an array from JSON tree
+		System.out.println(restArray.toString());
+		for (int i = 0; i < 5; i++) {
+			
+			restaurant = restArray.getJSONObject(i).getJSONObject("restaurant");
+			System.out.println(restaurant.getString("id"));
+			restID.add(i, restaurant.getString("id"));
 
+		}
+		
+		return restID;
+	}
+
+	// this method is minimal stub I have to make call to API with correct
+	// parameters. We can also make a method that connects to API for us
+
+	public RestaurantObj searchByRestID(String restID) {
+		JSONObject restaurant = connectToAPI(buildParameterforSearch(restID));
+		
+		String restName = restaurant.getString("name");
+		String restLocation = restaurant.getJSONObject("location").getString("address");
+		String restRating = restaurant.getJSONObject("user_rating").getString("aggregate_rating");
+		String restCuisine = restaurant.getString("cuisines");//this may have to be parsed if there are more than one type
+			
+		RestaurantObj myRest	= new RestaurantObj(restName, restLocation, restRating);
+		return myRest;
+	}
+	
+	public JSONObject connectToAPI(String parameter) {
+		String results = "";
+		JSONObject objJson =null;
 		try {
 			// the HttpCLient Interface represents the contract for the HTTP request
 			// execution
@@ -74,85 +107,39 @@ public class ZoomatoAPI {
 			// default port for https is 443
 			HttpHost host = new HttpHost("developers.zomato.com", 443, "https");
 
-			String radius = "8046.72";
-			// HttpGet retrieves the info identified by the request url (returns as an
-			// entity)
-			HttpGet getPage = new HttpGet("/api/v2.1/search?lat=" + location.getLatitude() + "&lon="
-					+ location.getLongitude() + "&radius=" + radius); // TODO need to change parameters later
-			// using
-			// https://developers.zomato.com/documentation#!/restaurant/search
+			
+			// HttpGet retrieves the info identified by the request url (returns as an entity)
+			HttpGet getPage = new HttpGet("/api/v2.1/" + parameter);
+			// using https://developers.zomato.com/documentation#!/restaurant/search
 			getPage.setHeader("user-key", Credentials.ZOMATO_API);
 			HttpResponse resp = http.execute(host, getPage);
 
 			String jsonString = EntityUtils.toString(resp.getEntity());
-			JSONObject objJson = new JSONObject(jsonString);
-			results = objJson.get("results_shown").toString();
-			// System.out.println(jsonString);
-			System.out.println("Response code: " + resp.getStatusLine().getStatusCode() + " " + results);
-
-			// assign the returned result to a json object
-			JSONArray restArray = objJson.getJSONArray("restaurants");// we are creating an array from JSON tree
-			JSONObject restaurant;
-			for (int i = 0; i < 5; i++) {
-				restID.add(i, restArray.getJSONObject(i).getJSONObject("restaurant").getString("id"));
-
+			objJson = new JSONObject(jsonString);
+	
+			System.out.println("Response code: " + resp.getStatusLine().getStatusCode());
 			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return restID;
+			catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+			
+			return objJson;
 
 	}
-
-	// this method is minimal stub I have to make call to API with correct
-	// parameters. We can also make a method that connects to API for us
-
-	public RestaurantObj searchByRestID(String restID) {
-		String restaurantText;
-
-		try {
-
-			HttpClient http = HttpClientBuilder.create().build();
-
-			HttpHost host = new HttpHost("developers.zomato.com", 443, "https");
-
-			HttpGet getPage = new HttpGet("/api/v2.1/search?name=" + name + ); // TODO need to change parameters later
-			// using
-			// https://developers.zomato.com/documentation#!/restaurant/search
-			getPage.setHeader("user-key", Credentials.ZOMATO_API);
-			HttpResponse resp = http.execute(host, getPage);
-
-			String jsonString = EntityUtils.toString(resp.getEntity());
-			JSONObject objJson = new JSONObject(jsonString);
-			String results = objJson.get("results_shown").toString();
-
-			JSONArray restArray = objJson.getJSONArray("restaurants");// we are creating an array from JSON tree
-
-			JSONObject restaurant;
-			for (int i = 0; i < restArray.length(); i++) {
-				// String resultsshown = "";
-
-				// Restaurant = restArray.getJSONObject(i);
-				restaurantText += "<h6>" + restArray.getJSONObject(i).getJSONObject("restaurant").getString("name")
-						+ "</h6>";
-				restaurantText += "<h6>" + restArray.getJSONObject(i).getJSONObject("restaurant").getString("cuisines")
-						+ "</h6>";
-				restaurantText += "<h6>" + restArray.getJSONObject(i).getJSONObject("restaurant")
-						.getJSONObject("user_rating").getString("aggregate_rating") + "</h6>";
-
-			}
-
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
+		
+	public String buildParameterforList(String radius) {
+		String buildParam ="search?lat=" + location.getLatitude() + "&lon="+ location.getLongitude() + "&radius=" + radius;
+		System.out.println("https://developers.zomato.com/api/v2.1/"+ buildParam);
+		return buildParam; // TODO need to change parameters later
 	}
+	
+	public String buildParameterforSearch(String restaurantID) {
+		return "restaurant?res_id=" + restaurantID; // TODO need to change parameters later
+	}
+
 }

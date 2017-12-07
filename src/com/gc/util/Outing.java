@@ -8,7 +8,7 @@ public class Outing {
 	private RestaurantObj finalLocation;
 	private Person organizer;
 	private ArrayList<Person> attendees;
-	private Survey potentialLocations;
+	private Survey potentialEvent;
 	private GeolocationAPI location;
 
 	public Outing() {
@@ -24,10 +24,32 @@ public class Outing {
 		this.organizer = organizer;
 		this.attendees = attendees;
 		this.location = location;
-		//crate survey item we need the locations 
+		potentialEvent = new Survey();
+		potentialEvent.setVoters(attendees);
+		potentialEvent.createPotentialList(location);
 		
 		
 	}
+
+	public Survey getPotentialEvent() {
+		return potentialEvent;
+	}
+
+
+	public void setPotentialEvent(Survey potentialEvent) {
+		this.potentialEvent = potentialEvent;
+	}
+
+
+	public GeolocationAPI getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(GeolocationAPI location) {
+		this.location = location;
+	}
+
 
 	public Date getDateOfEvent() {
 		return dateOfEvent;

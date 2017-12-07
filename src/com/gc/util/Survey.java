@@ -6,6 +6,19 @@ public class Survey {
 
 	private ArrayList<Person> voters;
 	private ArrayList<String> potentialVenues;
+	
+	public ArrayList<String> getPotentialVenues() {
+		return potentialVenues;
+	}
+
+	public void setPotentialVenues(ArrayList<String> potentialVenues) {
+		this.potentialVenues = potentialVenues;
+	}
+
+	public void setVoters(ArrayList<Person> voters) {
+		this.voters = voters;
+	}
+
 	private ArrayList<Integer> numVotes;
 	
 
@@ -16,6 +29,7 @@ public class Survey {
 	public Survey() {
 		// TODO Auto-generated constructor stub
 	}
+	
 	
 
 	public int updateScore() {
@@ -40,6 +54,8 @@ public class Survey {
 	
 	public void createPotentialList(GeolocationAPI location) {
 		ZoomatoAPI zApi = new ZoomatoAPI(location);
+		potentialVenues = zApi.getList();
+		System.out.println(potentialVenues);
 		
 		
 	}
