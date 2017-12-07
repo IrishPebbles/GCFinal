@@ -1,10 +1,11 @@
 package com.gc.dao;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
-
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
@@ -15,7 +16,7 @@ import com.gc.dto.RestaurantDto;
 public class OutingDaoImpl implements OutingDao {
 
 	@Override
-	public List<OutingDto> addOuting(OutingDto outingDto, String outingName, Date dateOfEvent, String finalLoc, int organize){
+	public List<OutingDto> addOuting(OutingDto outingDto, String outingName, Date dateOfEvent, String finalLoc, int organizer){
 		
 		List<OutingDto> outingList = new ArrayList<OutingDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
@@ -54,9 +55,15 @@ public class OutingDaoImpl implements OutingDao {
 	}
 
 	@Override
-	public List<OutingDto> unpdateID(OutingDto outingID) {
+	public List<OutingDto> updateID(OutingDto outingID) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void getOutingID(OutingDto outingID) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

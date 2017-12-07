@@ -57,7 +57,7 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 	 * @see com.gc.dao.CurrentScoreDao#unpdateID(com.gc.dto.CurrentScoreDto)
 	 */
 	@Override
-	public List<CurrentScoreDto> unpdateID(CurrentScoreDto restID) {
+	public List<CurrentScoreDto> updateID(CurrentScoreDto restID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -71,7 +71,7 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 		Transaction tx = session.beginTransaction();
 		CurrentScoreDto newScoreDto = new CurrentScoreDto();
 		
-		newScoreDto.setRestaurentID(restID);
+		newScoreDto.setRestaurantID(restID);
 		newScoreDto.setTotalScore(totalscore);
 		
 		session.save(scoredto);
@@ -80,10 +80,6 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 		return scoreList;
 	}
 
-	@Override
-	public List<CurrentScoreDto> updateID(CurrentScoreDto restID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 }
