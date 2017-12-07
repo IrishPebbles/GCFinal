@@ -5,9 +5,10 @@ import java.util.List;
 import com.gc.dto.AttendeesDto;
 
 public interface AttendeesDao {
-	List<AttendeesDto> addNewAttendee(AttendeesDto attenID, int userID, int outingID);
+	public void getUserID(AttendeesDto attenID);
 	
-	List<AttendeesDto> addNewID (AttendeesDto newUser );
+	
+	List<AttendeesDto> addNewID (AttendeesDto newUser, int userID, int outingID );
 	// adding new ID
 	
 	List<AttendeesDto> searchID (AttendeesDto newUser);
@@ -15,6 +16,8 @@ public interface AttendeesDao {
 	
 	List<AttendeesDto> unpdateID (AttendeesDto newUser);
 	// updating ID in case Attendees will become organizer
+	
+	List<AttendeesDto> getID (AttendeesDto newUser);
 	
 	
 }

@@ -3,13 +3,15 @@
  */
 package com.gc.dao;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;  
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.CurrentScoreDto;
 
@@ -19,46 +21,11 @@ import com.gc.dto.CurrentScoreDto;
  */
 public class CurrentScoreDaoImpl implements CurrentScoreDao {
 
-	/* (non-Javadoc)
-	 * @see com.gc.dao.CurrentScoreDao#getRestID(com.gc.dto.CurrentScoreDto)
-	 */
+	
 	@Override
 	public void getRestID(CurrentScoreDto restID) {
 		// TODO Auto-generated method stub
 
-	}
-
-	/* (non-Javadoc)
-	 * @see com.gc.dao.CurrentScoreDao#getID(com.gc.dto.CurrentScoreDto)
-	 */
-	@Override
-	public List<CurrentScoreDto> getID(CurrentScoreDto restID) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-		SessionFactory sessionFactory = config.buildSessionFactory();
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.save(restID);
-		tx.commit();
-		session.close();
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.gc.dao.CurrentScoreDao#searchID(com.gc.dto.CurrentScoreDto)
-	 */
-	@Override
-	public List<CurrentScoreDto> searchID(CurrentScoreDto restID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.gc.dao.CurrentScoreDao#unpdateID(com.gc.dto.CurrentScoreDto)
-	 */
-	@Override
-	public List<CurrentScoreDto> updateID(CurrentScoreDto restID) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -78,7 +45,51 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 		session.close();
 		return scoreList;
 	}
+	
+	@Override
+	public List<CurrentScoreDto> getID(CurrentScoreDto restID) {
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+
+		SessionFactory sessionFactory = config.buildSessionFactory();
+
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria crit = session.createCriteria(CurrentScoreDto.class);
+		ArrayList<CurrentScoreDto> getList = (ArrayList<CurrentScoreDto>) crit.list();
+		tx.commit();
+		session.close();
+		return getList;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.gc.dao.CurrentScoreDao#searchID(com.gc.dto.CurrentScoreDto)
+	 */
+	@Override
+	public List<CurrentScoreDto> searchID(CurrentScoreDto restID) {
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+
+		SessionFactory sessionFactory = config.buildSessionFactory();
+
+		Session session = sessionFactory.openSession();
+
+		Transaction tx = session.beginTransaction();
+
+		Criteria crit = session.createCriteria(CurrentScoreDto.class);
+
+		crit.add(Restrictions.like("attendeesID", "id"));
+
+		ArrayList<CurrentScoreDto> currentScoreList = (ArrayList<CurrentScoreDto>) crit.list();
+		tx.commit();
+		session.close();
+		return currentScoreList;
+		
+	}
 
 	
+	@Override
+	public List<CurrentScoreDto> updateID(CurrentScoreDto restID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

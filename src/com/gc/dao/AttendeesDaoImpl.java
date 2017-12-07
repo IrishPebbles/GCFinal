@@ -21,13 +21,9 @@ import com.gc.dto.AttendeesDto;
  */
 public class AttendeesDaoImpl implements AttendeesDao {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gc.factory.AttendeesDao#addUser(com.gc.dto.AttendeesDto)
-	 */
+	
 	@Override
-	public List<AttendeesDto> addNewAttendee(AttendeesDto newUser, int userID, int outingID) {
+	public List<AttendeesDto> addNewID(AttendeesDto newUser, int userID, int outingID) {
 		List<AttendeesDto> attenList = new ArrayList<AttendeesDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -43,29 +39,23 @@ public class AttendeesDaoImpl implements AttendeesDao {
 		session.close();
 		return attenList;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gc.factory.AttendeesDao#addNewID(com.gc.dto.AttendeesDto)
-	 */
-
-	public List<AttendeesDto> addNewID(AttendeesDto newUser) {
+	
+	@Override
+	public List<AttendeesDto> getID(AttendeesDto newUser) {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+
 		SessionFactory sessionFactory = config.buildSessionFactory();
+
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.save(newUser);
+		Criteria crit = session.createCriteria(AttendeesDto.class);
+		ArrayList<AttendeesDto> getList = (ArrayList<AttendeesDto>) crit.list();
 		tx.commit();
 		session.close();
-		return null;
+		return getList;
+	
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gc.factory.AttendeesDao#searchID(com.gc.dto.AttendeesDto)
-	 */
+	
 	@Override
 	public List<AttendeesDto> searchID(AttendeesDto newUser) {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
@@ -80,10 +70,10 @@ public class AttendeesDaoImpl implements AttendeesDao {
 
 		crit.add(Restrictions.like("attendeesID", "id"));
 
-		ArrayList<AttendeesDto> list = (ArrayList<AttendeesDto>) crit.list();
+		ArrayList<AttendeesDto> attendeesList = (ArrayList<AttendeesDto>) crit.list();
 		tx.commit();
 		session.close();
-		return null;
+		return attendeesList;
 	}
 
 	/*
@@ -95,6 +85,12 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	public List<AttendeesDto> unpdateID(AttendeesDto newUser) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void getUserID(AttendeesDto attenID) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -3,10 +3,9 @@
  */
 package com.gc.dao;
 
-import java.sql.Date;
+import java.sql.Date; 
 import java.util.List;
 
-import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.OutingDto;
 
 /**
