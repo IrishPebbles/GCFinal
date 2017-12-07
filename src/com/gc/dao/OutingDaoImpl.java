@@ -1,16 +1,15 @@
 package com.gc.dao;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
-
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.OutingDto;
-import com.gc.dto.RestaurantDto;
 
 public class OutingDaoImpl implements OutingDao {
 
