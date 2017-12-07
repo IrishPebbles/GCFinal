@@ -15,7 +15,7 @@ public class OutingDto implements  Serializable {
 	private String finalLocation;
 	private int organizer;
 	
-	OutingDto(){
+	public OutingDto(){
 		
 	}
 

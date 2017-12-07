@@ -8,11 +8,10 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-
-import com.gc.dto.CurrentScoreDto;
+import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.PersonDto;
 
@@ -101,6 +100,12 @@ public class PersonDaoImpl implements PersonDao {
 		session.close();
 		return getList;
 		
+	}
+
+	@Override
+	public List<PersonDto> addID(PersonDto userID, String userEmail, String userPassword) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

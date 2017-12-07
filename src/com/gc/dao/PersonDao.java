@@ -20,9 +20,10 @@ List<PersonDto> addID(PersonDto userID, String userEmail, String userPassword);
 
 List<PersonDto> searchID(PersonDto userID);
 
-List<PersonDto> getID(PersonDto userID);
+List<PersonDto> getID(PersonDto userID, String userEmail, String userPassword);
 	
 
 List<PersonDto> unpdateID(PersonDto userID);
 	// TODO Auto-generated method stub
+
 }
