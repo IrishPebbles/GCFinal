@@ -27,16 +27,6 @@ import com.gc.util.Survey;
 
 @Controller
 public class JennaController {
-	
-	@RequestMapping("/recordVote")
-	public ModelAndView recordVote(Model model) {
-		
-		// get survey object (from Outing object)
-		//update the object 
-		//let the person know they have voted
-		
-		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
-	}
 
 	@RequestMapping("/eventbrite")
 	public ModelAndView eventbriteAPI(Model model) {
