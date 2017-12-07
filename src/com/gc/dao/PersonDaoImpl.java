@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-
 import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.PersonDto;
 import com.gc.dto.RestaurantDto;
@@ -35,7 +34,7 @@ public class PersonDaoImpl implements PersonDao {
 	 */
 	@Override
 	public List<PersonDto> getID(PersonDto userID, String userEmail, String userPassword) {
-		
+	
 		List<PersonDto> restList = new ArrayList<PersonDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -49,6 +48,7 @@ public class PersonDaoImpl implements PersonDao {
 		session.save(userID);
 		tx.commit();
 		session.close();
+	
 		return restList;
 	}
 
