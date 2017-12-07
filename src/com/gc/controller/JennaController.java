@@ -41,15 +41,15 @@ public class JennaController {
 		attendees.add(attendee2);
 		attendees.add(attendee3);
 		
-		GeolocationAPI location = new GeolocationAPI(street, city, state);
-		location.calculateLatLong();
-		double locationLat = location.getLatitude();
-		double locationLng = location.getLongitude();
 		
 		//create a survey based on the location
 		
 		//make a call to the api and get the location 
 		
+		GeolocationAPI location = new GeolocationAPI(street, city, state);
+		location.calculateLatLong();
+		double locationLat = location.getLatitude();
+		double locationLng = location.getLongitude();
 		Outing constructingOuting = new Outing(null, null, organizer, attendees);
 		
 		return new ModelAndView("voting","result", constructingOuting.toString());
