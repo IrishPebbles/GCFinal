@@ -107,5 +107,15 @@ public class HomeController {
 
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
 	}
+	
+ 	@RequestMapping("preferences")
+ 	public ModelAndView preferences() {
+ 		return new ModelAndView("preferences","", "");
+ 	}
+ 	
+ 	@RequestMapping("voting")
+ 	public ModelAndView voting() {
+ 		return new ModelAndView("voting","", "");
+ 	}
 
 }
