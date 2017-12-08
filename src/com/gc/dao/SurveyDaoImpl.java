@@ -38,26 +38,32 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * @see com.gc.dao.SurveyDao#getID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public List<SurveyDto> addSurvey(int restID, boolean hasVoted) {
-		List<SurveyDto> serveyList = new ArrayList<SurveyDto>();
+	public List<SurveyDto> addSurvey(int restID1, int restID2, int restID3, int restID4, int restID5, int voteCount1, int voteCount2, int voteCount3, int voteCount4, int voteCount5, boolean hasVoted) {
+		List<SurveyDto> surveyList = new ArrayList<SurveyDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		SurveyDto newServDto = new SurveyDto();
 
-		newServDto.setfinalVenueID(restID);
-		newServDto.setOptVenueID1(restID);
-		newServDto.setOptVenueID2(restID);
-		newServDto.setOptVenueID3(restID);
-		newServDto.setOptVenueID4(restID);
-		newServDto.setOptVenueID5(restID);
+	
+		newServDto.setOptVenueID1(restID1);
+		newServDto.setOptVenueID2(restID2);
+		newServDto.setOptVenueID3(restID3);
+		newServDto.setOptVenueID4(restID4);
+		newServDto.setOptVenueID5(restID5);
+		newServDto.setVoteCount1(voteCount1);
+		newServDto.setVoteCount2(voteCount2);
+		newServDto.setVoteCount3(voteCount3);
+		newServDto.setVoteCount4(voteCount4);
+		newServDto.setVoteCount5(voteCount5);
+		
 		newServDto.setHasVoted(hasVoted);
 
-		session.save(restID);
+		session.save(newServDto);
 		tx.commit();
 		session.close();
-		return serveyList;
+		return surveyList;
 	}
 
 	/*

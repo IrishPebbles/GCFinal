@@ -39,6 +39,25 @@
 			<property name="optVenueID5">
 			<column name="optVenueID5" sql-type="int"></column>
 			</property>
+			<property name="VoteCount1">
+			<column name="VoteCount1" sql-type="int"></column>
+			</property>
+			
+			<property name="VoteCount2">
+			<column name="VoteCount2" sql-type="int"></column>
+			</property>
+			
+			<property name="VoteCount3">
+			<column name="VoteCount3" sql-type="int"></column>
+			</property>
+			
+			<property name="VoteCount4">
+			<column name="VoteCount4" sql-type="int"></column>
+			</property>
+			
+			<property name="VoteCount5">
+			<column name="VoteCount5" sql-type="int"></column>
+			</property>
 		
 	</class>
 </hibernate-mapping>
