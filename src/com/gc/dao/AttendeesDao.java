@@ -8,10 +8,10 @@ public interface AttendeesDao {
 	public void getUserID(AttendeesDto attenID);
 	
 	
-	List<AttendeesDto> addNewID (int userID, int outingID );
+	List<AttendeesDto> addNewAttendees (int userID, int outingID );
 	// adding new ID
 	
-	List<AttendeesDto> searchID (AttendeesDto newUser);
+	List<AttendeesDto> searchID (int attendeesID);
 	// searching ID
 	
 	List<AttendeesDto> unpdateID (AttendeesDto newUser);

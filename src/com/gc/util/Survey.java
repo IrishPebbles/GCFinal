@@ -6,6 +6,7 @@ public class Survey {
 
 	private ArrayList<Person> voters;
 	private ArrayList<String> potentialVenues;
+	private Integer[] voteScore;
 	
 	public ArrayList<String> getPotentialVenues() {
 		return potentialVenues;
@@ -55,7 +56,7 @@ public class Survey {
 	public void createPotentialList(GeolocationAPI location) {
 		ZoomatoAPI zApi = new ZoomatoAPI(location);
 		potentialVenues = zApi.getList();
-		System.out.println("In Method create " +potentialVenues);
+		//System.out.println("In Method create " +potentialVenues);
 		
 		
 	}

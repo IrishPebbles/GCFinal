@@ -4,7 +4,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.gc.dto.AttendeesDto" table="Attendees"
+	<class name="com.gc.dto.AttendeesDto" table="attendees"
 		schema="outingsapp">
 
 		<id name="attendeesID">

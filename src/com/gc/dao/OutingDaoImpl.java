@@ -11,34 +11,35 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
+import com.gc.dto.AttendeesDto;
 import com.gc.dto.OutingDto;
 import com.gc.dto.PersonDto;
 
 public class OutingDaoImpl implements OutingDao {
 
 	@Override
-	public List<OutingDto> addOuting(OutingDto outingDto, String outingName, Date dateOfEvent, String finalLoc, int organizer){
+	public List<OutingDto> addOuting(String outingName, Date dateOfEvent, String finalLoc, int organizer){
 		
 		List<OutingDto> outingList = new ArrayList<OutingDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		OutingDto newOutingDto = new OutingDto();
+		OutingDto newOuting = new OutingDto();
 		
-		newOutingDto.setOutingName(outingName);
-		newOutingDto.setDateOfEvent(dateOfEvent); 
-		newOutingDto.setFinalLocation(finalLoc);
-		newOutingDto.setOrganizer(organizer); 
+		newOuting.setDateOfEvent(dateOfEvent);
+		newOuting.setFinalLocation(finalLoc);
+		newOuting.setOrganizer(organizer);
+		newOuting.setOutingName(outingName);
 		
-		session.save(outingDto);
+		session.save(newOuting);
 		tx.commit();
 		session.close();
 		return outingList;
 	}
 
 	@Override
-	public List<OutingDto> getID(OutingDto outingID) {
+	public List<OutingDto> getOutingID(int outingID) {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -46,6 +47,8 @@ public class OutingDaoImpl implements OutingDao {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria crit = session.createCriteria(OutingDto.class);
+		crit.add(Restrictions.eq("outingID", outingID));
+
 		ArrayList<OutingDto> getList = (ArrayList<OutingDto>) crit.list();
 		tx.commit();
 		session.close();
@@ -78,12 +81,6 @@ public class OutingDaoImpl implements OutingDao {
 	public List<OutingDto> updateID(OutingDto outingID) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void getOutingID(OutingDto outingID) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

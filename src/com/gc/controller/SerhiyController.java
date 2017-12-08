@@ -1,4 +1,4 @@
-package com.gc.controller;
+/*package com.gc.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,6 +51,7 @@ public class SerhiyController {
 
 		return new ModelAndView("zomato", "restdata", hmtlDisplay);
 	}
+<<<<<<< HEAD
 }
 
 
@@ -58,6 +59,8 @@ public class SerhiyController {
 
 
 
+=======
+}*/
 /*
  * @RequestMapping("/zomato") public ModelAndView index(Model model) { String
  * results = ""; String restarantText = ""; try { // the HttpCLient Interface

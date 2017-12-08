@@ -17,7 +17,7 @@ public class CurrentScoreDto implements  Serializable{
 	}
 	
 
-	public CurrentScoreDto(int restaurantID, int totalScore, int currentScoreID) {
+	public CurrentScoreDto(int restaurantID, int totalScore, int CurrentScoreID) {
 		super();
 		this.restaurantID = restaurantID;
 		this.totalScore = totalScore;
