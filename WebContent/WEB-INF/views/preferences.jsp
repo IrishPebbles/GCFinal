@@ -11,7 +11,8 @@
 </head>
 <body>
 
-	<form action="voting" method="post">
+<form action="voting" method="post">
+		${noAccountMessage}
 
 		<fieldset>
 			Log in or provide email address: <input type="email" name="organizerEmail" placeholder="email@domain.com" required><br>
