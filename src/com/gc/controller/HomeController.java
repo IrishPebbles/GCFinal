@@ -82,8 +82,8 @@ public class HomeController {
 												// already exist
 
 		for (int i = 0; i < emailAddress.length(); ++i) {
-			pdao.addPerson(emailAddresses[i], "3R5S");
-			System.out.println("first email" + emailAddresses[0]);	
+			//pdao.addPerson(emailAddresses[i], "3R5S");
+			//System.out.println("first email" + emailAddresses[0]);	
 		}
 		
 		
@@ -113,7 +113,7 @@ public class HomeController {
 
 		for (int i = 0; i < 5; i++) {
 			placeholder = ZoomatoAPI.searchByRestID(mySurvey.getPotentialVenues().get(i));
-			outingObjHTML += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\"restaurant" + i + "\" >"
+			outingObjHTML += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\""+placeholder.getRestName() + "\" >"
 					+ placeholder.getRestName() + "</td><td> Rating:" + placeholder.getRestRating() 
 					+ "</td>\n</tr>";
 		}
@@ -136,7 +136,7 @@ public class HomeController {
 				+ "<h3> Thank you for voting: Here is what was voted</h3>" + "	<table border=\"1\">";
 
 		for (int i = 0; i < restaurantVote.length; i++) {
-			outingObjHTML += "	<tr> " + "<td>  " + restaurantVote[i] + "</td> <td> Restaurant " + i + "</td>" + "	</tr>";
+			outingObjHTML += "	<tr> " + "<td>  " + restaurantVote[i] + "</td> <td> Restaurant </td>" + "	</tr>";
 		}
 		outingObjHTML += "</table> ";
 		// get survey object (from Outing object)
