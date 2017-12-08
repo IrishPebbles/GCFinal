@@ -38,7 +38,7 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * @see com.gc.dao.SurveyDao#getID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public List<SurveyDto> addSurvey(int restID1, int restID2, int restID3, int restID4, int restID5, int voteCount1, int voteCount2, int voteCount3, int voteCount4, int voteCount5, boolean hasVoted) {
+	public List<SurveyDto> addSurvey(String restID1, String restID2, String restID3, String restID4, String restID5, int voteCount1, int voteCount2, int voteCount3, int voteCount4, int voteCount5, boolean hasVoted) {
 		List<SurveyDto> surveyList = new ArrayList<SurveyDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();

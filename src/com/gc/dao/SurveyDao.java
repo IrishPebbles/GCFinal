@@ -16,7 +16,7 @@ public interface SurveyDao {
 	public void getServID(SurveyDto servID);
 
 	// TODO Auto-generated method stub
-	List<SurveyDto> addSurvey(int restID1, int restID2, int restID3, int restID4, int restID5, int voteCount1, int voteCount2, int voteCount3, int voteCount4, int voteCount5, boolean hasVoted);
+	List<SurveyDto> addSurvey(String restID1, String restID2, String restID3, String restID4, String restID5, int voteCount1, int voteCount2, int voteCount3, int voteCount4, int voteCount5, boolean hasVoted);
 
 	List<SurveyDto> searchSurvey(int servID);
 	// TODO Auto-generated method stub
