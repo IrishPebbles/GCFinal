@@ -1,5 +1,8 @@
 package com.gc.controller;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -33,72 +36,42 @@ public class HomeController {
 
 	@RequestMapping({ "/", "index" })
 	public ModelAndView homepage() {
-<<<<<<< HEAD
-		CurrentScoreDto dto = new CurrentScoreDto(); 
-	 CurrentScoreDao dao = new CurrentScoreDaoImpl(); 
-	 AttendeesDao adao = new AttendeesDaoImpl();
-	 OutingDao odao = new OutingDaoImpl();
-	 PersonDao pdao = new PersonDaoImpl(); 
-	 SurveyDao sdao = new SurveyDaoImpl();
-	
-	 
-	 //Below is code to turn a Java simple date variable into a sql-compatible variable.
-	 //TODO: Turn into method to be implemented upon data input.
-	/* DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String date = "2018-07-23";
-		java.util.Date myDate;
-		try {
-			myDate = formatter.parse(date);
-			java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
-			odao.addOuting("Red Robins", sqlDate, "Red Robins", 5);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		//dao.addcurrentScore( 1, 2);
-		//adao.addNewID(3, 4);
-	 	//odao.addOuting("Red Robins", sqlDate, "Red Robins", 5);
-	// pdao.addPerson("wakkawakkaF0zzY345@yahoo.com", "6Y0N");
-	 	System.out.println(odao.getOutingID(1));
-		return new ModelAndView("index","", "");
-		
-	}
-	
-/*	//This is a test method to show data entry is working
-	@RequestMapping(value="voting", method = RequestMethod.POST)
-	public ModelAndView addToSql(@RequestParam("organizerEmail") String orgEmail) {
-		PersonDao dao = new PersonDaoImpl();
-		dao.addPerson(orgEmail, "7564");
-		return new ModelAndView("voting", "", "");
-	}*/
-	
-	
-	
-	//commented out for functionallity
-	@RequestMapping(value= "voting", method = RequestMethod.POST)
-	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
-=======
 		CurrentScoreDto dto = new CurrentScoreDto();
 		CurrentScoreDao dao = new CurrentScoreDaoImpl();
 		AttendeesDao adao = new AttendeesDaoImpl();
 		OutingDao odao = new OutingDaoImpl();
 		PersonDao pdao = new PersonDaoImpl();
 		SurveyDao sdao = new SurveyDaoImpl();
-
-		return new ModelAndView("index", "", "");
+		
+		return new ModelAndView("index", "result", "");
 
 	}
-
+	
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state,
-			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
->>>>>>> 59b5030b0a032aadd31c38628ac472e0200ea924
-		String[] formatDate = date.split("-");
+			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") Date date, Model model) {
+
+		PersonDao pdao = new PersonDaoImpl();
+		OutingDao outDao = new OutingDaoImpl();
+		
+		
+		//Changes input java date into sql date
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date myDate = (date);
+		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
+		
+		pdao.addPerson(organizerEmail, "7DS8");
+		outDao.addOuting("Fun Times", sqlDate, "", 5); 
+		
+		
+		
+		
+		
+		/*String[] formatDate = date.split("-");
 		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
-				Integer.parseInt(formatDate[2]));
+				Integer.parseInt(formatDate[2]));*/
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 																					// database to see if these people
@@ -115,7 +88,7 @@ public class HomeController {
 
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
 		// passing location to create and return survey
-		Outing constructingOuting = new Outing(eventDate, location, organizer, attendees);// date and final location are
+		Outing constructingOuting = new Outing(sqlDate, location, organizer, attendees);// date and final location are
 																							// null
 		Survey mySurvey = constructingOuting.getPotentialEvent();
 		System.out.println("Info in my survey " + mySurvey.toString());//
@@ -153,26 +126,26 @@ public class HomeController {
 
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
 	}
+	
+ 	@RequestMapping(value = "voting", method = RequestMethod.POST )
+ 	public ModelAndView preferences() {
+ 		
+ 		
+ 		return new ModelAndView("preferences","", "");
+ 	}
+ 	
+ 	@RequestMapping("preferences")
+ 	public String viewPreferencesPage() {
+ 		System.out.println("Here");
+ 		
+ 		return "preferences";
+ 	}
+ 	
+ 	@RequestMapping("voting")
+ 	public ModelAndView voting() {
+ 		return new ModelAndView("voting","", "");
+ 	}
+ 	
+ 	
 
-<<<<<<< HEAD
-	@RequestMapping("preferences")
-	public ModelAndView preferences() {
-		
-		
-		
-		
-		return new ModelAndView("voting","", "");
-	}
-	
-	@RequestMapping("voting")
-	public ModelAndView voting() {
-		return new ModelAndView("voting","", "");
-	}
-	
-	@RequestMapping("finalResults")
-	public ModelAndView finalResult() {
-		return new ModelAndView("finalResults","", "");
-	}
-=======
->>>>>>> 59b5030b0a032aadd31c38628ac472e0200ea924
 }
