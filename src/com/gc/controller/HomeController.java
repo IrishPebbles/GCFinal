@@ -30,9 +30,10 @@ import com.gc.util.ZoomatoAPI;
 
 @Controller
 public class HomeController {
-	
-	@RequestMapping({"/", "index"})
+
+	@RequestMapping({ "/", "index" })
 	public ModelAndView homepage() {
+<<<<<<< HEAD
 		CurrentScoreDto dto = new CurrentScoreDto(); 
 	 CurrentScoreDao dao = new CurrentScoreDaoImpl(); 
 	 AttendeesDao adao = new AttendeesDaoImpl();
@@ -77,76 +78,83 @@ public class HomeController {
 	//commented out for functionallity
 	@RequestMapping(value= "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
+=======
+		CurrentScoreDto dto = new CurrentScoreDto();
+		CurrentScoreDao dao = new CurrentScoreDaoImpl();
+		AttendeesDao adao = new AttendeesDaoImpl();
+		OutingDao odao = new OutingDaoImpl();
+		PersonDao pdao = new PersonDaoImpl();
+		SurveyDao sdao = new SurveyDaoImpl();
+
+		return new ModelAndView("index", "", "");
+
+	}
+
+	@RequestMapping(value = "voting", method = RequestMethod.POST)
+	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,
+			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
+			@RequestParam("city") String city, @RequestParam("state") String state,
+			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
+>>>>>>> 59b5030b0a032aadd31c38628ac472e0200ea924
 		String[] formatDate = date.split("-");
-		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]), Integer.parseInt(formatDate[2]));
+		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
+				Integer.parseInt(formatDate[2]));
 		String[] emailAddresses = emailAddress.split(",");
-		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);//when can from here search the database to see if these people already exist
-		
-		Person organizer = new Person(organizerEmail, "nope", null);//we may want the organizer's name
+		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
+																					// database to see if these people
+																					// already exist
+
+		Person organizer = new Person(organizerEmail, "nope", null);// we may want the organizer's name
 		attendees.add(organizer);
-		
-		for(int i=0; i<emailAddresses.length; i++ ) {
+
+		for (int i = 0; i < emailAddresses.length; i++) {
 			attendees.add(new Person(emailAddresses[i], null, null));
-			//we can drop the name req form the constructor OR get their name for oAuth OR get it from the database
+			// we can drop the name req form the constructor OR get their name for oAuth OR
+			// get it from the database
 		}
-	
+
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
-		//passing location to create and return survey
-		Outing constructingOuting = new Outing(eventDate, location, organizer, attendees);//date and final location are null
+		// passing location to create and return survey
+		Outing constructingOuting = new Outing(eventDate, location, organizer, attendees);// date and final location are
+																							// null
 		Survey mySurvey = constructingOuting.getPotentialEvent();
 		System.out.println("Info in my survey " + mySurvey.toString());//
 		RestaurantObj placeholder = ZoomatoAPI.searchByRestID(mySurvey.getPotentialVenues().get(0));
 		System.out.println("Restaurant info " + placeholder.toString());
+
+		// create the table that we need to view based on the voting object
+		String outingObjHTML = "<h1> Welcome to the event ! </h1>"
+				+ "<h3> Please vote below</h3>"
+				+ "<h5>You may vote for more than one choice. Each vote will be weighted equally</h5>"
+				+ "	<form action=\"recordVote\" method =\"post\">" + "	<table border=\"1\">";
 		
+		for (int i = 0; i < 5; i++) {
+			placeholder = ZoomatoAPI.searchByRestID(mySurvey.getPotentialVenues().get(i));
+			outingObjHTML += "	<tr> " + "<td> <input type=\"checkbox\" name=\"restaurant1\" >"
+					+ placeholder.getRestName() + "</td><td> Rating:" 
+					+ placeholder.getRestRating() + "</td>\n"
+					+ "	</tr>";
+		}
 		
-		
-		//create the table that we need to view based on the voting object
-		String outingObjHTML ="<h1> Welcome to the  event ! </h1>" + 
-				"<h3> Please vote the restaurants you would like to go, you may choose more than one, if you have a restaurant you have a strong preference for chose just that one.</h3>" + 
-				"<!--  We need to check some weight math logic. If someone chooses more than one their vote counts for 1/2 or 1/3 of a point, whichever restaurant has  points wins-->" + 
-				"	<form action=\"recordVote\" method =\"post\">" + 
-				"	<table border=\"1\">";
-		 for (int i =0; i< 5 ; i++) {
-			 placeholder = ZoomatoAPI.searchByRestID(mySurvey.getPotentialVenues().get(i));
-			 outingObjHTML +=
-				"	<tr> " +
-				"		<td> <input type=\"checkbox\" name=\"restaurant1\" >" + placeholder.getRestName() +" </td><td> Rating:" + placeholder.getRestRating() +"</td>\n" + 
-				"	</tr>" ;
-		 }
-				outingObjHTML += "</table> " +"<input type=\"submit\" value=\"Vote\" > </form>";
-		 
-		
-		return new ModelAndView("voting","result", outingObjHTML);
-	}
-	
-	@RequestMapping("/geolocation")
-	public ModelAndView latitudeAndLongitude(Model model) {
-		String forPrint = "";
-		
-		String myStreet = "";
-		String myCity ="";
-		String myState = "";
-		
-		GeolocationAPI coordinates = new GeolocationAPI(myStreet, myCity, myState);
-		coordinates.calculateLatLong();
-		forPrint = coordinates.getLatitude() + " , " + coordinates.getLongitude();
-		
-		return new ModelAndView("geolocation","latLongData",forPrint);
+		outingObjHTML += "</table> " + "<input type=\"submit\" value=\"Vote\" > </form>";
+
+		return new ModelAndView("voting", "result", outingObjHTML);
 	}
 
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model) {
-		//we have to know who voter is
+		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
 		Survey surveyInstance = new Survey();
-		
+
 		// get survey object (from Outing object)
-		//update the object 
-		//let the person know they have voted
-		
+		// update the object
+		// let the person know they have voted
+
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
 	}
 
+<<<<<<< HEAD
 	@RequestMapping("preferences")
 	public ModelAndView preferences() {
 		
@@ -165,4 +173,6 @@ public class HomeController {
 	public ModelAndView finalResult() {
 		return new ModelAndView("finalResults","", "");
 	}
+=======
+>>>>>>> 59b5030b0a032aadd31c38628ac472e0200ea924
 }
