@@ -24,6 +24,8 @@
 			Street: <input type="text" name="street" placeholder="123 Main St"><br>
 			City: <input type="text" name="city" placeholder="Detroit"><br>
 			State: <input type="text" name="state" placeholder="MI"><br>
+			
+			
 		</fieldset>
 		
 		<fieldset>
