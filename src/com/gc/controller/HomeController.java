@@ -58,7 +58,18 @@ public class HomeController {
 		
 	}
 	
-	@RequestMapping(value= "voting", method = RequestMethod.POST)
+	//This is a test method to show data entry is working
+	@RequestMapping(value="voting", method = RequestMethod.POST)
+	public ModelAndView addToSql(@RequestParam("organizerEmail") String orgEmail) {
+		PersonDao dao = new PersonDaoImpl();
+		dao.addPerson(orgEmail, "7564");
+		return new ModelAndView("voting", "", "");
+	}
+	
+	
+	
+	//commented out for functionallity
+/*	@RequestMapping(value= "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
 		Date eventDate = new Date("date");
 		String[] emailAddresses = emailAddress.split(",");
@@ -146,5 +157,5 @@ public class HomeController {
 	@RequestMapping("finalResults")
 	public ModelAndView finalResult() {
 		return new ModelAndView("finalResults","", "");
-	}
+	}*/
 }

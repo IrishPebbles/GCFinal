@@ -59,9 +59,9 @@ public class AttendeesDaoImpl implements AttendeesDao {
 
 		Transaction tx = session.beginTransaction();
 
-		Criteria crit = session.createCriteria(ProductDto.class);
+		Criteria crit = session.createCriteria(AttendeesDto.class);
 
-		crit.add(Restrictions.like());
+		//crit.add(Restrictions.like());
 
 		ArrayList<AttendeesDto> list = (ArrayList<AttendeesDto>) crit.list();
 		tx.commit();
