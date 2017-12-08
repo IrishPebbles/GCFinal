@@ -18,7 +18,7 @@ public interface SurveyDao {
 	// TODO Auto-generated method stub
 	List<SurveyDto> addSurvey(int restID, boolean hasVoted);
 
-	List<SurveyDto> getID(SurveyDto servID);
+	List<SurveyDto> searchSurvey(int servID);
 	// TODO Auto-generated method stub
 
 	List<SurveyDto> searchID(SurveyDto servID);

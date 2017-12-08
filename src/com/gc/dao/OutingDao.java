@@ -13,13 +13,10 @@ import com.gc.dto.OutingDto;
  *
  */
 public interface OutingDao {
-	public void getOutingID(OutingDto outingID); 
+	List<OutingDto> getOutingID(int outingID); 
 	// TODO Auto-generated method stub
 	
 List<OutingDto> addOuting(String outingName, Date dateOfEvent, String finalLoc, int organize);
-
-List<OutingDto> getID(OutingDto outingID);
-	// TODO Auto-generated method stub
 
 List<OutingDto> searchID(OutingDto outingID);
 	// TODO Auto-generated method stub

@@ -1,10 +1,6 @@
 package com.gc.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,10 +14,9 @@ import com.gc.dao.OutingDao;
 import com.gc.dao.OutingDaoImpl;
 import com.gc.dao.PersonDao;
 import com.gc.dao.PersonDaoImpl;
+import com.gc.dao.SurveyDao;
+import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.CurrentScoreDto;
-import com.gc.util.GeolocationAPI;
-import com.gc.util.Outing;
-import com.gc.util.Person;
 
 @Controller
 public class HomeController {
@@ -33,6 +28,7 @@ public class HomeController {
 	 AttendeesDao adao = new AttendeesDaoImpl();
 	 OutingDao odao = new OutingDaoImpl();
 	 PersonDao pdao = new PersonDaoImpl(); 
+	 SurveyDao sdao = new SurveyDaoImpl();
 	
 	 
 	 //Below is code to turn a Java simple date variable into a sql-compatible variable.
@@ -53,7 +49,7 @@ public class HomeController {
 		//adao.addNewID(3, 4);
 	 	//odao.addOuting("Red Robins", sqlDate, "Red Robins", 5);
 	// pdao.addPerson("wakkawakkaF0zzY345@yahoo.com", "6Y0N");
-	 	
+	 	System.out.println(odao.getOutingID(1));
 		return new ModelAndView("index","", "");
 		
 	}

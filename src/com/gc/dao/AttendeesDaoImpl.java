@@ -61,12 +61,12 @@ public class AttendeesDaoImpl implements AttendeesDao {
 
 		Criteria crit = session.createCriteria(AttendeesDto.class);
 
-		//crit.add(Restrictions.like());
+		crit.add(Restrictions.eq("attendeesID", attendeesID));
 
 		ArrayList<AttendeesDto> list = (ArrayList<AttendeesDto>) crit.list();
 		tx.commit();
 		session.close();
-		return null;
+		return list;
 	}
 
 	/*

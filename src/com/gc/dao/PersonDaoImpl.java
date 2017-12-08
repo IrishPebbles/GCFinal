@@ -22,14 +22,7 @@ import com.gc.dto.PersonDto;
  */
 public class PersonDaoImpl implements PersonDao {
 
-	/* (non-Javadoc)
-	 * @see com.gc.dao.PersonDao#getUserID(com.gc.dto.PersonDto)
-	 */
-	@Override
-	public void getUserID(PersonDto userID) {
-		// TODO Auto-generated method stub
 
-	}
 
 	@Override
 
@@ -55,7 +48,7 @@ public class PersonDaoImpl implements PersonDao {
 
 	
 	@Override
-	public List<PersonDto> searchID(PersonDto userID) {
+	public List<PersonDto> getPerson(int userID) {
 		
 	
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
@@ -68,7 +61,7 @@ public class PersonDaoImpl implements PersonDao {
 
 		Criteria crit = session.createCriteria(PersonDto.class);
 
-		crit.add(Restrictions.like("userID",  userID));
+		crit.add(Restrictions.eq("userID", userID));
 
 		ArrayList<PersonDto> personList = (ArrayList<PersonDto>) crit.list();
 		tx.commit();

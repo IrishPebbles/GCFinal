@@ -12,13 +12,13 @@ import com.gc.dto.PersonDto;
  *
  */
 public interface PersonDao {
-	public void getUserID(PersonDto userID); 
+	List<PersonDto> getPerson(int userID); 
 	// TODO Auto-generated method stub
 
 List<PersonDto> addPerson(String userEmail, String userPassword);
 	
 
-List<PersonDto> searchID(PersonDto userID);
+
 
 List<PersonDto> getID(PersonDto userID, String userEmail, String userPassword);
 	

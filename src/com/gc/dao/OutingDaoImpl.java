@@ -39,7 +39,7 @@ public class OutingDaoImpl implements OutingDao {
 	}
 
 	@Override
-	public List<OutingDto> getID(OutingDto outingID) {
+	public List<OutingDto> getOutingID(int outingID) {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -47,6 +47,8 @@ public class OutingDaoImpl implements OutingDao {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria crit = session.createCriteria(OutingDto.class);
+		crit.add(Restrictions.eq("outingID", outingID));
+
 		ArrayList<OutingDto> getList = (ArrayList<OutingDto>) crit.list();
 		tx.commit();
 		session.close();
@@ -79,12 +81,6 @@ public class OutingDaoImpl implements OutingDao {
 	public List<OutingDto> updateID(OutingDto outingID) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void getOutingID(OutingDto outingID) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

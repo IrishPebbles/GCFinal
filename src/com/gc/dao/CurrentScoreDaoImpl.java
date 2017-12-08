@@ -6,12 +6,15 @@ package com.gc.dao;
 import java.util.ArrayList; 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.CurrentScoreDto;
+import com.gc.dto.PersonDto;
 
 /**
  * @author Serhiy Bardysh
@@ -32,25 +35,19 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 	 * @see com.gc.dao.CurrentScoreDao#getID(com.gc.dto.CurrentScoreDto)
 	 */
 	@Override
-	public List<CurrentScoreDto> getID(CurrentScoreDto restID) {
+	public List<CurrentScoreDto> getCurrentScore(int currentScoreID) {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.save(restID);
+		Criteria crit = session.createCriteria(CurrentScoreDto.class);
+		crit.add(Restrictions.eq("currentScoreID", currentScoreID));
+		ArrayList<CurrentScoreDto> currentScoreList = (ArrayList<CurrentScoreDto>) crit.list();
 		tx.commit();
 		session.close();
-		return null;
+		return currentScoreList;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.gc.dao.CurrentScoreDao#searchID(com.gc.dto.CurrentScoreDto)
-	 */
-	@Override
-	public List<CurrentScoreDto> searchID(CurrentScoreDto restID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/* (non-Javadoc)
 	 * @see com.gc.dao.CurrentScoreDao#unpdateID(com.gc.dto.CurrentScoreDto)
@@ -77,6 +74,12 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 		tx.commit();
 		session.close();
 		return scoreList;
+	}
+
+	@Override
+	public List<CurrentScoreDto> searchID(CurrentScoreDto restID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
