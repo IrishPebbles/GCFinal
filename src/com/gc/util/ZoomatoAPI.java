@@ -81,7 +81,7 @@ public class ZoomatoAPI {
 	// this method is minimal stub I have to make call to API with correct
 	// parameters. We can also make a method that connects to API for us
 
-	public RestaurantObj searchByRestID(String restID) {
+	public static RestaurantObj searchByRestID(String restID) {
 		JSONObject restaurant = connectToAPI(buildParameterforSearch(restID));
 		
 		String restName = restaurant.getString("name");
@@ -93,7 +93,7 @@ public class ZoomatoAPI {
 		return myRest;
 	}
 	
-	public JSONObject connectToAPI(String parameter) {
+	public static JSONObject connectToAPI(String parameter) {
 		String results = "";
 		JSONObject objJson =null;
 		try {
@@ -137,7 +137,7 @@ public class ZoomatoAPI {
 		return buildParam; // TODO need to change parameters later
 	}
 	
-	public String buildParameterforSearch(String restaurantID) {
+	public static String buildParameterforSearch(String restaurantID) {
 		return "restaurant?res_id=" + restaurantID; // TODO need to change parameters later
 	}
 

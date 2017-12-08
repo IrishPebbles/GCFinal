@@ -16,7 +16,9 @@ import com.gc.dto.CurrentScoreDto;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
 import com.gc.util.Person;
+import com.gc.util.RestaurantObj;
 import com.gc.util.Survey;
+import com.gc.util.ZoomatoAPI;
 
 @Controller
 public class HomeController {
@@ -49,6 +51,9 @@ public class HomeController {
 		//passing location to create and return survey
 		Outing constructingOuting = new Outing(eventDate, location, organizer, attendees);//date and final location are null
 		Survey mySurvey = constructingOuting.getPotentialEvent();
+		System.out.println("Info in my survey " + mySurvey.toString());//
+		RestaurantObj placeholder = ZoomatoAPI.searchByRestID(mySurvey.getPotentialVenues().get(0));
+		System.out.println("Restaurant info " + placeholder.toString());
 		
 		
 		
@@ -61,19 +66,19 @@ public class HomeController {
 				"	<form action=\"recordVote\" method =\"post\">\n" + 
 				"	<table>\n" + 
 				"	<tr> <!-- I think zumato will send us code --> \n" + 
-				"		<td> <input type=\"checkbox\" name=\"restaurant1\" >" + mySurvey.getPotentialVenues().indexOf(0) +" </td><td> Rating </td>\n" + 
+				"		<td> <input type=\"checkbox\" name=\"restaurant1\" >" + mySurvey.getPotentialVenues().get(0) +" </td><td> Rating </td>\n" + 
 				"	</tr>\n" + 
 				"	<tr> <!-- I think zumato will send us code --> \n" + 
-				"		<td> <input type=\"checkbox\" name=\"restaurant2\" > " + mySurvey.getPotentialVenues().indexOf(1) + " </td><td> Rating </td>\n" + 
+				"		<td> <input type=\"checkbox\" name=\"restaurant2\" > " + mySurvey.getPotentialVenues().get(1) + " </td><td> Rating </td>\n" + 
 				"	</tr>\n" + 
 				"	<tr> <!-- I think zumato will send us code --> \n" + 
-				"		<td> <input type=\"checkbox\" name=\"restaurant3\" > " + mySurvey.getPotentialVenues().indexOf(2)+ " </td><td> Rating </td>\n" + 
+				"		<td> <input type=\"checkbox\" name=\"restaurant3\" > " + mySurvey.getPotentialVenues().get(2)+ " </td><td> Rating </td>\n" + 
 				"	</tr>\n" + 
 				"	<tr> <!-- I think zumato will send us code --> \n" + 
-				"		<td> <input type=\"checkbox\" name=\"restaurant4\" > " + mySurvey.getPotentialVenues().indexOf(3)+ " </td><td> Rating </td>\n" + 
+				"		<td> <input type=\"checkbox\" name=\"restaurant4\" > " + mySurvey.getPotentialVenues().get(3)+ " </td><td> Rating </td>\n" + 
 				"	</tr>\n" + 
 				"	<tr> <!-- I think zumato will send us code --> \n" + 
-				"		<td> <input type=\"checkbox\" name=\"restaurant5\" > " +  mySurvey.getPotentialVenues().indexOf(4) + " </td><td> Rating </td>\n" + 
+				"		<td> <input type=\"checkbox\" name=\"restaurant5\" > " +  mySurvey.getPotentialVenues().get(4) + " </td><td> Rating </td>\n" + 
 				"	</tr>\n" + 
 				"	</table>\n" + 
 				"	\n" + 

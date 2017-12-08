@@ -56,10 +56,6 @@ public class RestaurantObj {
 		this.restRating = restRating;
 	}
 	
-	/*public void getRestaurantInfo() {
-		ZoomatoAPI myAPI = new ZoomatoAPI();//no location not needed for this search
-		myAPI.searchByRestID(zomatoID);
-	}*/
 	
 	
 	@Override
