@@ -40,7 +40,7 @@ public class HomeController {
 		PersonDao pdao = new PersonDaoImpl();
 		SurveyDao sdao = new SurveyDaoImpl();
 		
-		return new ModelAndView("inddex", "result", "");
+		return new ModelAndView("index", "result", "");
 
 	}
 	
@@ -51,8 +51,6 @@ public class HomeController {
 			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
 
 		String[] formatDate = date.split("-");
-		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
-				Integer.parseInt(formatDate[2]));
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 																					// database to see if these people
@@ -69,7 +67,7 @@ public class HomeController {
 
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
 		// passing location to create and return survey
-		Outing constructingOuting = new Outing(eventDate, location, organizer, attendees);// date and final location are
+		Outing constructingOuting = new Outing(null, location, organizer, attendees);// date and final location are
 																							// null
 		Survey mySurvey = constructingOuting.getPotentialEvent();
 		System.out.println("Info in my survey " + mySurvey.toString());//
@@ -84,7 +82,7 @@ public class HomeController {
 		
 		for (int i = 0; i < 5; i++) {
 			placeholder = ZoomatoAPI.searchByRestID(mySurvey.getPotentialVenues().get(i));
-			outingObjHTML += "	<tr> " + "<td> <input type=\"checkbox\" name=\"restaurant1\" >"
+			outingObjHTML += "	<tr> " + "<td> <input type=\"checkbox\" name=\"restaurant" + i +"\" >"
 					+ placeholder.getRestName() + "</td><td> Rating:" 
 					+ placeholder.getRestRating() + "</td>\n"
 					+ "	</tr>";
@@ -96,16 +94,21 @@ public class HomeController {
 	}
 
 	@RequestMapping("/recordVote")
-	public ModelAndView recordVote(Model model) {
+	public ModelAndView recordVote(Model model, @RequestParam("restaurant0") String restaurantVote0,@RequestParam("restaurant1") String restaurantVote1, @RequestParam("restaurant2") String restaurantVote2, @RequestParam("restaurant3") String restaurantVote3, @RequestParam("restaurant4") String restaurantVote4) {
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
-		Survey surveyInstance = new Survey();
-
+		//System.out.println(restaurantVotes);
+		String[] votes = { "restaurant0", "restaurant1", "restaurant2", "restaurant3", "restaurant4"};
+		String outingObjHTML ="<h1> Welcome to the event ! </h1>" + "<h3> Thank you for voting: Here is what was voted</h3>" + "	<table border=\"1\">";
+		for (int i = 0; i < 5; i++) {
+			outingObjHTML += "	<tr> " + "<td>  " + votes[i] +"</td> <td> Restaurant "+i + "</td>"+ "	</tr>";
+		}
+		outingObjHTML += "</table> ";
 		// get survey object (from Outing object)
 		// update the object
 		// let the person know they have voted
 
-		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
+		return new ModelAndView("voting", "thankYou", outingObjHTML);
 	}
 	
  	@RequestMapping("preferences")
