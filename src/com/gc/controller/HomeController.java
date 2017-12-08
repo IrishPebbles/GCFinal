@@ -33,7 +33,7 @@ public class HomeController {
 
 	@RequestMapping({ "/", "index" })
 	public ModelAndView homepage() {
-<<<<<<< HEAD
+
 		CurrentScoreDto dto = new CurrentScoreDto(); 
 	 CurrentScoreDao dao = new CurrentScoreDaoImpl(); 
 	 AttendeesDao adao = new AttendeesDaoImpl();
@@ -74,11 +74,11 @@ public class HomeController {
 	}*/
 	
 	
-	
+/*	
 	//commented out for functionallity
 	@RequestMapping(value= "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
-=======
+
 		CurrentScoreDto dto = new CurrentScoreDto();
 		CurrentScoreDao dao = new CurrentScoreDaoImpl();
 		AttendeesDao adao = new AttendeesDaoImpl();
@@ -86,16 +86,17 @@ public class HomeController {
 		PersonDao pdao = new PersonDaoImpl();
 		SurveyDao sdao = new SurveyDaoImpl();
 
-		return new ModelAndView("index", "", "");
+		return new ModelAndView("index", "", "");*/
 
-	}
+	
+
 
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state,
 			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
->>>>>>> 59b5030b0a032aadd31c38628ac472e0200ea924
+
 		String[] formatDate = date.split("-");
 		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
 				Integer.parseInt(formatDate[2]));
@@ -154,7 +155,7 @@ public class HomeController {
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
 	}
 
-<<<<<<< HEAD
+
 	@RequestMapping("preferences")
 	public ModelAndView preferences() {
 		
@@ -173,6 +174,6 @@ public class HomeController {
 	public ModelAndView finalResult() {
 		return new ModelAndView("finalResults","", "");
 	}
-=======
->>>>>>> 59b5030b0a032aadd31c38628ac472e0200ea924
+
 }
+
