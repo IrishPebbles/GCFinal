@@ -73,6 +73,7 @@
 				<option value="WY">Wyoming</option>
 			</select>
 			<br>
+		<!-- 
 		</fieldset>
 
 		<fieldset>
@@ -84,6 +85,7 @@
 				<option value="12h">12 hours</option>
 				<option value="24h">24 hours</option>
 				<option value="48h">48 hours</option>
+-->
 			</select><br> How many additional participants would you like to enter?<br>
 			<select id="selection" name="numAttendees"
 				onchange="createEmailFields(this)">
@@ -97,10 +99,9 @@
 				<option value="7">7</option>
 				<option value="8">8</option>
 				<option value="9">9</option>
-			</select><br>
-		</fieldset>
-
-		<fieldset>
+			</select><br><br>
+	<!-- 	</fieldset>
+		<fieldset> -->
 			<div id="email"></div>
 		</fieldset>
 		<input type="submit" value="Submit"> <input type="reset"

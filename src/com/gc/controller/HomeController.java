@@ -127,10 +127,8 @@ public class HomeController {
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
 	}
 	
- 	@RequestMapping(value = "voting", method = RequestMethod.POST )
+	@RequestMapping("preferences")
  	public ModelAndView preferences() {
- 		
- 		
  		return new ModelAndView("preferences","", "");
  	}
  	
