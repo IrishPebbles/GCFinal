@@ -10,8 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gc.dao.AttendeesDao;
+import com.gc.dao.AttendeesDaoImpl;
 import com.gc.dao.CurrentScoreDao;
 import com.gc.dao.CurrentScoreDaoImpl;
+import com.gc.dao.OutingDao;
+import com.gc.dao.OutingDaoImpl;
+import com.gc.dao.PersonDao;
+import com.gc.dao.PersonDaoImpl;
+import com.gc.dao.SurveyDao;
+import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.CurrentScoreDto;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
@@ -27,11 +35,46 @@ public class HomeController {
 	public ModelAndView homepage() {
 		CurrentScoreDto dto = new CurrentScoreDto(); 
 	 CurrentScoreDao dao = new CurrentScoreDaoImpl(); 
-		
-		dao.addcurrentScore( 1, 2);
+	 AttendeesDao adao = new AttendeesDaoImpl();
+	 OutingDao odao = new OutingDaoImpl();
+	 PersonDao pdao = new PersonDaoImpl(); 
+	 SurveyDao sdao = new SurveyDaoImpl();
+	
+	 
+	 //Below is code to turn a Java simple date variable into a sql-compatible variable.
+	 //TODO: Turn into method to be implemented upon data input.
+	/* DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String date = "2018-07-23";
+		java.util.Date myDate;
+		try {
+			myDate = formatter.parse(date);
+			java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
+			odao.addOuting("Red Robins", sqlDate, "Red Robins", 5);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		//dao.addcurrentScore( 1, 2);
+		//adao.addNewID(3, 4);
+	 	//odao.addOuting("Red Robins", sqlDate, "Red Robins", 5);
+	// pdao.addPerson("wakkawakkaF0zzY345@yahoo.com", "6Y0N");
+	 	System.out.println(odao.getOutingID(1));
 		return new ModelAndView("index","", "");
+		
 	}
 	
+	//This is a test method to show data entry is working
+	@RequestMapping(value="voting", method = RequestMethod.POST)
+	public ModelAndView addToSql(@RequestParam("organizerEmail") String orgEmail) {
+		PersonDao dao = new PersonDaoImpl();
+		dao.addPerson(orgEmail, "7564");
+		return new ModelAndView("voting", "", "");
+	}
+	
+	
+	
+	//commented out for functionallity
 	@RequestMapping(value= "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
 		String[] formatDate = date.split("-");

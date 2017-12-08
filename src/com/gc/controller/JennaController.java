@@ -1,4 +1,4 @@
-package com.gc.controller;
+/*package com.gc.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,7 +80,7 @@ public class JennaController {
 		return new ModelAndView("eventbrite", "data", text);
 	}
 
-	/*// this is a different way to pull json data
+	// this is a different way to pull json data
 	@RequestMapping("/nasajson")
 	public String nasaJson(Model model) {
 		String center = "";
@@ -126,5 +126,5 @@ public class JennaController {
 		}
 		model.addAttribute("nasaData", forPrint);
 		return "nasa";
-	} */
-}
+	} 
+}*/
