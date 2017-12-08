@@ -9,11 +9,11 @@ public class SurveyDto implements Serializable {
 	 */
 	private static final long serialVersionUID = 3L;
 	private int surveyID;
-	private int optVenueID1;
-	private int optVenueID2;
-	private int optVenueID3;
-	private int optVenueID4;
-	private int optVenueID5;
+	private String optVenueID1;
+	private String optVenueID2;
+	private String optVenueID3;
+	private String optVenueID4;
+	private String optVenueID5;
 	private int VoteCount1;
 	private int VoteCount2;
 	private int VoteCount3;
@@ -27,8 +27,8 @@ public class SurveyDto implements Serializable {
 
 	}
 
-	public SurveyDto(int surveyID, int finalVenueID, boolean hasVoted, int optVenueID1, int optVenueID2,
-			int optVenueID3, int optVenueID4, int optVenueID5, int VoteCount1, int VoteCount2, int VoteCount3, int VoteCount4, int VoteCount5) {
+	public SurveyDto(int surveyID, int finalVenueID, boolean hasVoted, String optVenueID1, String optVenueID2,
+			String optVenueID3, String optVenueID4, String optVenueID5, int VoteCount1, int VoteCount2, int VoteCount3, int VoteCount4, int VoteCount5) {
 		super();
 		this.surveyID = surveyID;
 		this.finalVenueID = finalVenueID;
@@ -69,43 +69,43 @@ public class SurveyDto implements Serializable {
 		this.hasVoted = hasVoted;
 	}
 
-	public int getOptVenueID1() {
+	public String getOptVenueID1() {
 		return optVenueID1;
 	}
 
-	public void setOptVenueID1(int optVenueID1) {
+	public void setOptVenueID1(String optVenueID1) {
 		this.optVenueID1 = optVenueID1;
 	}
 
-	public int getOptVenueID2() {
+	public String getOptVenueID2() {
 		return optVenueID2;
 	}
 
-	public void setOptVenueID2(int optVenueID2) {
+	public void setOptVenueID2(String optVenueID2) {
 		this.optVenueID2 = optVenueID2;
 	}
 
-	public int getOptVenueID3() {
+	public String getOptVenueID3() {
 		return optVenueID3;
 	}
 
-	public void setOptVenueID3(int optVenueID3) {
+	public void setOptVenueID3(String optVenueID3) {
 		this.optVenueID3 = optVenueID3;
 	}
 
-	public int getOptVenueID4() {
+	public String getOptVenueID4() {
 		return optVenueID4;
 	}
 
-	public void setOptVenueID4(int optVenueID4) {
+	public void setOptVenueID4(String optVenueID4) {
 		this.optVenueID4 = optVenueID4;
 	}
 
-	public int getOptVenueID5() {
+	public String getOptVenueID5() {
 		return optVenueID5;
 	}
 
-	public void setOptVenueID5(int optVenueID5) {
+	public void setOptVenueID5(String optVenueID5) {
 		this.optVenueID5 = optVenueID5;
 	}
 	

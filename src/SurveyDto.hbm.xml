@@ -21,23 +21,23 @@
 			</property>
 			
 			<property name="optVenueID1">
-			<column name="optVenueID1" sql-type="int"></column>
+			<column name="optVenueID1" sql-type="varchar(255)" length ="255"></column>
 			</property>
 			
 			<property name="optVenueID2">
-			<column name="optVenueID2" sql-type="int"></column>
+			<column name="optVenueID2" sql-type="varchar(255)" length ="255"></column>
 			</property>
 			
 			<property name="optVenueID3">
-			<column name="optVenueID3" sql-type="int"></column>
+			<column name="optVenueID3" sql-type="varchar(255)" length ="255"></column>
 			</property>
 			
 			<property name="optVenueID4">
-			<column name="optVenueID4" sql-type="int"></column>
+			<column name="optVenueID4" sql-type="varchar(255)" length ="255"></column>
 			</property>
 			
 			<property name="optVenueID5">
-			<column name="optVenueID5" sql-type="int"></column>
+			<column name="optVenueID5" sql-type="varchar(255)" length ="255"></column>
 			</property>
 			<property name="VoteCount1">
 			<column name="VoteCount1" sql-type="int"></column>

@@ -8,5 +8,6 @@
 </head>
 <body>
 ${result }
+${thankYou }
 </body>
 </html>
