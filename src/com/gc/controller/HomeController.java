@@ -34,6 +34,7 @@ public class HomeController {
 	@RequestMapping({ "/", "index" })
 	public ModelAndView homepage() {
 
+<<<<<<< HEAD
 		CurrentScoreDto dto = new CurrentScoreDto(); 
 	 CurrentScoreDao dao = new CurrentScoreDaoImpl(); 
 	 AttendeesDao adao = new AttendeesDaoImpl();
@@ -79,6 +80,8 @@ public class HomeController {
 	@RequestMapping(value= "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
 
+=======
+>>>>>>> 88520c358a73df2ff191b713c2486f0ae721e7fe
 		CurrentScoreDto dto = new CurrentScoreDto();
 		CurrentScoreDao dao = new CurrentScoreDaoImpl();
 		AttendeesDao adao = new AttendeesDaoImpl();
@@ -96,7 +99,10 @@ public class HomeController {
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state,
 			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 88520c358a73df2ff191b713c2486f0ae721e7fe
 		String[] formatDate = date.split("-");
 		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
 				Integer.parseInt(formatDate[2]));
@@ -155,6 +161,7 @@ public class HomeController {
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
 	}
 
+<<<<<<< HEAD
 
 	@RequestMapping("preferences")
 	public ModelAndView preferences() {
@@ -177,3 +184,6 @@ public class HomeController {
 
 }
 
+=======
+}
+>>>>>>> 88520c358a73df2ff191b713c2486f0ae721e7fe
