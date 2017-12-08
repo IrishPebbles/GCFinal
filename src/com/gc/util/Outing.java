@@ -24,7 +24,7 @@ public class Outing {
 		this.organizer = organizer;
 		this.attendees = attendees;
 		this.location = location;
-		potentialEvent = new Survey();
+		potentialEvent = new Survey(); //every itme we instantiate a new Outing object a survey is auto-created
 		potentialEvent.setVoters(attendees);
 		potentialEvent.createPotentialList(location);
 		
