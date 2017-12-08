@@ -1,5 +1,8 @@
 package com.gc.controller;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -48,11 +51,27 @@ public class HomeController {
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state,
-			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
+			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") Date date, Model model) {
 
-		String[] formatDate = date.split("-");
+		PersonDao pdao = new PersonDaoImpl();
+		OutingDao outDao = new OutingDaoImpl();
+		
+		
+		//Changes input java date into sql date
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date myDate = (date);
+		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
+		
+		pdao.addPerson(organizerEmail, "7DS8");
+		outDao.addOuting("Fun Times", sqlDate, "", 5); 
+		
+		
+		
+		
+		
+		/*String[] formatDate = date.split("-");
 		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
-				Integer.parseInt(formatDate[2]));
+				Integer.parseInt(formatDate[2]));*/
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 																					// database to see if these people
@@ -69,7 +88,7 @@ public class HomeController {
 
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
 		// passing location to create and return survey
-		Outing constructingOuting = new Outing(eventDate, location, organizer, attendees);// date and final location are
+		Outing constructingOuting = new Outing(sqlDate, location, organizer, attendees);// date and final location are
 																							// null
 		Survey mySurvey = constructingOuting.getPotentialEvent();
 		System.out.println("Info in my survey " + mySurvey.toString());//
@@ -108,8 +127,10 @@ public class HomeController {
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
 	}
 	
- 	@RequestMapping("preferences")
+ 	@RequestMapping(value = "voting", method = RequestMethod.POST )
  	public ModelAndView preferences() {
+ 		
+ 		
  		return new ModelAndView("preferences","", "");
  	}
  	
@@ -117,5 +138,7 @@ public class HomeController {
  	public ModelAndView voting() {
  		return new ModelAndView("voting","", "");
  	}
+ 	
+ 	
 
 }
