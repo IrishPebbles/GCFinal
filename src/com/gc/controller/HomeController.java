@@ -77,7 +77,7 @@ public class HomeController {
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 																					// database to see if these people
-		System.out.println("first email" + (attendees.get(0).getUserEmail()));											// already exist
+		//System.out.println("first email" + (attendees.get(0).getUserEmail()));											// already exist
 
 		for (int i = 0; i < attendees.size(); ++i) {
 			pdao.addPerson(attendees.get(i).getUserEmail().toString(), "3R5S");
