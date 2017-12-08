@@ -124,19 +124,19 @@ public class HomeController {
 	}
 
 	@RequestMapping("/recordVote")
-	public ModelAndView recordVote(Model model, @RequestParam("restaurant0") String restaurantVote0,
-			@RequestParam("restaurant1") String restaurantVote1, @RequestParam("restaurant2") String restaurantVote2,
-			@RequestParam("restaurant3") String restaurantVote3, @RequestParam("restaurant4") String restaurantVote4) {
+	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote) {
+		System.out.println(restaurantVote.toString());
+		
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
 		// System.out.println(restaurantVotes);
-		String[] votes = { "restaurant0", "restaurant1", "restaurant2", "restaurant3", "restaurant4" };
+//		String[] votes = { "restaurant0", "restaurant1", "restaurant2", "restaurant3", "restaurant4" };
 
 		String outingObjHTML = "<h1> Welcome to the event ! </h1>"
 				+ "<h3> Thank you for voting: Here is what was voted</h3>" + "	<table border=\"1\">";
 
-		for (int i = 0; i < 5; i++) {
-			outingObjHTML += "	<tr> " + "<td>  " + votes[i] + "</td> <td> Restaurant " + i + "</td>" + "	</tr>";
+		for (int i = 0; i < restaurantVote.length; i++) {
+			outingObjHTML += "	<tr> " + "<td>  " + restaurantVote[i] + "</td> <td> Restaurant " + i + "</td>" + "	</tr>";
 		}
 		outingObjHTML += "</table> ";
 		// get survey object (from Outing object)
