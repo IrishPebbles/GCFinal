@@ -129,9 +129,6 @@ public class HomeController {
 		
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
-		// System.out.println(restaurantVotes);
-//		String[] votes = { "restaurant0", "restaurant1", "restaurant2", "restaurant3", "restaurant4" };
-
 		String outingObjHTML = "<h1> Welcome to the event ! </h1>"
 				+ "<h3> Thank you for voting: Here is what was voted</h3>" + "	<table border=\"1\">";
 
@@ -150,7 +147,7 @@ public class HomeController {
  	
  	@RequestMapping("preferences")
  	public String viewPreferencesPage() {
- 		System.out.println("Here");
+ 		//System.out.println("Here");
  		
  		return "preferences";
  	}
