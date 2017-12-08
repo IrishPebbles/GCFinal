@@ -16,7 +16,7 @@ public interface OutingDao {
 	public void getOutingID(OutingDto outingID); 
 	// TODO Auto-generated method stub
 	
-List<OutingDto> addOuting(OutingDto outingDto, String outingName, Date dateOfEvent, String finalLoc, int organize);
+List<OutingDto> addOuting(String outingName, Date dateOfEvent, String finalLoc, int organize);
 
 List<OutingDto> getID(OutingDto outingID);
 	// TODO Auto-generated method stub

@@ -15,7 +15,7 @@ public interface PersonDao {
 	public void getUserID(PersonDto userID); 
 	// TODO Auto-generated method stub
 
-List<PersonDto> addID(String userEmail, String userPassword);
+List<PersonDto> addPerson(String userEmail, String userPassword);
 	
 
 List<PersonDto> searchID(PersonDto userID);

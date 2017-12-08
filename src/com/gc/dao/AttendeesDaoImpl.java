@@ -25,7 +25,7 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	
 	//Working add function
 	@Override
-	public List<AttendeesDto> addNewID(int userID, int outingID) {
+	public List<AttendeesDto> addNewAttendees(int userID, int outingID) {
 		List<AttendeesDto> scoreList = new ArrayList<AttendeesDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -50,7 +50,7 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	 * @see com.gc.factory.AttendeesDao#searchID(com.gc.dto.AttendeesDto)
 	 */
 	@Override
-	public List<AttendeesDto> searchID(AttendeesDto newUser) {
+	public List<AttendeesDto> searchID(int attendeesID) {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -59,9 +59,9 @@ public class AttendeesDaoImpl implements AttendeesDao {
 
 		Transaction tx = session.beginTransaction();
 
-		Criteria crit = session.createCriteria(AttendeesDto.class);
+		Criteria crit = session.createCriteria(ProductDto.class);
 
-		crit.add(Restrictions.like("attendeesID", "id"));
+		crit.add(Restrictions.like());
 
 		ArrayList<AttendeesDto> list = (ArrayList<AttendeesDto>) crit.list();
 		tx.commit();

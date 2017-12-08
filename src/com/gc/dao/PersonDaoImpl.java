@@ -33,7 +33,7 @@ public class PersonDaoImpl implements PersonDao {
 
 	@Override
 
-	public List<PersonDto> addID(String userEmail, String userPassword) {
+	public List<PersonDto> addPerson(String userEmail, String userPassword) {
 	
 
 		List<PersonDto> restList = new ArrayList<PersonDto>();
