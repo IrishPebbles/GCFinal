@@ -2,6 +2,7 @@ package com.gc.controller;
 
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,17 +52,21 @@ public class HomeController {
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state,
-			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") Date date, Model model) {
+			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) throws ParseException {
 
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
 		
 		
-		//Changes input java date into sql date
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date myDate = (date);
-		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
 		
+		//Changes input java date into sql date
+		String[] formatDate = date.split("-");
+		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
+				Integer.parseInt(formatDate[2]));
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date myDate = formatter.parse(date);
+		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
+		//Adding people coming from gthe form into relevant databases
 		pdao.addPerson(organizerEmail, "7DS8");
 		outDao.addOuting("Fun Times", sqlDate, "", 5); 
 		
@@ -77,6 +82,12 @@ public class HomeController {
 																					// database to see if these people
 																					// already exist
 
+		for (int i = 0; i < attendees.size(); ++i) {
+			pdao.addPerson(attendees.get(i).getUserEmail().toString(), "3R5S");
+			System.out.println(attendees.get(i).getUserEmail().toString());
+		}
+		
+		
 		Person organizer = new Person(organizerEmail, "nope", null);// we may want the organizer's name
 		attendees.add(organizer);
 
@@ -127,7 +138,7 @@ public class HomeController {
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
 	}
 	
- 	@RequestMapping(value = "voting", method = RequestMethod.POST )
+ 	@RequestMapping("preferences" )
  	public ModelAndView preferences() {
  		
  		
