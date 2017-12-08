@@ -20,7 +20,7 @@ List<PersonDto> addPerson(String userEmail, String userPassword);
 
 
 
-List<PersonDto> getID(PersonDto userID, String userEmail, String userPassword);
+List<PersonDto> searchByEmail(String userEmail);
 	
 
 List<PersonDto> updateID(PersonDto userID);

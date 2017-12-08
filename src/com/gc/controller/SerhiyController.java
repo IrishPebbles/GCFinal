@@ -1,12 +1,14 @@
-/*package com.gc.controller;
+package com.gc.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -21,7 +23,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -30,12 +36,52 @@ import org.xml.sax.InputSource;
 
 import com.gc.api.Credentials;
 import com.gc.dao.PersonDaoImpl;
+import com.gc.dto.PersonDto;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.ZoomatoAPI;
 
 @Controller
-public class SerhiyController {
-	@RequestMapping("/zomato")
+	
+	@SessionAttributes({"authenticated", "username"})
+		public class SerhiyController {
+		private PersonDaoImpl database = new PersonDaoImpl();
+		
+		// this is an example showing how to take data from a form and just add it to a page
+	
+				
+		@RequestMapping(value = "/indexlogin", method = RequestMethod.POST)
+		public ModelAndView loginCustomer(@RequestParam("username") String username,Model model)throws ClassNotFoundException, SQLException {
+			
+		System.out.println("in method login");
+			model.addAttribute("authenticated", username);
+			//PersonDaoImpl user = new PersonDaoImpl();
+			//user = (PersonDaoImpl) database.searchByEmail(username);
+			String warning = null;
+			if(username == null) {
+			warning = "<p class='warning'> You do not have an account associated with this email address."+
+			"Please create an account below or <a href='index.html> click here  </a> to try a different account. </p>";
+				
+			}
+			else {
+				warning =" Your email is " +username;
+			}
+			
+			return new ModelAndView("preferences", "noAccountMessage", warning);
+		}
+				
+	}
+		/*@RequestMapping(value = "/submitform", method = RequestMethod.POST)
+		public ModelAndView registerCustomer(@RequestParam("emailaddress") String emailAddress, Model model) throws ClassNotFoundException, SQLException {
+			PersonDto user = new PersonDto(emailAddress);
+			
+			database.insert(user);
+			hSession.setAttribute("authenticated", true);
+			
+			return new ModelAndView("welcome", "customername", customerName);
+		}*/
+	
+	
+	/*@RequestMapping("/zomato")
 	public ModelAndView index2(Model model) {
 
 		GeolocationAPI myLocation = new GeolocationAPI("1570 Woodward Ave", "Detroit", "MI");
@@ -50,17 +96,17 @@ public class SerhiyController {
 		}
 
 		return new ModelAndView("zomato", "restdata", hmtlDisplay);
-	}
-<<<<<<< HEAD
-}
+	}*/
+	
+	
 
 
 
 
 
 
-=======
-}*/
+
+
 /*
  * @RequestMapping("/zomato") public ModelAndView index(Model model) { String
  * results = ""; String restarantText = ""; try { // the HttpCLient Interface

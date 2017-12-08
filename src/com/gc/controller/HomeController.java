@@ -1,5 +1,6 @@
 package com.gc.controller;
 
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,17 +47,19 @@ public class HomeController {
 		return new ModelAndView("index", "result", "");
 
 	}
-
+	
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state,
+
 			/*@RequestParam("votingWindow") String votingWindow,*/ @RequestParam("date") String date, Model model) throws ParseException {
 
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
 		
 		
+
 		
 		//Changes input java date into sql date
 		String[] formatDate = date.split("-");
@@ -91,9 +94,9 @@ public class HomeController {
 
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
 		// passing location to create and return survey
-
 		Outing constructingOuting = new Outing(sqlDate, location, organizer, attendees);// date and final location are
-																						// null
+																							// null
+
 		Survey mySurvey = constructingOuting.getPotentialEvent();
 		System.out.println("Info in my survey " + mySurvey.toString());//
 		RestaurantObj placeholder = ZoomatoAPI.searchByRestID(mySurvey.getPotentialVenues().get(0));
@@ -139,11 +142,22 @@ public class HomeController {
 		return new ModelAndView("voting", "thankYou", outingObjHTML);
 	}
 
-	@RequestMapping("preferences")
+	
+ 	@RequestMapping(value = "voting", method = RequestMethod.POST )
  	public ModelAndView preferences() {
+ 		
+ 		
  		return new ModelAndView("preferences","", "");
  	}
  	
+ 	@RequestMapping("preferences")
+ 	public String viewPreferencesPage() {
+ 		System.out.println("Here");
+ 		
+ 		return "preferences";
+ 	}
+ 	
+
  	@RequestMapping("voting")
  	public ModelAndView voting() {
  		return new ModelAndView("voting","", "");

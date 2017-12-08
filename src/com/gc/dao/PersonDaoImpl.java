@@ -78,7 +78,7 @@ public class PersonDaoImpl implements PersonDao {
 	}
 
 	@Override
-	public List<PersonDto> getID(PersonDto userID, String userEmail, String userPassword) {
+	public List<PersonDto> searchByEmail(String userEmail) {
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -86,10 +86,13 @@ public class PersonDaoImpl implements PersonDao {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria crit = session.createCriteria(PersonDto.class);
-		ArrayList<PersonDto> getList = (ArrayList<PersonDto>) crit.list();
+		
+		crit.add(Restrictions.eq("userEmail", userEmail));
+		
+		ArrayList<PersonDto> getEmail = (ArrayList<PersonDto>) crit.list();
 		tx.commit();
 		session.close();
-		return getList;
+		return getEmail;
 		
 	}
 
