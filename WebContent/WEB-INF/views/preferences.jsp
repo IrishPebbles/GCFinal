@@ -124,7 +124,6 @@
 				document.getElementById("email").appendChild(brk);
 
 			}
-			console.log(val.value);
 		}
 	</script>
 </body>
