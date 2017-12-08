@@ -68,6 +68,8 @@ public class HomeController {
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date myDate = formatter.parse(date);
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
+		
+		
 		//Adding people coming from gthe form into relevant databases
 		pdao.addPerson(organizerEmail, "7DS8");
 		outDao.addOuting("Fun Times", sqlDate, "", 5); 
@@ -75,7 +77,7 @@ public class HomeController {
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 																					// database to see if these people
-																					// already exist
+		System.out.println("first email" + (attendees.get(0).getUserEmail()));											// already exist
 
 		for (int i = 0; i < attendees.size(); ++i) {
 			pdao.addPerson(attendees.get(i).getUserEmail().toString(), "3R5S");
@@ -143,12 +145,6 @@ public class HomeController {
 	}
 
 	
- 	@RequestMapping(value = "voting", method = RequestMethod.POST )
- 	public ModelAndView preferences() {
- 		
- 		
- 		return new ModelAndView("preferences","", "");
- 	}
  	
  	@RequestMapping("preferences")
  	public String viewPreferencesPage() {
