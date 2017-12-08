@@ -1,6 +1,7 @@
 package com.gc.controller;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,23 +51,35 @@ public class HomeController {
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state,
-			/*@RequestParam("votingWindow") String votingWindow,*/ @RequestParam("date") Date date, Model model) {
+			/*@RequestParam("votingWindow") String votingWindow,*/ @RequestParam("date") String date, Model model) throws ParseException {
+
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
-
-		// Changes input java date into sql date
+		
+		
+		
+		//Changes input java date into sql date
+		String[] formatDate = date.split("-");
+		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
+				Integer.parseInt(formatDate[2]));
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date myDate = (date);
+		Date myDate = formatter.parse(date);
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
-
+		//Adding people coming from gthe form into relevant databases
 		pdao.addPerson(organizerEmail, "7DS8");
-		outDao.addOuting("Fun Times", sqlDate, "", 5);
-
+		outDao.addOuting("Fun Times", sqlDate, "", 5); 
+			
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 																					// database to see if these people
 																					// already exist
 
+		for (int i = 0; i < attendees.size(); ++i) {
+			pdao.addPerson(attendees.get(i).getUserEmail().toString(), "3R5S");
+			System.out.println(attendees.get(i).getUserEmail().toString());
+		}
+		
+		
 		Person organizer = new Person(organizerEmail, "nope", null);// we may want the organizer's name
 		attendees.add(organizer);
 
@@ -127,13 +140,12 @@ public class HomeController {
 	}
 
 	@RequestMapping("preferences")
-	public ModelAndView preferences() {
-		return new ModelAndView("preferences", "", "");
-	}
-
-	@RequestMapping("voting")
-	public ModelAndView voting() {
-		return new ModelAndView("voting", "", "");
-	}
-
+ 	public ModelAndView preferences() {
+ 		return new ModelAndView("preferences","", "");
+ 	}
+ 	
+ 	@RequestMapping("voting")
+ 	public ModelAndView voting() {
+ 		return new ModelAndView("voting","", "");
+ 	}
 }
