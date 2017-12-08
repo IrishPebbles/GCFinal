@@ -64,13 +64,13 @@ public class HomeController {
 		
 	}
 	
-	//This is a test method to show data entry is working
+/*	//This is a test method to show data entry is working
 	@RequestMapping(value="voting", method = RequestMethod.POST)
 	public ModelAndView addToSql(@RequestParam("organizerEmail") String orgEmail) {
 		PersonDao dao = new PersonDaoImpl();
 		dao.addPerson(orgEmail, "7564");
 		return new ModelAndView("voting", "", "");
-	}
+	}*/
 	
 	
 	
@@ -149,7 +149,11 @@ public class HomeController {
 
 	@RequestMapping("preferences")
 	public ModelAndView preferences() {
-		return new ModelAndView("preferences","", "");
+		
+		
+		
+		
+		return new ModelAndView("voting","", "");
 	}
 	
 	@RequestMapping("voting")

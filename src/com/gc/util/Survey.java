@@ -56,7 +56,7 @@ public class Survey {
 	public void createPotentialList(GeolocationAPI location) {
 		ZoomatoAPI zApi = new ZoomatoAPI(location);
 		potentialVenues = zApi.getList();
-		System.out.println("In Method create " +potentialVenues);
+		//System.out.println("In Method create " +potentialVenues);
 		
 		
 	}
