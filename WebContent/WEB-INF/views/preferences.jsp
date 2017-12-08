@@ -16,11 +16,14 @@
 
 		<fieldset>
 			Log in or provide email address: <input type="email" name="organizerEmail" placeholder="email@domain.com" required><br>
-			Choose a date for your Outing: <input type="date" name="date" required><br><br> 
+			Choose a date for your Outing: <input type="date" name="date" required><br>
+			Outing name <input type="text" name="outingName"><br><br>
+			
 			Enter an address at the center of the search area: <br>
 			Street: <input type="text" name="street" placeholder="123 Main St" required><br>
 			City: <input type="text" name="city" placeholder="Detroit" required><br>
 			State: <select name="state">
+				<option value="NA">Select State</option>
 				<option value="AL">Alabama</option>
 				<option value="AK">Alaska</option>
 				<option value="AZ">Arizona</option>

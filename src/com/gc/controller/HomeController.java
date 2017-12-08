@@ -1,6 +1,5 @@
 package com.gc.controller;
 
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,44 +46,38 @@ public class HomeController {
 		return new ModelAndView("index", "result", "");
 
 	}
-	
+
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state,
 
-			/*@RequestParam("votingWindow") String votingWindow,*/ @RequestParam("date") String date, Model model) throws ParseException {
+			/* @RequestParam("votingWindow") String votingWindow, */ @RequestParam("date") String date, Model model)
+			throws ParseException {
 
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
-		
-		
 
-		
-		//Changes input java date into sql date
+		// Changes input java date into sql date
 		String[] formatDate = date.split("-");
 		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
 				Integer.parseInt(formatDate[2]));
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date myDate = formatter.parse(date);
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
-		
-		
-		//Adding people coming from gthe form into relevant databases
+
+		//Adding people coming from the form into relevant databases
 		pdao.addPerson(organizerEmail, "7DS8");
-		outDao.addOuting("Fun Times", sqlDate, "", 5); 
-			
+		outDao.addOuting("Fun Times", sqlDate, "", 5);
+
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
-																					// database to see if these people
-		//System.out.println("first email" + (attendees.get(0).getUserEmail()));											// already exist
 
-		for (int i = 0; i < attendees.size(); ++i) {
-			pdao.addPerson(attendees.get(i).getUserEmail().toString(), "3R5S");
-			System.out.println(attendees.get(i).getUserEmail().toString());
+		for (int i = 0; i < emailAddress.length(); ++i) {
+			//pdao.addPerson(emailAddresses[i], "3R5S");
+			//System.out.println("first email" + emailAddresses[0]);	
 		}
-		
-		
+
 		Person organizer = new Person(organizerEmail, "nope", null);// we may want the organizer's name
 		attendees.add(organizer);
 
@@ -97,7 +90,7 @@ public class HomeController {
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
 		// passing location to create and return survey
 		Outing constructingOuting = new Outing(sqlDate, location, organizer, attendees);// date and final location are
-																							// null
+																						// null
 
 		Survey mySurvey = constructingOuting.getPotentialEvent();
 		System.out.println("Info in my survey " + mySurvey.toString());//
@@ -111,7 +104,8 @@ public class HomeController {
 
 		for (int i = 0; i < 5; i++) {
 			placeholder = ZoomatoAPI.searchByRestID(mySurvey.getPotentialVenues().get(i));
-			outingObjHTML += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\"restaurant" + i + "\" >"
+
+			outingObjHTML += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\""+placeholder.getRestName() + "\" >"
 					+ placeholder.getRestName() + "</td><td> Rating:" + placeholder.getRestRating() 
 					+ "</td>\n</tr>";
 		}
@@ -127,14 +121,11 @@ public class HomeController {
 		
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
-		// System.out.println(restaurantVotes);
-//		String[] votes = { "restaurant0", "restaurant1", "restaurant2", "restaurant3", "restaurant4" };
-
 		String outingObjHTML = "<h1> Welcome to the event ! </h1>"
 				+ "<h3> Thank you for voting: Here is what was voted</h3>" + "	<table border=\"1\">";
 
 		for (int i = 0; i < restaurantVote.length; i++) {
-			outingObjHTML += "	<tr> " + "<td>  " + restaurantVote[i] + "</td> <td> Restaurant " + i + "</td>" + "	</tr>";
+			outingObjHTML += "	<tr> " + "<td>  " + restaurantVote[i] + "</td> <td> Restaurant </td>" + "	</tr>";
 		}
 		outingObjHTML += "</table> ";
 		// get survey object (from Outing object)
@@ -145,17 +136,17 @@ public class HomeController {
 	}
 
 	
- 	
- 	@RequestMapping("preferences")
- 	public String viewPreferencesPage() {
- 		System.out.println("Here");
- 		
- 		return "preferences";
- 	}
- 	
 
- 	@RequestMapping("voting")
- 	public ModelAndView voting() {
- 		return new ModelAndView("voting","", "");
- 	}
+	@RequestMapping("preferences")
+	public String viewPreferencesPage() {
+		System.out.println("Here");
+
+		return "preferences";
+	}
+
+	@RequestMapping("voting")
+	public ModelAndView voting() {
+		return new ModelAndView("voting", "", "");
+	}
+
 }

@@ -66,11 +66,9 @@ public class ZoomatoAPI {
 		
 		// assign the returned result to a json object
 		JSONArray restArray = objJson.getJSONArray("restaurants");// we are creating an array from JSON tree
-		System.out.println(restArray.toString());
 		for (int i = 0; i < 5; i++) {
 			
 			restaurant = restArray.getJSONObject(i).getJSONObject("restaurant");
-			System.out.println(restaurant.getString("id"));
 			restID.add(i, restaurant.getString("id"));
 
 		}
@@ -116,7 +114,6 @@ public class ZoomatoAPI {
 			String jsonString = EntityUtils.toString(resp.getEntity());
 			objJson = new JSONObject(jsonString);
 	
-			System.out.println("Response code: " + resp.getStatusLine().getStatusCode());
 			}
 			catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
@@ -133,7 +130,7 @@ public class ZoomatoAPI {
 		
 	public String buildParameterforList(String radius) {
 		String buildParam ="search?lat=" + location.getLatitude() + "&lon="+ location.getLongitude() + "&radius=" + radius;
-		System.out.println("https://developers.zomato.com/api/v2.1/"+ buildParam);
+		//System.out.println("https://developers.zomato.com/api/v2.1/"+ buildParam);
 		return buildParam; // TODO need to change parameters later
 	}
 	
