@@ -33,74 +33,22 @@ public class HomeController {
 
 	@RequestMapping({ "/", "index" })
 	public ModelAndView homepage() {
-
-
-		CurrentScoreDto dto = new CurrentScoreDto(); 
-	 CurrentScoreDao dao = new CurrentScoreDaoImpl(); 
-	 AttendeesDao adao = new AttendeesDaoImpl();
-	 OutingDao odao = new OutingDaoImpl();
-	 PersonDao pdao = new PersonDaoImpl(); 
-	 SurveyDao sdao = new SurveyDaoImpl();
-	
-	 
-	 //Below is code to turn a Java simple date variable into a sql-compatible variable.
-	 //TODO: Turn into method to be implemented upon data input.
-	/* DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String date = "2018-07-23";
-		java.util.Date myDate;
-		try {
-			myDate = formatter.parse(date);
-			java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
-			odao.addOuting("Red Robins", sqlDate, "Red Robins", 5);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		//dao.addcurrentScore( 1, 2);
-		//adao.addNewID(3, 4);
-	 	//odao.addOuting("Red Robins", sqlDate, "Red Robins", 5);
-	// pdao.addPerson("wakkawakkaF0zzY345@yahoo.com", "6Y0N");
-	 	System.out.println(odao.getOutingID(1));
-		return new ModelAndView("index","", "");
-		
-	}
-	
-/*	//This is a test method to show data entry is working
-	@RequestMapping(value="voting", method = RequestMethod.POST)
-	public ModelAndView addToSql(@RequestParam("organizerEmail") String orgEmail) {
-		PersonDao dao = new PersonDaoImpl();
-		dao.addPerson(orgEmail, "7564");
-		return new ModelAndView("voting", "", "");
-	}*/
-	
-	
-/*	
-	//commented out for functionallity
-	@RequestMapping(value= "voting", method = RequestMethod.POST)
-	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
-
-=======
->>>>>>> 88520c358a73df2ff191b713c2486f0ae721e7fe
 		CurrentScoreDto dto = new CurrentScoreDto();
 		CurrentScoreDao dao = new CurrentScoreDaoImpl();
 		AttendeesDao adao = new AttendeesDaoImpl();
 		OutingDao odao = new OutingDaoImpl();
 		PersonDao pdao = new PersonDaoImpl();
 		SurveyDao sdao = new SurveyDaoImpl();
+		
+		return new ModelAndView("inddex", "result", "");
 
-		return new ModelAndView("index", "", "");*/
-
+	}
 	
-
-
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state,
 			@RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
-
-
 
 		String[] formatDate = date.split("-");
 		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
@@ -159,30 +107,15 @@ public class HomeController {
 
 		return new ModelAndView("voting", "thankYou", "<p> Thank you for voting </p>");
 	}
-
-
-
-	@RequestMapping("preferences")
-	public ModelAndView preferences() {
-		
-		
-		
-		
-		return new ModelAndView("voting","", "");
-	}
 	
-	@RequestMapping("voting")
-	public ModelAndView voting() {
-		return new ModelAndView("voting","", "");
-	}
-	
-	@RequestMapping("finalResults")
-	public ModelAndView finalResult() {
-		return new ModelAndView("finalResults","", "");
-	}
+ 	@RequestMapping("preferences")
+ 	public ModelAndView preferences() {
+ 		return new ModelAndView("preferences","", "");
+ 	}
+ 	
+ 	@RequestMapping("voting")
+ 	public ModelAndView voting() {
+ 		return new ModelAndView("voting","", "");
+ 	}
 
 }
-
-
-
-
