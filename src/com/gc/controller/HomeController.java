@@ -1,6 +1,10 @@
 package com.gc.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +21,9 @@ import com.gc.dao.PersonDaoImpl;
 import com.gc.dao.SurveyDao;
 import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.CurrentScoreDto;
+import com.gc.util.GeolocationAPI;
+import com.gc.util.Outing;
+import com.gc.util.Person;
 
 @Controller
 public class HomeController {
@@ -65,7 +72,7 @@ public class HomeController {
 	
 	
 	//commented out for functionallity
-/*	@RequestMapping(value= "voting", method = RequestMethod.POST)
+	@RequestMapping(value= "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street ,@RequestParam("city") String city,@RequestParam("state") String state, @RequestParam("votingWindow") String votingWindow, @RequestParam("date") String date, Model model) {
 		Date eventDate = new Date("date");
 		String[] emailAddresses = emailAddress.split(",");
@@ -153,5 +160,5 @@ public class HomeController {
 	@RequestMapping("finalResults")
 	public ModelAndView finalResult() {
 		return new ModelAndView("finalResults","", "");
-	}*/
+	}
 }
