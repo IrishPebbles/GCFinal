@@ -51,6 +51,15 @@ public class SerhiyController {
 
 		return new ModelAndView("zomato", "restdata", hmtlDisplay);
 	}
+<<<<<<< HEAD
+}
+
+
+
+
+
+
+=======
 }*/
 /*
  * @RequestMapping("/zomato") public ModelAndView index(Model model) { String
