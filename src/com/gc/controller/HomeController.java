@@ -58,33 +58,20 @@ public class HomeController {
 		
 		
 		//create the table that we need to view based on the voting object
-		String outingObjHTML ="<h1> Welcome to the  event !</h1>\n" + 
-				"\n" + 
-				"<h3> Please vote the restaurants you would like to go, you may choose more than one, if you have a restaurant you have a strong preference for chose just that one.</h3>\n" + 
-				"<!--  We need to check some weight math logic. If someone chooses more than one their vote counts for 1/2 or 1/3 of a point, whichever restaurant has  points wins-->\n" + 
-				"<h3> </h3>	\n" + 
-				"	<form action=\"recordVote\" method =\"post\">\n" + 
-				"	<table>\n" + 
-				"	<tr> <!-- I think zumato will send us code --> \n" + 
-				"		<td> <input type=\"checkbox\" name=\"restaurant1\" >" + mySurvey.getPotentialVenues().get(0) +" </td><td> Rating </td>\n" + 
-				"	</tr>\n" + 
-				"	<tr> <!-- I think zumato will send us code --> \n" + 
-				"		<td> <input type=\"checkbox\" name=\"restaurant2\" > " + mySurvey.getPotentialVenues().get(1) + " </td><td> Rating </td>\n" + 
-				"	</tr>\n" + 
-				"	<tr> <!-- I think zumato will send us code --> \n" + 
-				"		<td> <input type=\"checkbox\" name=\"restaurant3\" > " + mySurvey.getPotentialVenues().get(2)+ " </td><td> Rating </td>\n" + 
-				"	</tr>\n" + 
-				"	<tr> <!-- I think zumato will send us code --> \n" + 
-				"		<td> <input type=\"checkbox\" name=\"restaurant4\" > " + mySurvey.getPotentialVenues().get(3)+ " </td><td> Rating </td>\n" + 
-				"	</tr>\n" + 
-				"	<tr> <!-- I think zumato will send us code --> \n" + 
-				"		<td> <input type=\"checkbox\" name=\"restaurant5\" > " +  mySurvey.getPotentialVenues().get(4) + " </td><td> Rating </td>\n" + 
-				"	</tr>\n" + 
-				"	</table>\n" + 
-				"	\n" + 
-				"		<input type=\"submit\" value=\"Vote\" > \n" + 
-				"	</form>";
-		
+		String outingObjHTML ="<h1> Welcome to the  event ! </h1>" + 
+				"<h3> Please vote the restaurants you would like to go, you may choose more than one, if you have a restaurant you have a strong preference for chose just that one.</h3>" + 
+				"<!--  We need to check some weight math logic. If someone chooses more than one their vote counts for 1/2 or 1/3 of a point, whichever restaurant has  points wins-->" + 
+				"	<form action=\"recordVote\" method =\"post\">" + 
+				"	<table border=\"1\">";
+		 for (int i =0; i< 5 ; i++) {
+			 placeholder = ZoomatoAPI.searchByRestID(mySurvey.getPotentialVenues().get(i));
+			 outingObjHTML +=
+				"	<tr> " +
+				"		<td> <input type=\"checkbox\" name=\"restaurant1\" >" + placeholder.getRestName() +" </td><td> Rating:" + placeholder.getRestRating() +"</td>\n" + 
+				"	</tr>" ;
+		 }
+				outingObjHTML += "</table> " +"<input type=\"submit\" value=\"Vote\" > </form>";
+		 
 		
 		return new ModelAndView("voting","result", outingObjHTML);
 	}
@@ -106,6 +93,9 @@ public class HomeController {
 
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model) {
+		//we have to know who voter is
+		String userEmail = "jenna.otto@gmail.com";
+		Survey surveyInstance = new Survey();
 		
 		// get survey object (from Outing object)
 		//update the object 

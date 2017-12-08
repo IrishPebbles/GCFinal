@@ -6,6 +6,7 @@ public class Survey {
 
 	private ArrayList<Person> voters;
 	private ArrayList<String> potentialVenues;
+	private Integer[] voteScore;
 	
 	public ArrayList<String> getPotentialVenues() {
 		return potentialVenues;
