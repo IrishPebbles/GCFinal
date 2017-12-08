@@ -40,7 +40,7 @@ public class HomeController {
 		PersonDao pdao = new PersonDaoImpl();
 		SurveyDao sdao = new SurveyDaoImpl();
 		
-		return new ModelAndView("inddex", "result", "");
+		return new ModelAndView("index", "result", "");
 
 	}
 	
