@@ -90,6 +90,8 @@ public class PersonDaoImpl implements PersonDao {
 		crit.add(Restrictions.eq("userEmail", userEmail));
 		
 		ArrayList<PersonDto> getEmail = (ArrayList<PersonDto>) crit.list();
+		
+		System.out.println("Looking up" + getEmail.get(0).toString());
 		tx.commit();
 		session.close();
 		return getEmail;

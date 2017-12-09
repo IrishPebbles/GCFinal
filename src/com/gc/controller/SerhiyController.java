@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -54,16 +55,22 @@ import com.gc.util.ZoomatoAPI;
 			
 		System.out.println("in method login");
 			model.addAttribute("authenticated", username);
-			//PersonDaoImpl user = new PersonDaoImpl();
-			//user = (PersonDaoImpl) database.searchByEmail(username);
-			String warning = null;
-			if(username == null) {
-			warning = "<p class='warning'> You do not have an account associated with this email address."+
-			"Please create an account below or <a href='index.html> click here  </a> to try a different account. </p>";
-				
+			
+			
+			ArrayList<PersonDto> user  =  (ArrayList<PersonDto>) database.searchByEmail(username); // we need to enter if statement to count for userEmail not found
+			
+			String warning;
+			if (user != null) {
+				PersonDto searchUser = user.get(0); // getting userEmail from ArrayList<PersonDto> at location zero
+				warning =" Welcome " + username;
 			}
+	
 			else {
-				warning =" Your email is " +username;
+				warning = "<p class='warning'> You do not have an account associated with this email address."+
+						"Please create an account below or <a href='index2.html> click here  </a> to try a different account. </p>"; 
+				
+				// what we want to do if they don't have account created. 
+				
 			}
 			
 			return new ModelAndView("preferences", "noAccountMessage", warning);
