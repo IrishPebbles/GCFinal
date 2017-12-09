@@ -73,10 +73,6 @@ public class HomeController {
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
-															
-		
-		// database to see if these people
-												// already exist
 
 		for (int i = 0; i < emailAddress.length(); ++i) {
 			//pdao.addPerson(emailAddresses[i], "3R5S");
