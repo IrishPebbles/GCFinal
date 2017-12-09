@@ -46,15 +46,14 @@ public class HomeController {
 		return new ModelAndView("index", "result", "");
 
 	}
-
+	//Serhiy add @RequestParam("password") String password
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView voting(@RequestParam("organizerEmail") String organizerEmail,
-			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
-			@RequestParam("city") String city, @RequestParam("state") String state,
-
-			/* @RequestParam("votingWindow") String votingWindow, */ @RequestParam("date") String date, Model model)
+			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street, String eventname,
+			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String eventName, @RequestParam("date") String date, Model model)
+/* @RequestParam("votingWindow") String votingWindow, */
 			throws ParseException {
-
+		//creating the daoImpl to write to the database
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
 
@@ -67,8 +66,10 @@ public class HomeController {
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
 
 		//Adding people coming from the form into relevant databases
-		pdao.addPerson(organizerEmail, "7DS8");
-		outDao.addOuting("Fun Times", sqlDate, "", 5);
+		pdao.addPerson(organizerEmail, "7DS8");// we need the id of this organizer for the next push to the database
+		//we need to be able to search a person
+		outDao.addOuting(eventName, sqlDate, "", 0);
+	
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
@@ -152,5 +153,4 @@ public class HomeController {
 	public ModelAndView voting() {
 		return new ModelAndView("voting", "", "");
 	}
-
 }

@@ -9,7 +9,33 @@ public class Survey {
 	private ArrayList<Person> voters;
 	private ArrayList<String> potentialVenues;// 5 items that are strings that reference a zomatoe id
 	private Integer[] voteScore;
+	private int surveyID;
 	
+	
+	public Survey() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Survey(String id) {
+		this.surveyID = Integer.parseInt(id);
+		potentialVenues = new ArrayList<String>();
+	}
+	public Integer[] getVoteScore() {
+		return voteScore;
+	}
+
+	public void setVoteScore(Integer[] voteScore) {
+		this.voteScore = voteScore;
+	}
+
+	public int getSurveyID() {
+		return surveyID;
+	}
+
+	public void setSurveyID(int surveyID) {
+		this.surveyID = surveyID;
+	}
+
 	public ArrayList<String> getPotentialVenues() {
 		return potentialVenues;
 	}
@@ -27,10 +53,6 @@ public class Survey {
 
 	public ArrayList<Person> getVoters() {
 		return voters;
-	}
-
-	public Survey() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	
@@ -64,6 +86,16 @@ public class Survey {
 		sdao.addSurvey(potentialVenues.get(0), potentialVenues.get(1), potentialVenues.get(2), potentialVenues.get(3), potentialVenues.get(4), 0, 0, 0, 0, 0, false);
 		
 		
+	}
+	
+	public String buildVotingeRestaurantTable() {
+		SurveyDao sdaodbconnection = new SurveyDaoImpl();
+		//sdaodbconnection;
+		return "";
+	}
+	
+	public String buildResultRestaurantTable() {
+		return "";
 	}
 
 	@Override

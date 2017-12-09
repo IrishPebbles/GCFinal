@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -23,9 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gc.api.Credentials;
+import com.gc.dao.SurveyDao;
+import com.gc.dao.SurveyDaoImpl;
+import com.gc.dto.SurveyDto;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
 import com.gc.util.Person;
+import com.gc.util.RestaurantObj;
 import com.gc.util.Survey;
 
 @Controller
@@ -82,6 +87,23 @@ public class JennaController {
 		}
 		return new ModelAndView("eventbrite", "data", text);
 	}
+	
+	@RequestMapping(value="resultsPage", method=RequestMethod.GET)
+	public ModelAndView showFinalResults(@RequestParam("surveyid") String surveyID) { //what parameters
+		//get the survey page and build a survey obj-- really we should get an outing objects
+		Survey surveyObj = new Survey(surveyID);
+		SurveyDaoImpl surveyConnection = new SurveyDaoImpl();
+		List<SurveyDto> results = surveyConnection.searchSurvey(surveyObj.getSurveyID());
+		SurveyDto shown = results.get(0);
+		ArrayList<String> potentialVenues =surveyObj.getPotentialVenues();
+		potentialVenues.add(shown.getOptVenueID1());
+		potentialVenues.add(shown.getOptVenueID2());
+		potentialVenues.add(shown.getOptVenueID3());
+		potentialVenues.add(shown.getOptVenueID4());
+		
+		return new ModelAndView("voting", "result", "");
+	}
+	
 
 	// this is a different way to pull json data
 	@RequestMapping("/nasajson")
