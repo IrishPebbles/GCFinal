@@ -13,7 +13,8 @@ public class OutingDto implements  Serializable {
 	private String outingName;
 	private Date dateOfEvent;
 	private String finalLocation;
-	private int organizer;
+	private int organizer;//this is the id of the organizer
+	
 	
 	public OutingDto(){
 		
