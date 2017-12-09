@@ -89,13 +89,35 @@ public class Survey {
 	}
 	
 	public String buildVotingeRestaurantTable() {
-		SurveyDao sdaodbconnection = new SurveyDaoImpl();
-		//sdaodbconnection;
-		return "";
+		String tableHtml = "<h1> Welcome to the event ! </h1>" + "<h3> Please vote below</h3>"
+				+ "<h5>You may vote for more than one choice. Each vote will be weighted equally</h5>"
+				+ "	<form action=\"recordVote\" method =\"get\">" + "	<table border=\"1\">";
+		RestaurantObj placeholder;
+		for (int i = 0; i < 5; i++) {
+			placeholder = ZoomatoAPI.searchByRestID(potentialVenues.get(i));
+
+			tableHtml += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\""+placeholder.getRestName() + "\" >"
+					+ placeholder.getRestName() + "</td><td> Rating:" + placeholder.getRestRating() 
+					+ "</td>\n</tr>";
+		}
+
+		tableHtml += "</table> " + "<input type=\"submit\" value=\"Vote\" > </form>";
+		return tableHtml;
 	}
 	
-	public String buildResultRestaurantTable() {
-		return "";
+	public String buildResultRestaurantTable(String[] restaurantVote) {
+		
+		String tableHtml = "<h1> Welcome to the event ! </h1>"
+				+ "<h3> Thank you for voting!</h3> <h5> Here is what you voted for</h3>" + "	<table border=\"1\">";
+		//we need to think about the name of the restaurant- is this object still built, yes it is because we will get it from the database
+		RestaurantObj placeholder;
+		for (int i = 0; i < restaurantVote.length; i++) {
+			
+			tableHtml += "	<tr> " + "<td>  " + restaurantVote[i] + "</td> <td> Rating:  </td>" + "	</tr>";// 
+		}
+		tableHtml += "</table> ";
+
+		return tableHtml;
 	}
 
 	@Override
