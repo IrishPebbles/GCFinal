@@ -7,7 +7,16 @@
 <title>Welcome to Outings</title>
 </head>
 <body>
+
 <h2> Welcome to Outings</h2>
 <a href="preferences" ><Button>Click here to create an outing</Button> </a>
+
+<!-- <form action="indexlogin" method="POST">
+<input type="email" name="username">
+<input type="submit" value="Submit">
+
+
+</form> -->
+${noAccountMessage }
 </body>
 </html>

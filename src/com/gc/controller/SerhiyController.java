@@ -59,10 +59,14 @@ import com.gc.util.ZoomatoAPI;
 			
 			ArrayList<PersonDto> user  =  (ArrayList<PersonDto>) database.searchByEmail(username); // we need to enter if statement to count for userEmail not found
 			
-			String warning;
+			String warning = null;
 			if (user != null) {
 				PersonDto searchUser = user.get(0); // getting userEmail from ArrayList<PersonDto> at location zero
 				warning =" Welcome " + username;
+			}
+			if  (user == null) {
+				model.addAttribute(username);
+				
 			}
 	
 			else {
