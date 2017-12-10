@@ -10,6 +10,7 @@ public class OutingDto implements  Serializable {
 	 */
 	private static final long serialVersionUID = 4L;
 	private int outingID;
+	private int surveyID;
 	private String outingName;
 	private Date dateOfEvent;
 	private String finalLocation;
@@ -20,9 +21,10 @@ public class OutingDto implements  Serializable {
 		
 	}
 
-	public OutingDto(int outingID, String outingName, Date dateOfEvent, String finalLocation, int organizer) {
+	public OutingDto(int outingID, int surveyID, String outingName, Date dateOfEvent, String finalLocation, int organizer) {
 		super();
 		this.outingID = outingID;
+		this.surveyID = surveyID;
 		this.outingName = outingName;
 		this.dateOfEvent = dateOfEvent;
 		this.finalLocation = finalLocation;
@@ -31,6 +33,14 @@ public class OutingDto implements  Serializable {
 
 	public int getOutingID() {
 		return outingID;
+	}
+	
+	public int getSurveyID() {
+		return surveyID;
+	}
+
+	public void setSurveyID(int surveyID) {
+		this.surveyID = surveyID;
 	}
 
 	public void setOutingID(int outingID) {
@@ -71,9 +81,9 @@ public class OutingDto implements  Serializable {
 
 	@Override
 	public String toString() {
-		return "OutingDto [outingID=" + outingID + ", outingName=" + outingName + ", dateOfEvent=" + dateOfEvent
-				+ ", finalLocation=" + finalLocation + ", organizer=" + organizer + "]";
+		return "OutingDto [outingID=" + outingID + ", surveyID=" + surveyID + ", outingName=" + outingName
+				+ ", dateOfEvent=" + dateOfEvent + ", finalLocation=" + finalLocation + ", organizer=" + organizer
+				+ "]";
 	}
-	
-	
+		
 }

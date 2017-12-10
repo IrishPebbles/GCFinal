@@ -9,10 +9,15 @@
 
 
 		<id name="outingID">
-			
-			<column name="outingID" sql-type="int"></column>
+				<column name="outingID" sql-type="int"></column>
 		</id>
-
+		
+		<property name="surveyID">
+		<column name="surveyID" sql-type="varchar(50)" length="50"></column>
+		</property>
+				<property name="outingName">
+		<column name="outName" sql-type="varchar(50)" length="50"></column>
+		</property>
 		<property name="dateOfEvent">
 			<column name="dateOfEvent" sql-type="date"></column>
 		</property>
@@ -22,8 +27,6 @@
 		<property name="organizer">
 			<column name="organizer" sql-type="int"></column>
 		</property>
-		<property name="outingName">
-		<column name="outName" sql-type="varchar(50)" length="50"></column>
-		</property>
+		
 	</class>
 </hibernate-mapping>

@@ -124,9 +124,9 @@ public class HomeController {
 
 		return "preferences";
 	}
-
+/*
 	@RequestMapping("voting")
 	public ModelAndView voting() {
 		return new ModelAndView("voting", "", "");
-	}
+	}*/
 }

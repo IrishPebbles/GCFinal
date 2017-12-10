@@ -159,6 +159,14 @@
 </style>
 </head>
 <body>
+<!-- 
+old code
+<form action="indexlogin" method="POST">
+<input type="email" name="username">
+<input type="submit" value="Submit">
+
+
+</form> -->
   <main role="main">
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
