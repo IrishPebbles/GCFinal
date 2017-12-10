@@ -35,6 +35,18 @@ import com.gc.util.Survey;
 
 @Controller
 public class JennaController {
+	@RequestMapping(value = "preferencesJ", method = RequestMethod.POST)
+	public ModelAndView viewifLoggedIn(Model model, @RequestParam("userEmail") String userEmail) {
+		
+		model.addAttribute("user", "loggedin");
+		model.addAttribute("displayPreference", "\"display:block;\"");
+		model.addAttribute("displayPreference", "\"display:block;\"");
+		model.addAttribute("shown", "show");
+		model.addAttribute("username", userEmail);
+	
+
+		return new ModelAndView("index", "", "");
+	}
 
 	@RequestMapping("/eventbrite")
 	public ModelAndView eventbriteAPI(Model model) {

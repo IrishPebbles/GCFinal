@@ -35,13 +35,14 @@ import com.gc.util.ZoomatoAPI;
 public class HomeController {
 
 	@RequestMapping({ "/", "index" })
-	public ModelAndView homepage() {
+	public ModelAndView homepage(Model model) {
 		CurrentScoreDto dto = new CurrentScoreDto();
 		CurrentScoreDao dao = new CurrentScoreDaoImpl();
 		AttendeesDao adao = new AttendeesDaoImpl();
 		OutingDao odao = new OutingDaoImpl();
 		PersonDao pdao = new PersonDaoImpl();
 		SurveyDao sdao = new SurveyDaoImpl();
+		model.addAttribute("displayPreference", "\"display:none;\"");
 
 		return new ModelAndView("index", "result", "");
 
@@ -68,7 +69,8 @@ public class HomeController {
 		//Adding people coming from the form into relevant databases
 		pdao.addPerson(organizerEmail, "7DS8");// we need the id of this organizer for the next push to the database
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();//we need to be able to search a person
-		outDao.addOuting(eventName, sqlDate, "", organizerId);
+		System.out.println("Organizer id  " +organizerId);
+		//outDao.addOuting(eventName, sqlDate, null, organizerId);
 	
 
 		String[] emailAddresses = emailAddress.split(",");
@@ -112,14 +114,13 @@ public class HomeController {
 		// update the object
 		// let the person know they have voted
 
-		return new ModelAndView("voting", "thankYou", outingObjHTML);
+		return new ModelAndView("voting", "result", outingObjHTML);
 	}
 
 	
-
 	@RequestMapping("preferences")
 	public String viewPreferencesPage() {
-		System.out.println("Here");
+		//System.out.println("Here");
 
 		return "preferences";
 	}

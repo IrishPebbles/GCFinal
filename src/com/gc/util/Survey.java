@@ -116,7 +116,7 @@ public class Survey {
 			tableHtml += "	<tr> " + "<td>  " + restaurantVote[i] + "</td> <td> Rating:  </td>" + "	</tr>";// 
 		}
 		tableHtml += "</table> ";
-
+		System.out.println(tableHtml);
 		return tableHtml;
 	}
 
