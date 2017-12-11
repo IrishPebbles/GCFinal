@@ -50,7 +50,7 @@ public class HomeController {
 	//Serhiy add @RequestParam("password") String password
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
-			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street, String eventname,
+			@RequestParam("emailAddress") String emailAddress, @RequestParam String userPassword, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String eventName, @RequestParam("date") String date, Model model)
 /* @RequestParam("votingWindow") String votingWindow, */
 			throws ParseException {
@@ -67,7 +67,7 @@ public class HomeController {
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
 
 		//Adding people coming from the form into relevant databases
-		pdao.addPerson(organizerEmail, "7DS8");// we need the id of this organizer for the next push to the database
+		pdao.addPerson(organizerEmail, userPassword);// we need the id of this organizer for the next push to the database
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();//we need to be able to search a person
 		System.out.println("Organizer id  " +organizerId);
 		
@@ -138,10 +138,10 @@ public class HomeController {
 	public ModelAndView voting() {
 		return new ModelAndView("voting", "", "");
 	}*/
-	
+	/*
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public String generateFirstEmail() {
 		EmailGenerator email = new EmailGenerator(); 
 		return null; 
-	}
+	}*/
 }

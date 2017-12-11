@@ -1,6 +1,13 @@
 package com.gc.util;
 import java.util.ArrayList;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import com.gc.dao.PersonDaoImpl;
+import com.gc.dto.PersonDto;
+
+import antlr.collections.List;
+
 public class Person {
 
 	private String userEmail; // Used as user name
@@ -46,13 +53,35 @@ public class Person {
 	public String toString() {
 		return "Person [userEmail=" + userEmail + ", password=" + password + ", createdOutings=" + createdOutings + "]";
 	}
+	
+	public void login(String typedPassword) {
+		//check database for user
+		PersonDaoImpl databaseConnection = new PersonDaoImpl();
+		//new implementation of database
+		ArrayList<PersonDto> searchedPerson = (ArrayList<PersonDto>) databaseConnection.searchByEmail(userEmail);
+		//search email
+		
+		if (searchedPerson != null) {
+			PersonDto locatedPerson = searchedPerson.get(0);
+			String userPassword = locatedPerson.getUserPassword();
+			// I need to check to password in database
+			
+			if (userPassword == generateHashPassword(typedPassword)) {
+			// if they match user loged in
+			}
+		}else {
+			// we need to create a person or force them to register
+			
+		}
+				
+	}
 
-	public String generatePassword(String typedPassword) {
+	public static String generateHashPassword(String typedPassword) { // String returns success or failure msg 
 		
-		
-		
-		return null;
+		String pw_hash = BCrypt.hashpw(typedPassword, BCrypt.gensalt(12));
+				
+		return pw_hash;
 		
 	}
-	
+		
 }
