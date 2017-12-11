@@ -10,7 +10,7 @@ public class OutingDto implements  Serializable {
 	 */
 	private static final long serialVersionUID = 4L;
 	private int outingID;
-	private int surveyID;
+	private String surveyID;
 	private String outingName;
 	private Date dateOfEvent;
 	private String finalLocation;
@@ -21,7 +21,7 @@ public class OutingDto implements  Serializable {
 		
 	}
 
-	public OutingDto(int outingID, int surveyID, String outingName, Date dateOfEvent, String finalLocation, int organizer) {
+	public OutingDto(int outingID, String surveyID, String outingName, Date dateOfEvent, String finalLocation, int organizer) {
 		super();
 		this.outingID = outingID;
 		this.surveyID = surveyID;
@@ -35,11 +35,11 @@ public class OutingDto implements  Serializable {
 		return outingID;
 	}
 	
-	public int getSurveyID() {
+	public String getSurveyID() {
 		return surveyID;
 	}
 
-	public void setSurveyID(int surveyID) {
+	public void setSurveyID(String surveyID) {
 		this.surveyID = surveyID;
 	}
 

@@ -24,6 +24,7 @@ import com.gc.dao.PersonDaoImpl;
 import com.gc.dao.SurveyDao;
 import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.CurrentScoreDto;
+import com.gc.dto.SurveyDto;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
 import com.gc.util.Person;
@@ -70,7 +71,7 @@ public class HomeController {
 		pdao.addPerson(organizerEmail, "7DS8");// we need the id of this organizer for the next push to the database
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();//we need to be able to search a person
 		System.out.println("Organizer id  " +organizerId);
-		//outDao.addOuting(eventName, sqlDate, null, organizerId);
+		
 	
 
 		String[] emailAddresses = emailAddress.split(",");
@@ -96,7 +97,9 @@ public class HomeController {
 		
 		//this gets the list of potiential Restaurants
 		Survey mySurvey = constructingOuting.getPotentialEvent();
-		//this build shte HTML OBJ table for voting
+		int hardcodedSurveyID = 10; //using a hard coded number until we get this bit figured out
+		outDao.addOuting(eventname, Integer.toString(hardcodedSurveyID), eventDate, " none ", organizerId);
+		//this builds the HTML OBJ table for voting
 		String outingObjHTML = mySurvey.buildVotingeRestaurantTable();
 	
 		return new ModelAndView("voting", "result", outingObjHTML);
@@ -105,12 +108,16 @@ public class HomeController {
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote) {
 		System.out.println(restaurantVote.toString());
-		
+		int hardcodedSurvID = 20; //this should be filled from the database- is not right now.
+		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
-		Survey mySurvey = new Survey();//this shoudl be filled from the database- is not right now.
+		
+		SurveyDto surveyDto = surveyDB.searchSurvey(20).get(0);  //this should be filled from the database- is not right now.
+		Survey mySurvey = new Survey(surveyDto);
 		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);//when we have the object built we may not need to pass an array 
 		// get survey object (from Outing object)
+		
 		// update the object
 		// let the person know they have voted
 

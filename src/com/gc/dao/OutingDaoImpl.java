@@ -18,7 +18,7 @@ import com.gc.dto.PersonDto;
 public class OutingDaoImpl implements OutingDao {
 
 	@Override
-	public List<OutingDto> addOuting(String outingName, Date dateOfEvent, String finalLoc, int organizer){
+	public List<OutingDto> addOuting(String outingName, String surveyID, Date dateOfEvent, String finalLoc, int organizer){
 		
 		List<OutingDto> outingList = new ArrayList<OutingDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
@@ -31,6 +31,7 @@ public class OutingDaoImpl implements OutingDao {
 		newOuting.setFinalLocation(finalLoc);
 		newOuting.setOrganizer(organizer);
 		newOuting.setOutingName(outingName);
+		newOuting.setSurveyID(surveyID);
 		
 		session.save(newOuting);
 		tx.commit();

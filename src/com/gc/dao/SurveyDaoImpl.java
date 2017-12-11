@@ -27,9 +27,8 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * @see com.gc.dao.SurveyDao#getServID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public void getServID(SurveyDto servID) {
-		// TODO Auto-generated method stub
-
+	public void getSurvID(SurveyDto survID) {
+		
 	}
 
 	/*
@@ -44,23 +43,23 @@ public class SurveyDaoImpl implements SurveyDao {
 		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		SurveyDto newServDto = new SurveyDto();
+		SurveyDto newSurvDto = new SurveyDto();
 
 	
-		newServDto.setOptVenueID1(restID1);
-		newServDto.setOptVenueID2(restID2);
-		newServDto.setOptVenueID3(restID3);
-		newServDto.setOptVenueID4(restID4);
-		newServDto.setOptVenueID5(restID5);
-		newServDto.setVoteCount1(voteCount1);
-		newServDto.setVoteCount2(voteCount2);
-		newServDto.setVoteCount3(voteCount3);
-		newServDto.setVoteCount4(voteCount4);
-		newServDto.setVoteCount5(voteCount5);
+		newSurvDto.setOptVenueID1(restID1);
+		newSurvDto.setOptVenueID2(restID2);
+		newSurvDto.setOptVenueID3(restID3);
+		newSurvDto.setOptVenueID4(restID4);
+		newSurvDto.setOptVenueID5(restID5);
+		newSurvDto.setVoteCount1(voteCount1);
+		newSurvDto.setVoteCount2(voteCount2);
+		newSurvDto.setVoteCount3(voteCount3);
+		newSurvDto.setVoteCount4(voteCount4);
+		newSurvDto.setVoteCount5(voteCount5);
 		
-		newServDto.setHasVoted(hasVoted);
-
-		session.save(newServDto);
+		newSurvDto.setHasVoted(hasVoted);
+		
+		session.save(newSurvDto);
 		tx.commit();
 		session.close();
 		return surveyList;
@@ -99,7 +98,7 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * @see com.gc.dao.SurveyDao#unpdateID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public List<SurveyDto> unpdateID(SurveyDto servID) {
+	public List<SurveyDto> updateID(SurveyDto survID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -122,7 +121,7 @@ public class SurveyDaoImpl implements SurveyDao {
 	}*/
 
 	@Override
-	public List<SurveyDto> searchID(SurveyDto servID) {
+	public List<SurveyDto> searchID(SurveyDto survID) {
 		// TODO Auto-generated method stub
 		return null;
 	}

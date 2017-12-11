@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 import com.gc.dao.SurveyDao;
 import com.gc.dao.SurveyDaoImpl;
+import com.gc.dto.SurveyDto;
 
 public class Survey {
 
@@ -16,6 +17,19 @@ public class Survey {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Survey(SurveyDto DtoObj) {
+		potentialVenues.add(DtoObj.getOptVenueID1());
+		potentialVenues.add(DtoObj.getOptVenueID2());
+		potentialVenues.add(DtoObj.getOptVenueID3());
+		potentialVenues.add(DtoObj.getOptVenueID4());
+		potentialVenues.add(DtoObj.getOptVenueID4());
+		
+		voteScore[0] = DtoObj.getVoteCount1();
+		voteScore[1] = DtoObj.getVoteCount2();
+		voteScore[2] = DtoObj.getVoteCount3();
+		voteScore[3] = DtoObj.getVoteCount4();
+		voteScore[4] = DtoObj.getVoteCount5();
+	}
 	public Survey(String id) {
 		this.surveyID = Integer.parseInt(id);
 		potentialVenues = new ArrayList<String>();
@@ -84,7 +98,7 @@ public class Survey {
 		potentialVenues = zApi.getList();
 		//This is where the arraylist is created that contains five rest ids that i am immediatly injecting into a survey row
 		sdao.addSurvey(potentialVenues.get(0), potentialVenues.get(1), potentialVenues.get(2), potentialVenues.get(3), potentialVenues.get(4), 0, 0, 0, 0, 0, false);
-		
+		//we need to access a surveyID to let the outing object / table know, but we don't have any primary key we assign, I think we should look at a composit 
 		
 	}
 	
@@ -116,7 +130,6 @@ public class Survey {
 			tableHtml += "	<tr> " + "<td>  " + restaurantVote[i] + "</td> <td> Rating:  </td>" + "	</tr>";// 
 		}
 		tableHtml += "</table> ";
-		System.out.println(tableHtml);
 		return tableHtml;
 	}
 
