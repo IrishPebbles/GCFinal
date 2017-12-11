@@ -18,6 +18,10 @@ public class Survey {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public void updateVotes(int vote) {
+		voteScore[vote]++;
+	}
+	
 	public Survey(SurveyDto DtoObj) {
 		potentialVenues = new ArrayList<String>();
 		potentialVenues.add(DtoObj.getOptVenueID1());
@@ -136,20 +140,6 @@ public class Survey {
 		}
 		tableHtml += "</table> ";
 		return tableHtml;
-	}
-	
-	public String recordVote(String[] voteTally) {
-		//something will say which restaurants (ex 1 and 3)
-		
-		for (int i = 0; i < voteTally.length; i++) {
-			if (voteTally != null) {
-				voteScore[i] ++;
-			}
-		
-			
-		}
-		//TODO write the whole array back to the database
-		return "";
 	}
 
 	@Override
