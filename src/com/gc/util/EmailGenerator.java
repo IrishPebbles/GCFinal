@@ -1,5 +1,6 @@
 package com.gc.util;
 
+import java.util.Arrays;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -22,13 +23,13 @@ public class EmailGenerator {
     static Session getMailSession;
     static MimeMessage generateMailMessage;
  
-    public static void main(String args[]) throws AddressException, MessagingException {
-        generateAndSendEmail();
+   /* public static void main(String args[]) throws AddressException, MessagingException {
+        generateAndSendEmail(null);
         System.out.println("\n\n ===> Your Java Program has just sent an Email successfully. Check your email..");
-    }
+    }*/
  
-    public static void generateAndSendEmail() throws AddressException, MessagingException {
- 
+    public static void generateAndSendEmail(String orgEmail, String emailAddresses) throws AddressException, MessagingException {
+    	//for(int i = 0; i < emailAddresses.length; i++) {
         // Step1
         System.out.println("\n 1st ===> setup Mail Server Properties..");
         mailServerProperties = System.getProperties();
@@ -41,7 +42,11 @@ public class EmailGenerator {
         System.out.println("\n\n 2nd ===> get Mail Session..");
         getMailSession = Session.getDefaultInstance(mailServerProperties, null);
         generateMailMessage = new MimeMessage(getMailSession);
-        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("helpingofburgers@gmail.com"));
+        
+        
+        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAddresses));
+        
+        
        // generateMailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress("Lena.L.Hand@gmail.com"));
         generateMailMessage.setSubject("Greetings from Outings");
         String emailBody = "Test email by your boi Outings " + "<br><br>Nah just kidding it's your friendly neighborhood"
@@ -58,5 +63,6 @@ public class EmailGenerator {
         transport.connect("smtp.gmail.com", "grandcircusoutings@gmail.com", Credentials.GMAIL_PASSWORD);
         transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
         transport.close();
+        }
+        
     }
-}

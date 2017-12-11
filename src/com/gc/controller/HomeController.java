@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.mail.MessagingException;
@@ -78,18 +79,18 @@ public class HomeController {
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
-
-		for (int i = 0; i < emailAddress.length(); ++i) {
+		System.out.println(Arrays.toString(emailAddresses));
+		/*for (int i = 0; i < emailAddress.length(); ++i) {
 			//pdao.addPerson(emailAddresses[i], "3R5S");
 			//System.out.println("first email" + emailAddresses[0]);	
-		}
+		}*/
 
 		Person organizer = new Person(organizerEmail, "nope", null);// we may want the organizer's name
 		attendees.add(organizer);
 
 		for (int i = 0; i < emailAddresses.length; i++) {
 			attendees.add(new Person(emailAddresses[i], null, null));
-			// we can drop the name req form the constructor OR get their name for oAuth OR
+			// we can drop the name req from the constructor OR get their name for oAuth OR
 			// get it from the database
 		}
 
@@ -109,10 +110,14 @@ public class HomeController {
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID);
 		
 		
-		//Creates email generator object and sends the emails upon clicking submit on the preferences page.
-		EmailGenerator email = new EmailGenerator();
-		email.generateAndSendEmail();
-	
+
+		//Creates email generator object and sends the emnails upon clicking submit on the preferences page.
+		/*EmailGenerator email = new EmailGenerator();
+		for(int i =0; i < emailAddresses.length; ++i) {
+		email.generateAndSendEmail(organizerEmail, emailAddresses[i]);
+		}
+	*/
+
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
 	//TODO needs to be working -- we may have to push a outing variable in a hidden field 
