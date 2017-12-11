@@ -79,17 +79,17 @@ public class HomeController {
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 
-		for (int i = 0; i < emailAddress.length(); ++i) {
+		/*for (int i = 0; i < emailAddress.length(); ++i) {
 			//pdao.addPerson(emailAddresses[i], "3R5S");
 			//System.out.println("first email" + emailAddresses[0]);	
-		}
+		}*/
 
 		Person organizer = new Person(organizerEmail, "nope", null);// we may want the organizer's name
 		attendees.add(organizer);
 
 		for (int i = 0; i < emailAddresses.length; i++) {
 			attendees.add(new Person(emailAddresses[i], null, null));
-			// we can drop the name req form the constructor OR get their name for oAuth OR
+			// we can drop the name req from the constructor OR get their name for oAuth OR
 			// get it from the database
 		}
 
@@ -110,7 +110,7 @@ public class HomeController {
 		
 		//Creates email generator object and sends the emnails upon clicking submit on the preferences page.
 		EmailGenerator email = new EmailGenerator();
-		email.generateAndSendEmail();
+		email.generateAndSendEmail(organizerEmail, emailAddresses);
 	
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
