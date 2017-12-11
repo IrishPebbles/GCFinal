@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Outing {
-
+	private String eventName;
 	private Date dateOfEvent;
 	private RestaurantObj finalLocation;
 	private Person organizer;
@@ -26,11 +26,21 @@ public class Outing {
 		this.location = location;
 		potentialEvent = new Survey(); //every time we instantiate a new Outing object a survey is auto-created
 		potentialEvent.setVoters(attendees);
-		potentialEvent.createPotentialList(location);
+		potentialEvent.createPotentialList(location, this);
 		
 		
 		
 	}
+	
+	public String getEventName() {
+		return eventName;
+	}
+
+
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
+
 
 	public Survey getPotentialEvent() {
 		return potentialEvent;
