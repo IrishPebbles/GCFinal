@@ -214,19 +214,121 @@ ${noAccountMessage }
           <div id="div-forms">
 
             <!-- Begin # Login Form -->
-            <form id="login-form" action="preferences" method="post">
+            <form id="login-form" action="voting" method="post">
               <div class="modal-body">
     				    	<div id="div-login-msg">
                       <div id="icon-login-msg"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
                       <span id="text-login-msg">Type your username and password.</span>
                   </div>
-    			    		<input id="login_username" class="form-control" type="text" placeholder="Username (type ERROR for error effect)" name ="userEmail" required>
-    			    		<input id="login_password" class="form-control" type="password" placeholder="Password" name="passwordInformation"required >
+    			    		<input id="login_username" class="form-control" type="text" placeholder="Username (type ERROR for error effect)" name ="organizerEmail" required>
+    			    		<input id="login_password" class="form-control" type="password" placeholder="Password" name="passwordInformation" required >
                       <div class="checkbox">
                         <label>
                           <input type="checkbox"> Remember me
                         </label>
                       </div>
+              
+   			${noAccountMessage}
+      		
+   			
+
+   			Outing name <input type="text" name="outingName"><br><br>
+
+   			Choose a date for your Outing: <input type="date" name="date" required><br>
+			<fieldset>
+   			Enter an address : <br>
+   			Street: <input type="text" name="street" placeholder="123 Main St (Optional)" ><br>
+   			City: <input type="text" name="city" placeholder="City (required) " required><br>
+   			State: <select name="state">
+   				<option value="NA">Select State</option>
+   				<option value="AL">Alabama</option>
+   				<option value="AK">Alaska</option>
+   				<option value="AZ">Arizona</option>
+   				<option value="AR">Arkansas</option>
+   				<option value="CA">California</option>
+   				<option value="CO">Colorado</option>
+   				<option value="CT">Connecticut</option>
+   				<option value="DE">Delaware</option>
+   				<option value="DC">District Of Columbia</option>
+   				<option value="FL">Florida</option>
+   				<option value="GA">Georgia</option>
+   				<option value="HI">Hawaii</option>
+   				<option value="ID">Idaho</option>
+   				<option value="IL">Illinois</option>
+   				<option value="IN">Indiana</option>
+   				<option value="IA">Iowa</option>
+   				<option value="KS">Kansas</option>
+   				<option value="KY">Kentucky</option>
+   				<option value="LA">Louisiana</option>
+   				<option value="ME">Maine</option>
+   				<option value="MD">Maryland</option>
+   				<option value="MA">Massachusetts</option>
+   				<option value="MI">Michigan</option>
+   				<option value="MN">Minnesota</option>
+   				<option value="MS">Mississippi</option>
+   				<option value="MO">Missouri</option>
+   				<option value="MT">Montana</option>
+   				<option value="NE">Nebraska</option>
+   				<option value="NV">Nevada</option>
+   				<option value="NH">New Hampshire</option>
+   				<option value="NJ">New Jersey</option>
+   				<option value="NM">New Mexico</option>
+   				<option value="NY">New York</option>
+   				<option value="NC">North Carolina</option>
+   				<option value="ND">North Dakota</option>
+   				<option value="OH">Ohio</option>
+   				<option value="OK">Oklahoma</option>
+   				<option value="OR">Oregon</option>
+   				<option value="PA">Pennsylvania</option>
+   				<option value="RI">Rhode Island</option>
+   				<option value="SC">South Carolina</option>
+   				<option value="SD">South Dakota</option>
+   				<option value="TN">Tennessee</option>
+   				<option value="TX">Texas</option>
+   				<option value="UT">Utah</option>
+   				<option value="VT">Vermont</option>
+   				<option value="VA">Virginia</option>
+   				<option value="WA">Washington</option>
+   				<option value="WV">West Virginia</option>
+   				<option value="WI">Wisconsin</option>
+   				<option value="WY">Wyoming</option>
+   			</select>
+   			<br>
+
+   		</fieldset>
+      <!--
+   		<fieldset>
+   			How long would you like to set the voting window for?<br> <select
+   				name="votingWindow">
+   				<option value="2h">2 hours</option>
+   				<option value="4h">4 hours</option>
+   				<option value="6h">6 hours</option>
+   				<option value="12h">12 hours</option>
+   				<option value="24h">24 hours</option>
+   				<option value="48h">48 hours</option>
+
+   			</select> -->
+        <br> How many additional participants would you like to enter?<br>
+   			<select id="selection" name="numAttendees"
+   				onchange="createEmailFields(this)">
+   				<option value="0">0</option>
+   				<option value="1">1</option>
+   				<option value="2">2</option>
+   				<option value="3">3</option>
+   				<option value="4">4</option>
+   				<option value="5">5</option>
+   				<option value="6">6</option>
+   				<option value="7">7</option>
+   				<option value="8">8</option>
+   				<option value="9">9</option>
+   			</select><br><br>
+   	<!-- 	</fieldset>-->
+   		<fieldset>
+   			<div id="email"></div>
+   		</fieldset>
+   		<input type="submit" value="Submit"> <input type="reset"
+   			value="Reset">
+   	</form>
             	</div>
     				  <div class="modal-footer">
                 <div>
