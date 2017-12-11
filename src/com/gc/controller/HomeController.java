@@ -4,7 +4,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +29,6 @@ import com.gc.dao.SurveyDao;
 import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.SurveyDto;
-import com.gc.util.EmailGenerator;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
 import com.gc.util.Person;
@@ -53,7 +56,7 @@ public class HomeController {
 			@RequestParam("emailAddress") String emailAddress, @RequestParam String userPassword, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String eventName, @RequestParam("date") String date, Model model)
 /* @RequestParam("votingWindow") String votingWindow, */
-			throws ParseException {
+			throws ParseException, AddressException, MessagingException {
 		//creating the daoImpl to write to the database
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
@@ -75,18 +78,18 @@ public class HomeController {
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
-
-		for (int i = 0; i < emailAddress.length(); ++i) {
+		System.out.println(Arrays.toString(emailAddresses));
+		/*for (int i = 0; i < emailAddress.length(); ++i) {
 			//pdao.addPerson(emailAddresses[i], "3R5S");
 			//System.out.println("first email" + emailAddresses[0]);	
-		}
+		}*/
 
 		Person organizer = new Person(organizerEmail, "nope", null);// we may want the organizer's name
 		attendees.add(organizer);
 
 		for (int i = 0; i < emailAddresses.length; i++) {
 			attendees.add(new Person(emailAddresses[i], null, null));
-			// we can drop the name req form the constructor OR get their name for oAuth OR
+			// we can drop the name req from the constructor OR get their name for oAuth OR
 			// get it from the database
 		}
 
@@ -103,7 +106,14 @@ public class HomeController {
 		String outingObjHTML = "<h2> " + eventName + "</h2>";
 	    outingObjHTML += "<h4> " + date + "</h4>";
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable();
-	
+		
+		
+		//Creates email generator object and sends the emnails upon clicking submit on the preferences page.
+		/*EmailGenerator email = new EmailGenerator();
+		for(int i =0; i < emailAddresses.length; ++i) {
+		email.generateAndSendEmail(organizerEmail, emailAddresses[i]);
+		}
+	*/
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
 	//TODO needs to be working -- we may have to push a outing variable in a hidden field 
@@ -115,7 +125,9 @@ public class HomeController {
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
 		
-		SurveyDto surveyDto = surveyDB.searchSurvey("20").get(0);  //this should be filled from the database- is not right now.
+		SurveyDto surveyDto = surveyDB.searchSurvey("2018-05-17 event Name").get(0);  //this should be filled from the database- is not right now.
+		System.out.println(" Survey DTO  restaurant ID" + surveyDto.getOptVenueID1() + " vote count " +surveyDto.getVoteCount1());
+		
 		Survey mySurvey = new Survey(surveyDto);
 		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);//when we have the object built we may not need to pass an array 
 		// get survey object (from Outing object)
@@ -133,15 +145,11 @@ public class HomeController {
 
 		return "preferences";
 	}
+
 /*
 	@RequestMapping("voting")
 	public ModelAndView voting() {
 		return new ModelAndView("voting", "", "");
 	}*/
-	/*
-	@RequestMapping(value = "voting", method = RequestMethod.POST)
-	public String generateFirstEmail() {
-		EmailGenerator email = new EmailGenerator(); 
-		return null; 
-	}*/
+	
 }
