@@ -99,7 +99,30 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * @see com.gc.dao.SurveyDao#unpdateID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public List<SurveyDto> updateID(SurveyDto survID) {
+	public List<SurveyDto> updateSurvey(SurveyDto survID) {
+		
+		SurveyDto temp = new SurveyDto();
+		// by passing in the product id from a hidden field we can determine what row to edit
+		temp.set;
+		temp.setCode(code);
+		temp.setDescription(desc);
+		temp.setListPrice(price);
+
+		Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
+
+		SessionFactory sessionFact = cfg.buildSessionFactory();
+
+		Session codes = sessionFact.openSession();
+
+		codes.beginTransaction();
+
+		codes.update(temp); // update the object from the list
+
+		codes.getTransaction().commit(); // update the row from the database table
+
+		ArrayList<ProductDto> prodList = getAllProducts();
+
+		return new ModelAndView("welcome", "message", prodList);
 		// TODO Auto-generated method stub
 		return null;
 	}
