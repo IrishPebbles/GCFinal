@@ -146,8 +146,9 @@ public class Survey {
 				voteScore[i] ++;
 			}
 		
+			
 		}
-		
+		//TODO write the whole array back to the database
 		return "";
 	}
 

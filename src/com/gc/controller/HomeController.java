@@ -72,18 +72,19 @@ public class HomeController {
 		//Adding people coming from the form into relevant databases
 		pdao.addPerson(organizerEmail, userPassword);// we need the id of this organizer for the next push to the database
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();//we need to be able to search a person
-		String surveyID = outingName + "," + date.toString() + "," + organizerId;//syntax for key
+		String surveyID = outingName + "," + date.toString() + "," + organizerId;//creates a survey ID from collected informations
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
-		System.out.println(Arrays.toString(emailAddresses));
+		
+		//right now we are not adding attendees to the database
 		/*for (int i = 0; i < emailAddress.length(); ++i) {
 			//pdao.addPerson(emailAddresses[i], "3R5S");
 			//System.out.println("first email" + emailAddresses[0]);	
 		}*/
 
 		Person organizer = new Person(organizerEmail, "nope", null);// we may want the organizer's name
-		attendees.add(organizer);
+		attendees.add(organizer);//adding organizer to the attendee group because their email address comes from a different field
 
 		for (int i = 0; i < emailAddresses.length; i++) {
 			attendees.add(new Person(emailAddresses[i], null, null));
@@ -98,7 +99,7 @@ public class HomeController {
 		//this gets the list of potiential Restaurants
 		Survey mySurvey = constructingOuting.getPotentialEvent();
 		
-		System.out.println();
+		//this writes it to the database
 		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);
 		//this builds the HTML OBJ table for voting
 		String outingObjHTML = "<h2> " + outingName + "</h2>";
@@ -117,25 +118,27 @@ public class HomeController {
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
-	//TODO needs to be working -- we may have to push a outing variable in a hidden field 
+	// we have to push a outing variable in a hidden field 
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote, @RequestParam("surveyID") String surveyID) {
 		
-		//surveyID should be filled from the database- is not right now.
+		//surveyID should be filled from the database
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
-		String userEmail = "jenna.otto@gmail.com";
-		System.out.println("Survey ID " + surveyID);
+		String userEmail = "jenna.otto@gmail.com";//this is the organizer, needs to be a variable
 		
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);  //this should be filled from the database
-		System.out.println(" Survey DTO  restaurant ID" + surveyDto.getOptVenueID1() + " vote count " +surveyDto.getVoteCount1());
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this survey
 		
-		Survey mySurvey = new Survey(surveyDto);
+		
+		Survey mySurvey = new Survey(surveyDto);//we build a survey object FROM the row in the database
+		//In progress write a survey method, that check the array to see what was checked
+		//In progress write to the database 
+		
 		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);//when we have the object built we may not need to pass an array 
-		// get survey object (from Outing object)
 		
-		// update the object
-		// let the person know they have voted
+		
+		// TODO update the OUt object with how many people have left to vote
+		// TODO let the person know they have voted
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
@@ -143,7 +146,6 @@ public class HomeController {
 	
 	@RequestMapping("preferences")
 	public String viewPreferencesPage() {
-		//System.out.println("Here");
 
 		return "preferences";
 	}
