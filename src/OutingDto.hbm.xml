@@ -13,7 +13,7 @@
 		</id>
 		
 		<property name="surveyID">
-		<column name="surveyID" sql-type="varchar(50)" length="50"></column>
+		<column name="surveyID" sql-type="varchar(255)" length="255"></column>
 		</property>
 				<property name="outingName">
 		<column name="outName" sql-type="varchar(50)" length="50"></column>

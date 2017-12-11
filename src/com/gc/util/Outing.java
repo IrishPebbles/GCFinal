@@ -10,6 +10,7 @@ public class Outing {
 	private ArrayList<Person> attendees;
 	private Survey potentialEvent;
 	private GeolocationAPI location;
+	private String outingName;
 
 	public Outing() {
 
