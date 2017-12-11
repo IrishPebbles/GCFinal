@@ -100,16 +100,17 @@ public class Survey {
 		SurveyDao sdao = new SurveyDaoImpl(); 
 		potentialVenues = zApi.getList();
 		//This is where the arraylist is created that contains five rest ids that i am immediatly injecting into a survey row
-		String surveyID = parent.getDateOfEvent().toString()+ " event Name "; // this is a really not so great idea but TEMPORARY
+		String surveyID = parent.getSurveyID(); // this is a really not so great idea but TEMPORARY
 		sdao.addSurvey(surveyID, potentialVenues.get(0), potentialVenues.get(1), potentialVenues.get(2), potentialVenues.get(3), potentialVenues.get(4), 0, 0, 0, 0, 0, false);
 		//we need to access a surveyID to let the outing object / table know, but we don't have any primary key we assign, I think we should look at a composite
 		
 	}
 	
-	public String buildVotingeRestaurantTable() {
+	public String buildVotingeRestaurantTable(String surveyID) {
 		String tableHtml = "<h1> Welcome to the event ! </h1>" + "<h3> Please vote below</h3>"
 				+ "<h5>You may vote for more than one choice. Each vote will be weighted equally</h5>"
-				+ "	<form action=\"recordVote\" method =\"get\">" + "	<table border=\"1\">";
+				+ "	<form action=\"recordVote\" method =\"get\">" + "	<table border=\"1\">" ;
+		tableHtml+=  "<input type=\"hidden\" name=\"surveyID\" value=\"" + surveyID +"\">";//this allows us to pass the key
 		RestaurantObj placeholder;
 		for (int i = 0; i < 5; i++) {
 			placeholder = ZoomatoAPI.searchByRestID(potentialVenues.get(i));
@@ -145,8 +146,9 @@ public class Survey {
 				voteScore[i] ++;
 			}
 		
+			
 		}
-		
+		//TODO write the whole array back to the database
 		return "";
 	}
 
