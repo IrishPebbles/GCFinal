@@ -25,12 +25,11 @@ import com.gc.dao.SurveyDao;
 import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.SurveyDto;
+import com.gc.util.EmailGenerator;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
 import com.gc.util.Person;
-import com.gc.util.RestaurantObj;
 import com.gc.util.Survey;
-import com.gc.util.ZoomatoAPI;
 
 @Controller
 public class HomeController {
@@ -139,4 +138,10 @@ public class HomeController {
 	public ModelAndView voting() {
 		return new ModelAndView("voting", "", "");
 	}*/
+	
+	@RequestMapping(value = "voting", method = RequestMethod.POST)
+	public String generateFirstEmail() {
+		EmailGenerator email = new EmailGenerator(); 
+		return null; 
+	}
 }
