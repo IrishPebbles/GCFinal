@@ -160,19 +160,23 @@
 </head>
 <body>
 
-<form action="indexlogin" method="POST">
+<%-- <form action="indexlogin" method="POST">
 <input type="email" name="username">
 <input type="submit" value="Submit">
 ${noAccountMessage }
 
-</form> 
+</form>  --%>
   <main role="main">
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Welcome to Outings</h1>
-      <p>Organize fun events with your friends and family and easily decide where to  go. Getting together eaiser and more enjoyable than ever before.</p>
-      <p> <a class="btn btn-primary btn-lg" role="button" data-toggle="modal" data-target="#login-modal"> Create an Outing </a></p>
+      <h1 class="display-3" style = "text-align: center">Welcome to Outings</h1>
+      <p style = "text-align: center">Organize fun events with your friends and family and easily decide where to go. Getting together easier and more enjoyable than ever before.</p>
+      <form action="indexlogin" method="POST" style = "text-align: center" >
+    <h6>Please enter email to start an Outing:</h6>
+     <input type="email" name="Email"><br><br>
+      </form> 
+      <a class="btn btn-primary btn-lg" role="button" data-toggle="modal" data-target="#login-modal" style = "align: center"> Create an Outing </a></p>
     </div>
   </div>
   <div class="container"><!--we can change this based on whether or not the person is logged in -->
@@ -185,7 +189,7 @@ ${noAccountMessage }
       </div>
       <div class="col-md-6" id="previous">
         <h2>Past Outings</h2>
-        <p> Enjoyed a past outing, and want a reminder of where you went and who you invited? You can create a simliar event. </p>
+        <p> Enjoyed a past outing, and want a reminder of where you went and who you invited? You can create a similar event. </p>
         <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
       </div>
       <!--
@@ -214,91 +218,26 @@ ${noAccountMessage }
           <div id="div-forms">
 
             <!-- Begin # Login Form -->
-            <form id="login-form" action="preferences" method="post">
+            <form id="login-form" action="voting" method="post">
               <div class="modal-body">
     				    	<div id="div-login-msg">
+    				    
                       <div id="icon-login-msg"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
                       <span id="text-login-msg">Type your username and password.</span>
                   </div>
-    			    		<input id="login_username" class="form-control" type="text" placeholder="Username (type ERROR for error effect)" name ="userEmail" required>
-    			    		<input id="login_password" class="form-control" type="password" placeholder="Password" name="passwordInformation"required >
+                  	${noAccountMessage}
+    			    		<input id="login_username" class="form-control" type="text" placeholder="Email Address " name ="organizerEmail" required>
+    			    		<input id="login_password" class="form-control" type="password" placeholder="Password" name="userPassword"required >
                       <div class="checkbox">
                         <label>
                           <input type="checkbox"> Remember me
                         </label>
                       </div>
-            	</div>
-    				  <div class="modal-footer">
-                <div>
-                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Login">
-                </div>
-    		        <div>
-                  <button id="login_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
-                  <button id="login_register_btn" type="button" class="btn btn-link">Register</button>
-                </div>
-    				  </div>
-            </form>
-            <!-- End # Login Form -->
-
-           <!-- Begin | Lost Password Form -->
-           <form id="lost-form" style="display:none;" action="lost" method="post"> <!--I dont have this being caught-->
-      	      <div class="modal-body">
-  		    				<div id="div-lost-msg">
-                      <div id="icon-lost-msg"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
-                      <span id="text-lost-msg">Type your e-mail.</span>
-                  </div>
-  		    		    <input id="lost_email" class="form-control" type="text" placeholder="E-Mail (type ERROR for error effect)" required>
-              </div>
-  		    		<div class="modal-footer">
-                  <div>
-                      <input type="submit" class="btn btn-primary btn-lg btn-block" value="Send">
-                  </div>
-                  <div>
-                    <button id="lost_login_btn" type="button" class="btn btn-link">Log In</button>
-                    <button id="lost_register_btn" type="button" class="btn btn-link">Register</button>
-                  </div>
-  		    		 </div>
-            </form>
-            <!-- End | Lost Password Form -->
-
-                      <!-- Begin | Register Form -->
-                      <form id="register-form" style="display:none;" action="preferencesJ" method="post">
-              		    <div class="modal-body">
-  		    				<div id="div-register-msg">
-                                  <div id="icon-register-msg" class="glyphicon glyphicon-chevron-right"></div>
-                                  <span id="text-register-msg">Register an account.</span>
-                              </div>
-  		    				<input id="register_username" class="form-control" type="text" placeholder="Username (type ERROR for error effect)" required>
-                              <input id="register_email" class="form-control" type="text" placeholder="E-Mail" required>
-                              <input id="register_password" class="form-control" type="password" placeholder="Password" required>
-              			</div>
-  		    		    <div class="modal-footer">
-                              <div>
-                                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Register">
-                              </div>
-                              <div>
-                                  <button id="register_login_btn" type="button" class="btn btn-link">Log In</button>
-                                  <button id="register_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
-                              </div>
-  		    		    </div>
-                      </form>
-                      <!-- End | Register Form -->
-
-              </div>
-        </div>
-     </div>
-  </div>
- <div class="modal fade ${shown}" id="preferences-modal" tabindex="-1" role="dialog" aria-labelledby="preferences-modal" aria-hidden="true" style=${displayPreference}>
-   <div class="modal-dialog">
-     <div class="modal-content">
-       <div class="modal-header" align="center">
-         Welcome ${username} !
-      </div>
-      <div class="modal-body">
-         <form action="voting" method="post">
-   		${noAccountMessage}
+            	
+            	
+            	
+   		
       <fieldset>
-   			Log in or provide email address: <input type="email" name="organizerEmail" placeholder="email@domain.com" required><br>
 
    			Outing name <input type="text" name="outingName"><br><br>
 
@@ -397,6 +336,75 @@ ${noAccountMessage }
    		<input type="submit" value="Submit"> <input type="reset"
    			value="Reset">
    	</form>
+            	</div>
+    				  <div class="modal-footer">
+                <div>
+                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Login">
+                </div>
+    		        <div>
+                  <button id="login_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
+                  <button id="login_register_btn" type="button" class="btn btn-link">Register</button>
+                </div>
+    				  </div>
+            </form>
+            <!-- End # Login Form -->
+
+           <!-- Begin | Lost Password Form -->
+           <form id="lost-form" style="display:none;" action="lost" method="post"> <!--I dont have this being caught-->
+      	      <div class="modal-body">
+  		    				<div id="div-lost-msg">
+                      <div id="icon-lost-msg"><i class="fa fa-user-circle-o" aria-hidden="true"></i></div>
+                      <span id="text-lost-msg">Type your e-mail.</span>
+                  </div>
+  		    		    <input id="lost_email" class="form-control" type="text" placeholder="E-Mail (type ERROR for error effect)" required>
+              </div>
+  		    		<div class="modal-footer">
+                  <div>
+                      <input type="submit" class="btn btn-primary btn-lg btn-block" value="Send">
+                  </div>
+                  <div>
+                    <button id="lost_login_btn" type="button" class="btn btn-link">Log In</button>
+                    <button id="lost_register_btn" type="button" class="btn btn-link">Register</button>
+                  </div>
+  		    		 </div>
+            </form>
+            <!-- End | Lost Password Form -->
+
+                      <!-- Begin | Register Form -->
+                      <form id="register-form" style="display:none;" action="preferencesJ" method="post">
+              		    <div class="modal-body">
+  		    				<div id="div-register-msg">
+                                  <div id="icon-register-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                  <span id="text-register-msg">Register an account.</span>
+                              </div>
+  		    				<input id="register_username" class="form-control" type="text" placeholder="Username (type ERROR for error effect)" required>
+                              <input id="register_email" class="form-control" type="text" placeholder="E-Mail" required>
+                              <input id="register_password" class="form-control" type="password" placeholder="Password" required>
+              			</div>
+  		    		    <div class="modal-footer">
+                              <div>
+                                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Register">
+                              </div>
+                              <div>
+                                  <button id="register_login_btn" type="button" class="btn btn-link">Log In</button>
+                                  <button id="register_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
+                              </div>
+  		    		    </div>
+                      </form>
+                      <!-- End | Register Form -->
+
+              </div>
+        </div>
+     </div>
+  </div>
+ <div class="modal fade ${shown}" id="preferences-modal" tabindex="-1" role="dialog" aria-labelledby="preferences-modal" aria-hidden="true" style=${displayPreference}>
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header" align="center">
+         Welcome ${username} !
+      </div>
+      <div class="modal-body">
+         
       </div>
     </div>
   </div>
