@@ -1,5 +1,6 @@
 package com.gc.util;
 
+import java.util.Arrays;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -27,8 +28,8 @@ public class EmailGenerator {
         System.out.println("\n\n ===> Your Java Program has just sent an Email successfully. Check your email..");
     }*/
  
-    public static void generateAndSendEmail(String orgEmail, String[] emailAddresses) throws AddressException, MessagingException {
-    	for(int i = 0; i < emailAddresses.length; i++) {
+    public static void generateAndSendEmail(String orgEmail, String emailAddresses) throws AddressException, MessagingException {
+    	//for(int i = 0; i < emailAddresses.length; i++) {
         // Step1
         System.out.println("\n 1st ===> setup Mail Server Properties..");
         mailServerProperties = System.getProperties();
@@ -43,8 +44,8 @@ public class EmailGenerator {
         generateMailMessage = new MimeMessage(getMailSession);
         
         
-        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("burgerj723@gmail.com"));
-        System.out.println(emailAddresses.toString());
+        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAddresses));
+        
         
        // generateMailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress("Lena.L.Hand@gmail.com"));
         generateMailMessage.setSubject("Greetings from Outings");
@@ -65,4 +66,3 @@ public class EmailGenerator {
         }
         
     }
-}

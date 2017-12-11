@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.mail.MessagingException;
@@ -78,7 +79,7 @@ public class HomeController {
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
-
+		System.out.println(Arrays.toString(emailAddresses));
 		/*for (int i = 0; i < emailAddress.length(); ++i) {
 			//pdao.addPerson(emailAddresses[i], "3R5S");
 			//System.out.println("first email" + emailAddresses[0]);	
@@ -109,9 +110,11 @@ public class HomeController {
 		
 		
 		//Creates email generator object and sends the emnails upon clicking submit on the preferences page.
-		EmailGenerator email = new EmailGenerator();
-		email.generateAndSendEmail(organizerEmail, emailAddresses);
-	
+		/*EmailGenerator email = new EmailGenerator();
+		for(int i =0; i < emailAddresses.length; ++i) {
+		email.generateAndSendEmail(organizerEmail, emailAddresses[i]);
+		}
+	*/
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
 	//TODO needs to be working -- we may have to push a outing variable in a hidden field 
