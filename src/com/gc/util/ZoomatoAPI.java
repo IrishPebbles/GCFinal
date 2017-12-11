@@ -31,6 +31,7 @@ public class ZoomatoAPI {
 
 	private ArrayList<String> restID;
 	private GeolocationAPI location;
+	private ArrayList<String> restURL;
 
 	public ZoomatoAPI() {
 
@@ -39,7 +40,7 @@ public class ZoomatoAPI {
 	public ZoomatoAPI(GeolocationAPI location) {
 
 		this.location = location;
-		this.restID = getList();// location has to be set to generate the list of restauran ids
+		this.restID = getList();// location has to be set to generate the list of restaurant ids
 
 	}
 
@@ -86,8 +87,10 @@ public class ZoomatoAPI {
 		String restLocation = restaurant.getJSONObject("location").getString("address");
 		String restRating = restaurant.getJSONObject("user_rating").getString("aggregate_rating");
 		String restCuisine = restaurant.getString("cuisines");//this may have to be parsed if there are more than one type
+		String restURL = restaurant.getString("url");
 			
-		RestaurantObj myRest	= new RestaurantObj(restName, restLocation, restRating, restID);
+		RestaurantObj myRest = new RestaurantObj(restName, restLocation, restRating, restID);
+		myRest.setRestURL(restURL);
 		return myRest;
 	}
 	
