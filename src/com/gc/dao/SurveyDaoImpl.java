@@ -83,7 +83,7 @@ public class SurveyDaoImpl implements SurveyDao {
 
 		Criteria crit = session.createCriteria(SurveyDto.class);
 
-		crit.add(Restrictions.like("surveyID", surveyID));
+		crit.add(Restrictions.eq("surveyID", surveyID));
 
 		ArrayList<SurveyDto> surveyList = (ArrayList<SurveyDto>) crit.list();
 		tx.commit();

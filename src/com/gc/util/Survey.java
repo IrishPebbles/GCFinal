@@ -8,7 +8,7 @@ import com.gc.dto.SurveyDto;
 public class Survey {
 
 	private ArrayList<Person> voters;
-	private ArrayList<String> potentialVenues;// 5 items that are strings that reference a zomatoe id
+	private ArrayList<String> potentialVenues;// 5 items that are strings that reference a zomato id
 	private Integer[] voteScore;
 	private String surveyID;
 	private int sIntID;
@@ -19,12 +19,14 @@ public class Survey {
 	}
 	
 	public Survey(SurveyDto DtoObj) {
+		potentialVenues = new ArrayList<String>();
 		potentialVenues.add(DtoObj.getOptVenueID1());
 		potentialVenues.add(DtoObj.getOptVenueID2());
 		potentialVenues.add(DtoObj.getOptVenueID3());
 		potentialVenues.add(DtoObj.getOptVenueID4());
 		potentialVenues.add(DtoObj.getOptVenueID4());
-		
+		//We need look to see if there is a score on the vote
+		voteScore = new Integer[5];
 		voteScore[0] = DtoObj.getVoteCount1();
 		voteScore[1] = DtoObj.getVoteCount2();
 		voteScore[2] = DtoObj.getVoteCount3();
@@ -112,8 +114,8 @@ public class Survey {
 		for (int i = 0; i < 5; i++) {
 			placeholder = ZoomatoAPI.searchByRestID(potentialVenues.get(i));
 
-			tableHtml += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\""+placeholder.getRestName() + "\" >"
-					+ placeholder.getRestName() + "</td><td> Rating:" + placeholder.getRestRating() 
+			tableHtml += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\"" + placeholder.getRestName() + "\" >"
+					+ " <a href=\" "+ placeholder.getRestURL() + "\">" + placeholder.getRestName() + "</a>" + "</td><td> Rating:" + placeholder.getRestRating() 
 					+ "</td>\n</tr>";
 		}
 
