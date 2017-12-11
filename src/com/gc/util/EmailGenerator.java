@@ -8,6 +8,8 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import com.gc.api.Credentials;
  
 /**
  * @author Crunchify.com
@@ -53,7 +55,7 @@ public class EmailGenerator {
  
         // Enter your correct gmail UserID and Password
         // if you have 2FA enabled then provide App Specific Password
-        transport.connect("smtp.gmail.com", "grandcircusoutings@gmail.com", "JavaOctober2017");
+        transport.connect("smtp.gmail.com", "grandcircusoutings@gmail.com", Credentials.GMAIL_PASSWORD);
         transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
         transport.close();
     }

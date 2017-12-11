@@ -106,10 +106,11 @@ public class Survey {
 		
 	}
 	
-	public String buildVotingeRestaurantTable() {
+	public String buildVotingeRestaurantTable(String surveyID) {
 		String tableHtml = "<h1> Welcome to the event ! </h1>" + "<h3> Please vote below</h3>"
 				+ "<h5>You may vote for more than one choice. Each vote will be weighted equally</h5>"
-				+ "	<form action=\"recordVote\" method =\"get\">" + "	<table border=\"1\">";
+				+ "	<form action=\"recordVote\" method =\"get\">" + "	<table border=\"1\">" ;
+		tableHtml+=  "<input type=\"hidden\" name=\"surveyID\" value=\"" + surveyID +"\">";//this allows us to pass the key
 		RestaurantObj placeholder;
 		for (int i = 0; i < 5; i++) {
 			placeholder = ZoomatoAPI.searchByRestID(potentialVenues.get(i));

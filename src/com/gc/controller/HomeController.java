@@ -53,7 +53,7 @@ public class HomeController {
 	//Serhiy add @RequestParam("password") String password
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
-			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street, String eventname,
+			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street, 
 			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String eventName, @RequestParam("date") String date, Model model)
 /* @RequestParam("votingWindow") String votingWindow, */
 			throws ParseException, AddressException, MessagingException {
@@ -99,16 +99,17 @@ public class HomeController {
 		
 		//this gets the list of potiential Restaurants
 		Survey mySurvey = constructingOuting.getPotentialEvent();
-		int hardcodedSurveyID = 10; //using a hard coded number until we get this bit figured out
+		String surveyID = eventName + "," + date.toString() + "," + organizerId;//syntax for key
 		System.out.println();
-		outDao.addOuting("test Event Name", "10", eventDate, " none ", organizerId);
+		outDao.addOuting(eventName, surveyID, eventDate, " none ", organizerId);
 		//this builds the HTML OBJ table for voting
 		String outingObjHTML = "<h2> " + eventName + "</h2>";
 	    outingObjHTML += "<h4> " + date + "</h4>";
-		outingObjHTML += mySurvey.buildVotingeRestaurantTable();
+	    //this method builds the voting form we need to tell it the SurveyID 
+		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID);
 		
 		
-		//Creates email generator object and sends the emnails upon clicking submit on the preferences page.
+		//Creates email generator object and sends the emails upon clicking submit on the preferences page.
 		EmailGenerator email = new EmailGenerator();
 		email.generateAndSendEmail();
 	
@@ -116,14 +117,14 @@ public class HomeController {
 	}
 	//TODO needs to be working -- we may have to push a outing variable in a hidden field 
 	@RequestMapping("/recordVote")
-	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote) {
-		System.out.println(restaurantVote.toString());
-		int hardcodedSurvID = 20; //this should be filled from the database- is not right now.
+	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote, @RequestParam("surveyID") String surveyID) {
+		
+		//surveyID should be filled from the database- is not right now.
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
 		
-		SurveyDto surveyDto = surveyDB.searchSurvey("2018-05-17 event Name").get(0);  //this should be filled from the database- is not right now.
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);  //this should be filled from the database- is not right now.
 		System.out.println(" Survey DTO  restaurant ID" + surveyDto.getOptVenueID1() + " vote count " +surveyDto.getVoteCount1());
 		
 		Survey mySurvey = new Survey(surveyDto);
