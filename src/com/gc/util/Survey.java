@@ -131,10 +131,16 @@ public class Survey {
 		RestaurantObj placeholder;
 		for (int i = 0; i < restaurantVote.length; i++) {
 			
-			tableHtml += "	<tr> " + "<td>  " + restaurantVote[i] + "</td> <td> Rating:  </td>" + "	</tr>";// 
+			tableHtml += "	<tr> " + "<td>  " + restaurantVote[i] + "</td>	</tr>";// 
 		}
 		tableHtml += "</table> ";
 		return tableHtml;
+	}
+	
+	public String recordVote(String[] ) {
+		
+		
+		return "";
 	}
 
 	@Override
