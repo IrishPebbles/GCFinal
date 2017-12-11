@@ -115,7 +115,9 @@ public class HomeController {
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
 		
-		SurveyDto surveyDto = surveyDB.searchSurvey("20").get(0);  //this should be filled from the database- is not right now.
+		SurveyDto surveyDto = surveyDB.searchSurvey("2018-05-17 event Name").get(0);  //this should be filled from the database- is not right now.
+		System.out.println(" Survey DTO  restaurant ID" + surveyDto.getOptVenueID1() + " vote count " +surveyDto.getVoteCount1());
+		
 		Survey mySurvey = new Survey(surveyDto);
 		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);//when we have the object built we may not need to pass an array 
 		// get survey object (from Outing object)
@@ -139,9 +141,9 @@ public class HomeController {
 		return new ModelAndView("voting", "", "");
 	}*/
 	
-	@RequestMapping(value = "voting", method = RequestMethod.POST)
+	/*@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public String generateFirstEmail() {
 		EmailGenerator email = new EmailGenerator(); 
 		return null; 
-	}
+	}*/
 }
