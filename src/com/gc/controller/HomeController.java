@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +56,7 @@ public class HomeController {
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street, String eventname,
 			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String eventName, @RequestParam("date") String date, Model model)
 /* @RequestParam("votingWindow") String votingWindow, */
-			throws ParseException {
+			throws ParseException, AddressException, MessagingException {
 		//creating the daoImpl to write to the database
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
@@ -103,6 +106,11 @@ public class HomeController {
 		String outingObjHTML = "<h2> " + eventName + "</h2>";
 	    outingObjHTML += "<h4> " + date + "</h4>";
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable();
+		
+		
+		//Creates email generator object and sends the emnails upon clicking submit on the preferences page.
+		EmailGenerator email = new EmailGenerator();
+		email.generateAndSendEmail();
 	
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
@@ -135,15 +143,5 @@ public class HomeController {
 
 		return "preferences";
 	}
-/*
-	@RequestMapping("voting")
-	public ModelAndView voting() {
-		return new ModelAndView("voting", "", "");
-	}*/
-	
-	/*@RequestMapping(value = "voting", method = RequestMethod.POST)
-	public String generateFirstEmail() {
-		EmailGenerator email = new EmailGenerator(); 
-		return null; 
-	}*/
+
 }

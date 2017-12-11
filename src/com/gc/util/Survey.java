@@ -8,7 +8,7 @@ import com.gc.dto.SurveyDto;
 public class Survey {
 
 	private ArrayList<Person> voters;
-	private ArrayList<String> potentialVenues;// 5 items that are strings that reference a zomatoe id
+	private ArrayList<String> potentialVenues;// 5 items that are strings that reference a zomato id
 	private Integer[] voteScore;
 	private String surveyID;
 	private int sIntID;
@@ -114,8 +114,8 @@ public class Survey {
 		for (int i = 0; i < 5; i++) {
 			placeholder = ZoomatoAPI.searchByRestID(potentialVenues.get(i));
 
-			tableHtml += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\""+placeholder.getRestName() + "\" >"
-					+ placeholder.getRestName() + "</td><td> Rating:" + placeholder.getRestRating() 
+			tableHtml += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\"" + placeholder.getRestName() + "\" >"
+					+ " <a href=\" "+ placeholder.getRestURL() + "\">" + placeholder.getRestName() + "</a>" + "</td><td> Rating:" + placeholder.getRestRating() 
 					+ "</td>\n</tr>";
 		}
 

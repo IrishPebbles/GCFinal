@@ -6,7 +6,16 @@ public class RestaurantObj {
 	private String restName;
 	private String restLocation;
 	private String restRating;
+	private String restURL;
 	
+	public String getRestURL() {
+		return restURL;
+	}
+
+	public void setRestURL(String restURL) {
+		this.restURL = restURL;
+	}
+
 	public RestaurantObj() {
 
 	}
@@ -55,12 +64,13 @@ public class RestaurantObj {
 	public void setRestRating(String restRating) {
 		this.restRating = restRating;
 	}
-	
-	
-	
+
 	@Override
 	public String toString() {
-		return "Restaurant [restName=" + restName + ", restLocation=" + restLocation + ", restRating=" + restRating	+ "]";
+		return "RestaurantObj [zomatoID=" + zomatoID + ", restName=" + restName + ", restLocation=" + restLocation
+				+ ", restRating=" + restRating + ", restURL=" + restURL + "]";
 	}
+	
+	
 
 }
