@@ -160,12 +160,12 @@
 </head>
 <body>
 
-<form action="indexlogin" method="POST">
-<input type="email" name="username">
+<%-- <form action="indexlogin" method="POST">
+User Name <input type="email" name="username">
 <input type="submit" value="Submit">
-${noAccountMessage }
+${noAccountMessage}
 
-</form> 
+</form>  --%>
   <main role="main">
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">

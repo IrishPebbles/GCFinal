@@ -51,7 +51,7 @@ import com.gc.util.ZoomatoAPI;
 	
 				
 		@RequestMapping(value = "/indexlogin", method = RequestMethod.POST)
-		public ModelAndView loginCustomer(@RequestParam("username") String username,Model model)throws ClassNotFoundException, SQLException {
+		public ModelAndView loginCustomer(@RequestParam("username") String username, Model model)throws ClassNotFoundException, SQLException {
 			
 		System.out.println("in method login");
 			model.addAttribute("authenticated", username);
@@ -80,16 +80,17 @@ import com.gc.util.ZoomatoAPI;
 			return new ModelAndView("preferences", "noAccountMessage", warning);
 		}
 				
-	}
+	
 		/*@RequestMapping(value = "/submitform", method = RequestMethod.POST)
 		public ModelAndView registerCustomer(@RequestParam("emailaddress") String emailAddress, Model model) throws ClassNotFoundException, SQLException {
-			PersonDto user = new PersonDto(emailAddress);
+			PersonDto user = new PersonDto(0, emailAddress, emailAddress);
 			
 			database.insert(user);
-			hSession.setAttribute("authenticated", true);
+			model.addAttribute("authenticated", true);
 			
 			return new ModelAndView("welcome", "customername", customerName);
 		}*/
+		}
 	
 	
 	/*@RequestMapping("/zomato")
