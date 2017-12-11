@@ -115,6 +115,14 @@
 			<version>1.5.0-b01</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+			<version>4.2.3.RELEASE</version>
+		</dependency>
+		
+		
 		
 
 	</dependencies>

@@ -47,6 +47,12 @@ public class Person {
 		return "Person [userEmail=" + userEmail + ", password=" + password + ", createdOutings=" + createdOutings + "]";
 	}
 
-	
+	public String generatePassword(String typedPassword) {
+		
+		
+		
+		return null;
+		
+	}
 	
 }
