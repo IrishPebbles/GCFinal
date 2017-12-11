@@ -5,6 +5,8 @@ package com.gc.dao;
 
 import java.util.List;
 
+import org.springframework.ui.Model;
+
 import com.gc.dto.PersonDto;
 
 /**
@@ -12,18 +14,14 @@ import com.gc.dto.PersonDto;
  *
  */
 public interface PersonDao {
-	List<PersonDto> getPerson(int userID); 
+	List<PersonDto> getPerson(int userID);
 	// TODO Auto-generated method stub
 
-List<PersonDto> addPerson(String userEmail, String userPassword);
-	
+	List<PersonDto> addPerson(String userEmail, String userPassword);
 
+	List<PersonDto> searchByEmail(String userEmail);
 
-
-List<PersonDto> searchByEmail(String userEmail);
-	
-
-List<PersonDto> updateID(PersonDto userID);
+	List<PersonDto> updateID(PersonDto userID);
 	// TODO Auto-generated method stub
 
 }
