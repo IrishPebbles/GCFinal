@@ -8,6 +8,8 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import com.gc.api.Credentials;
  
 /**
  * @author Crunchify.com
@@ -26,7 +28,7 @@ public class EmailGenerator {
     }*/
  
     public static void generateAndSendEmail(String orgEmail, String[] emailAddresses) throws AddressException, MessagingException {
-    	for(int i = 0; i < emailAddresses.length; ++i) {
+    	for(int i = 0; i < emailAddresses.length; i++) {
         // Step1
         System.out.println("\n 1st ===> setup Mail Server Properties..");
         mailServerProperties = System.getProperties();
@@ -41,7 +43,8 @@ public class EmailGenerator {
         generateMailMessage = new MimeMessage(getMailSession);
         
         
-        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAddresses[i]));
+        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("burgerj723@gmail.com"));
+        System.out.println(emailAddresses.toString());
         
        // generateMailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress("Lena.L.Hand@gmail.com"));
         generateMailMessage.setSubject("Greetings from Outings");
@@ -56,7 +59,7 @@ public class EmailGenerator {
  
         // Enter your correct gmail UserID and Password
         // if you have 2FA enabled then provide App Specific Password
-        transport.connect("smtp.gmail.com", "grandcircusoutings@gmail.com", "JavaOctober2017");
+        transport.connect("smtp.gmail.com", "grandcircusoutings@gmail.com", Credentials.GMAIL_PASSWORD);
         transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
         transport.close();
         }
