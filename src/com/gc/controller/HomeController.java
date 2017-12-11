@@ -29,7 +29,6 @@ import com.gc.dao.SurveyDao;
 import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.SurveyDto;
-import com.gc.util.EmailGenerator;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
 import com.gc.util.Person;
@@ -54,8 +53,10 @@ public class HomeController {
 	//Serhiy add @RequestParam("password") String password
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
+
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street, 
 			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String outingName, @RequestParam("date") String date, Model model)
+
 /* @RequestParam("votingWindow") String votingWindow, */
 			throws ParseException, AddressException, MessagingException {
 		//creating the daoImpl to write to the database
@@ -71,7 +72,7 @@ public class HomeController {
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
 
 		//Adding people coming from the form into relevant databases
-		pdao.addPerson(organizerEmail, "7DS8");// we need the id of this organizer for the next push to the database
+		pdao.addPerson(organizerEmail, userPassword);// we need the id of this organizer for the next push to the database
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();//we need to be able to search a person
 		String surveyID = outingName + "," + date.toString() + "," + organizerId;//syntax for key
 
@@ -149,4 +150,10 @@ public class HomeController {
 		return "preferences";
 	}
 
+/*
+	@RequestMapping("voting")
+	public ModelAndView voting() {
+		return new ModelAndView("voting", "", "");
+	}*/
+	
 }

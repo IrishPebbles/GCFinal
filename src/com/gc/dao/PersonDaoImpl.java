@@ -27,7 +27,8 @@ public class PersonDaoImpl implements PersonDao {
 	@Override
 
 	public List<PersonDto> addPerson(String userEmail, String userPassword) {
-	
+		
+		
 
 		List<PersonDto> restList = new ArrayList<PersonDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
