@@ -37,7 +37,7 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * @see com.gc.dao.SurveyDao#getID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public List<SurveyDto> addSurvey(String restID1, String restID2, String restID3, String restID4, String restID5, int voteCount1, int voteCount2, int voteCount3, int voteCount4, int voteCount5, boolean hasVoted) {
+	public List<SurveyDto> addSurvey(String surveyID, String restID1, String restID2, String restID3, String restID4, String restID5, int voteCount1, int voteCount2, int voteCount3, int voteCount4, int voteCount5, boolean hasVoted) {
 		List<SurveyDto> surveyList = new ArrayList<SurveyDto>();
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -45,7 +45,7 @@ public class SurveyDaoImpl implements SurveyDao {
 		Transaction tx = session.beginTransaction();
 		SurveyDto newSurvDto = new SurveyDto();
 
-	
+	    newSurvDto.setSurveyID(surveyID);
 		newSurvDto.setOptVenueID1(restID1);
 		newSurvDto.setOptVenueID2(restID2);
 		newSurvDto.setOptVenueID3(restID3);
@@ -71,7 +71,7 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * @see com.gc.dao.SurveyDao#searchID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public List<SurveyDto> searchSurvey(int surveyID) {
+	public List<SurveyDto> searchSurvey(String surveyID) {
 
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
@@ -103,22 +103,7 @@ public class SurveyDaoImpl implements SurveyDao {
 		return null;
 	}
 
-	/*@Override
-	public List<SurveyDto> getID(SurveyDto servID) {
 
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
-
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		Criteria crit = session.createCriteria(SurveyDto.class);
-		ArrayList<SurveyDto> getList = (ArrayList<SurveyDto>) crit.list();
-		tx.commit();
-		session.close();
-		return getList;
-
-	}*/
 
 	@Override
 	public List<SurveyDto> searchID(SurveyDto survID) {

@@ -7,10 +7,15 @@
 	<class name="com.gc.dto.SurveyDto" table="Survey" schema="outingsapp">
 
 
-		<id name="surveyID">
+		<id name="sIntID">
 
-			<column name="surveyID" sql-type="int"></column>
+			<column name="sIntID" sql-type="int"></column>
 		</id>
+			
+			<property name="surveyID">
+			<column name="surveyID" sql-type="varchar(255)"></column>
+			</property>
+		
 
 			<property name="hasVoted">
 			<column name="hasVoted" sql-type="boolean"></column>

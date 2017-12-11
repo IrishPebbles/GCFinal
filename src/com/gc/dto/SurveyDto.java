@@ -8,7 +8,8 @@ public class SurveyDto implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3L;
-	private int surveyID;
+	private int sIntID;
+	private String surveyID;
 	private String optVenueID1;
 	private String optVenueID2;
 	private String optVenueID3;
@@ -19,37 +20,58 @@ public class SurveyDto implements Serializable {
 	private int VoteCount3;
 	private int VoteCount4;
 	private int VoteCount5;
-
 	private int finalVenueID;
 	private boolean hasVoted;
 
 	public SurveyDto() {
 
 	}
-
-	public SurveyDto(int surveyID, int finalVenueID, boolean hasVoted, String optVenueID1, String optVenueID2,
-			String optVenueID3, String optVenueID4, String optVenueID5, int VoteCount1, int VoteCount2, int VoteCount3, int VoteCount4, int VoteCount5) {
+	
+	
+	public SurveyDto(int sIntID, String surveyID, String optVenueID1, String optVenueID2, String optVenueID3,
+			String optVenueID4, String optVenueID5, int voteCount1, int voteCount2, int voteCount3, int voteCount4,
+			int voteCount5, int finalVenueID, boolean hasVoted) {
 		super();
+		this.sIntID = sIntID;
 		this.surveyID = surveyID;
-		this.finalVenueID = finalVenueID;
-		this.hasVoted = hasVoted;
 		this.optVenueID1 = optVenueID1;
 		this.optVenueID2 = optVenueID2;
 		this.optVenueID3 = optVenueID3;
 		this.optVenueID4 = optVenueID4;
 		this.optVenueID5 = optVenueID5;
-		this.VoteCount1 = VoteCount1;
-		this.VoteCount2 = VoteCount2;
-		this.VoteCount3 = VoteCount3;
-		this.VoteCount4 = VoteCount4;
-		this.VoteCount5 = VoteCount5; 
+		VoteCount1 = voteCount1;
+		VoteCount2 = voteCount2;
+		VoteCount3 = voteCount3;
+		VoteCount4 = voteCount4;
+		VoteCount5 = voteCount5;
+		this.finalVenueID = finalVenueID;
+		this.hasVoted = hasVoted;
 	}
 
-	public int getSurveyID() {
+
+
+
+	public int getsIntID() {
+		return sIntID;
+	}
+
+	public void setsIntID(int sIntID) {
+		this.sIntID = sIntID;
+	}
+
+	public int getFinalVenueID() {
+		return finalVenueID;
+	}
+
+	public void setFinalVenueID(int finalVenueID) {
+		this.finalVenueID = finalVenueID;
+	}
+
+	public String getSurveyID() {
 		return surveyID;
 	}
 
-	public void setSurveyID(int surveyID) {
+	public void setSurveyID(String surveyID) {
 		this.surveyID = surveyID;
 	}
 
@@ -150,16 +172,17 @@ public class SurveyDto implements Serializable {
 	public void setVoteCount5(int voteCount5) {
 		VoteCount5 = voteCount5;
 	}
-	
-	
 
 	@Override
 	public String toString() {
-		return "SurveyDto [surveyID=" + surveyID + ", optVenueID1=" + optVenueID1 + ", optVenueID2=" + optVenueID2
-				+ ", optVenueID3=" + optVenueID3 + ", optVenueID4=" + optVenueID4 + ", optVenueID5=" + optVenueID5
-				+ ", VoteCount1=" + VoteCount1 + ", VoteCount2=" + VoteCount2 + ", VoteCount3=" + VoteCount3
-				+ ", VoteCount4=" + VoteCount4 + ", VoteCount5=" + VoteCount5 + ", finalVenueID=" + finalVenueID
-				+ ", hasVoted=" + hasVoted + "]";
+		return "SurveyDto [sIntID=" + sIntID + ", surveyID=" + surveyID + ", optVenueID1=" + optVenueID1
+				+ ", optVenueID2=" + optVenueID2 + ", optVenueID3=" + optVenueID3 + ", optVenueID4=" + optVenueID4
+				+ ", optVenueID5=" + optVenueID5 + ", VoteCount1=" + VoteCount1 + ", VoteCount2=" + VoteCount2
+				+ ", VoteCount3=" + VoteCount3 + ", VoteCount4=" + VoteCount4 + ", VoteCount5=" + VoteCount5
+				+ ", finalVenueID=" + finalVenueID + ", hasVoted=" + hasVoted + "]";
 	}
+	
+	
+
 
 }

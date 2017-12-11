@@ -10,7 +10,8 @@ public class Survey {
 	private ArrayList<Person> voters;
 	private ArrayList<String> potentialVenues;// 5 items that are strings that reference a zomato id
 	private Integer[] voteScore;
-	private int surveyID;
+	private String surveyID;
+	private int sIntID;
 	
 	
 	public Survey() {
@@ -31,7 +32,7 @@ public class Survey {
 		voteScore[4] = DtoObj.getVoteCount5();
 	}
 	public Survey(String id) {
-		this.surveyID = Integer.parseInt(id);
+		this.surveyID = id;
 		potentialVenues = new ArrayList<String>();
 	}
 	public Integer[] getVoteScore() {
@@ -42,11 +43,11 @@ public class Survey {
 		this.voteScore = voteScore;
 	}
 
-	public int getSurveyID() {
+	public String getSurveyID() {
 		return surveyID;
 	}
 
-	public void setSurveyID(int surveyID) {
+	public void setSurveyID(String surveyID) {
 		this.surveyID = surveyID;
 	}
 
@@ -92,13 +93,14 @@ public class Survey {
 		// Write voters to db
 	}
 	
-	public void createPotentialList(GeolocationAPI location) {
+	public void createPotentialList(GeolocationAPI location, Outing parent) {
 		ZoomatoAPI zApi = new ZoomatoAPI(location);
 		SurveyDao sdao = new SurveyDaoImpl(); 
 		potentialVenues = zApi.getList();
 		//This is where the arraylist is created that contains five rest ids that i am immediatly injecting into a survey row
-		sdao.addSurvey(potentialVenues.get(0), potentialVenues.get(1), potentialVenues.get(2), potentialVenues.get(3), potentialVenues.get(4), 0, 0, 0, 0, 0, false);
-		//we need to access a surveyID to let the outing object / table know, but we don't have any primary key we assign, I think we should look at a composit 
+		String surveyID = parent.getDateOfEvent().toString()+ " event Name "; // this is a really not so great idea but TEMPORARY
+		sdao.addSurvey(surveyID, potentialVenues.get(0), potentialVenues.get(1), potentialVenues.get(2), potentialVenues.get(3), potentialVenues.get(4), 0, 0, 0, 0, 0, false);
+		//we need to access a surveyID to let the outing object / table know, but we don't have any primary key we assign, I think we should look at a composite
 		
 	}
 	
