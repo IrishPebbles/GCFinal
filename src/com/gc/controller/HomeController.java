@@ -53,10 +53,8 @@ public class HomeController {
 	//Serhiy add @RequestParam("password") String password
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
-
-			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street, 
+			@RequestParam("emailAddress") String emailAddress, @RequestParam String userPassword, @RequestParam("street") String street,
 			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String outingName, @RequestParam("date") String date, Model model)
-
 /* @RequestParam("votingWindow") String votingWindow, */
 			throws ParseException, AddressException, MessagingException {
 		//creating the daoImpl to write to the database
