@@ -100,7 +100,7 @@ public class Survey {
 		SurveyDao sdao = new SurveyDaoImpl(); 
 		potentialVenues = zApi.getList();
 		//This is where the arraylist is created that contains five rest ids that i am immediatly injecting into a survey row
-		String surveyID = parent.getDateOfEvent().toString()+ " event Name "; // this is a really not so great idea but TEMPORARY
+		String surveyID = parent.getSurveyID(); // this is a really not so great idea but TEMPORARY
 		sdao.addSurvey(surveyID, potentialVenues.get(0), potentialVenues.get(1), potentialVenues.get(2), potentialVenues.get(3), potentialVenues.get(4), 0, 0, 0, 0, 0, false);
 		//we need to access a surveyID to let the outing object / table know, but we don't have any primary key we assign, I think we should look at a composite
 		

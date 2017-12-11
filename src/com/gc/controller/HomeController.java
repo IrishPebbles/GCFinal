@@ -55,7 +55,7 @@ public class HomeController {
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street, 
-			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String eventName, @RequestParam("date") String date, Model model)
+			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String outingName, @RequestParam("date") String date, Model model)
 /* @RequestParam("votingWindow") String votingWindow, */
 			throws ParseException, AddressException, MessagingException {
 		//creating the daoImpl to write to the database
@@ -73,9 +73,7 @@ public class HomeController {
 		//Adding people coming from the form into relevant databases
 		pdao.addPerson(organizerEmail, "7DS8");// we need the id of this organizer for the next push to the database
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();//we need to be able to search a person
-		System.out.println("Organizer id  " +organizerId);
-		
-	
+		String surveyID = outingName + "," + date.toString() + "," + organizerId;//syntax for key
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
@@ -96,15 +94,15 @@ public class HomeController {
 
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
 		// passing location to create and return survey
-		Outing constructingOuting = new Outing(sqlDate, location, organizer, attendees);
+		Outing constructingOuting = new Outing(outingName, sqlDate, organizer, attendees, location, surveyID);
 		
 		//this gets the list of potiential Restaurants
 		Survey mySurvey = constructingOuting.getPotentialEvent();
-		String surveyID = eventName + "," + date.toString() + "," + organizerId;//syntax for key
+		
 		System.out.println();
-		outDao.addOuting(eventName, surveyID, eventDate, " none ", organizerId);
+		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);
 		//this builds the HTML OBJ table for voting
-		String outingObjHTML = "<h2> " + eventName + "</h2>";
+		String outingObjHTML = "<h2> " + outingName + "</h2>";
 	    outingObjHTML += "<h4> " + date + "</h4>";
 	    //this method builds the voting form we need to tell it the SurveyID 
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID);
@@ -128,8 +126,9 @@ public class HomeController {
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
+		System.out.println("Survey ID " + surveyID);
 		
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);  //this should be filled from the database- is not right now.
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);  //this should be filled from the database
 		System.out.println(" Survey DTO  restaurant ID" + surveyDto.getOptVenueID1() + " vote count " +surveyDto.getVoteCount1());
 		
 		Survey mySurvey = new Survey(surveyDto);
