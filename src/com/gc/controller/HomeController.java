@@ -25,12 +25,11 @@ import com.gc.dao.SurveyDao;
 import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.SurveyDto;
+import com.gc.util.EmailGenerator;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
 import com.gc.util.Person;
-import com.gc.util.RestaurantObj;
 import com.gc.util.Survey;
-import com.gc.util.ZoomatoAPI;
 
 @Controller
 public class HomeController {
@@ -98,13 +97,16 @@ public class HomeController {
 		//this gets the list of potiential Restaurants
 		Survey mySurvey = constructingOuting.getPotentialEvent();
 		int hardcodedSurveyID = 10; //using a hard coded number until we get this bit figured out
-		outDao.addOuting(eventname, Integer.toString(hardcodedSurveyID), eventDate, " none ", organizerId);
+		System.out.println();
+		outDao.addOuting("test Event Name", "10", eventDate, " none ", organizerId);
 		//this builds the HTML OBJ table for voting
-		String outingObjHTML = mySurvey.buildVotingeRestaurantTable();
+		String outingObjHTML = "<h2> " + eventName + "</h2>";
+	    outingObjHTML += "<h4> " + date + "</h4>";
+		outingObjHTML += mySurvey.buildVotingeRestaurantTable();
 	
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
-
+	//TODO needs to be working -- we may have to push a outing variable in a hidden field 
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote) {
 		System.out.println(restaurantVote.toString());
@@ -113,7 +115,7 @@ public class HomeController {
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
 		
-		SurveyDto surveyDto = surveyDB.searchSurvey(20).get(0);  //this should be filled from the database- is not right now.
+		SurveyDto surveyDto = surveyDB.searchSurvey("20").get(0);  //this should be filled from the database- is not right now.
 		Survey mySurvey = new Survey(surveyDto);
 		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);//when we have the object built we may not need to pass an array 
 		// get survey object (from Outing object)
@@ -136,4 +138,10 @@ public class HomeController {
 	public ModelAndView voting() {
 		return new ModelAndView("voting", "", "");
 	}*/
+	
+	@RequestMapping(value = "voting", method = RequestMethod.POST)
+	public String generateFirstEmail() {
+		EmailGenerator email = new EmailGenerator(); 
+		return null; 
+	}
 }

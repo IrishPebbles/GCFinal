@@ -7,6 +7,17 @@ public class Person {
 	private String password;
 	private ArrayList<Outing> createdOutings;
 	
+	public Person() {
+		
+	}
+	
+	
+	public Person(String userEmail, String password, ArrayList<Outing> createdOutings) {
+		super();
+		this.userEmail = userEmail;
+		this.password = password;
+		this.createdOutings = createdOutings;
+	}
 	
 	public String getUserEmail() {
 		return userEmail;
@@ -26,15 +37,11 @@ public class Person {
 	public void setCreatedOutings(ArrayList<Outing> createdOutings) {
 		this.createdOutings = createdOutings;
 	}
-	public Person() {
-		
+	
+	public int getId(String userEmail) {
+		return 0;
 	}
-	public Person(String userEmail, String password, ArrayList<Outing> createdOutings) {
-		super();
-		this.userEmail = userEmail;
-		this.password = password;
-		this.createdOutings = createdOutings;
-	}
+	
 	@Override
 	public String toString() {
 		return "Person [userEmail=" + userEmail + ", password=" + password + ", createdOutings=" + createdOutings + "]";
