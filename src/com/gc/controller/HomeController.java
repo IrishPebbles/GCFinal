@@ -139,9 +139,9 @@ public class HomeController {
 		return new ModelAndView("voting", "", "");
 	}*/
 	
-	@RequestMapping(value = "voting", method = RequestMethod.POST)
+/*	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public String generateFirstEmail() {
 		EmailGenerator email = new EmailGenerator(); 
 		return null; 
-	}
+	}*/
 }

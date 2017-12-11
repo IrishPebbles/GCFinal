@@ -112,8 +112,8 @@ public class Survey {
 		for (int i = 0; i < 5; i++) {
 			placeholder = ZoomatoAPI.searchByRestID(potentialVenues.get(i));
 
-			tableHtml += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\""+placeholder.getRestName() + "\" >"
-					+ " <a href=\"placeholder.getRestURL()\">" +placeholder.getRestName()+"</a>" + "</td><td> Rating:" + placeholder.getRestRating() 
+			tableHtml += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\"" + placeholder.getRestName() + "\" >"
+					+ " <a href=\" "+ placeholder.getRestURL() + "\">" + placeholder.getRestName() + "</a>" + "</td><td> Rating:" + placeholder.getRestRating() 
 					+ "</td>\n</tr>";
 		}
 
