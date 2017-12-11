@@ -23,7 +23,7 @@
 			Choose a date for your Outing: <input type="date" name="date" required><br>
 			
 			Enter an address at the center of the search area: <br>
-			Street: <input type="text" name="street" placeholder="123 Main St" required><br>
+			Street: <input type="text" name="street" placeholder="123 Main St" ><br>
 			City: <input type="text" name="city" placeholder="Detroit" required><br>
 			State: <select name="state">
 				<option value="NA">Select State</option>

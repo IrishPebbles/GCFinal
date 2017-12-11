@@ -3,43 +3,55 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Outing {
-	private String eventName;
+	private String outingName;
 	private Date dateOfEvent;
 	private RestaurantObj finalLocation;
 	private Person organizer;
 	private ArrayList<Person> attendees;
 	private Survey potentialEvent;
 	private GeolocationAPI location;
-	private String outingName;
+	private String surveyID;
+
+
+	public String getSurveyID() {
+		return surveyID;
+	}
+
+
+	public void setSurveyID(String surveyID) {
+		this.surveyID = surveyID;
+	}
+
 
 	public Outing() {
 
 	}
 
 
-	public Outing(Date dateOfEvent, GeolocationAPI location , Person organizer,
-			ArrayList<Person> attendees) {
-		
+	public Outing(String outingName, Date dateOfEvent, Person organizer,
+			ArrayList<Person> attendees, GeolocationAPI location, String surveyID) {
+		super();
+		this.outingName = outingName;
 		this.dateOfEvent = dateOfEvent;
-		this.finalLocation = finalLocation;
+		this.finalLocation = null;
 		this.organizer = organizer;
 		this.attendees = attendees;
 		this.location = location;
+		this.surveyID = surveyID;
 		potentialEvent = new Survey(); //every time we instantiate a new Outing object a survey is auto-created
 		potentialEvent.setVoters(attendees);
 		potentialEvent.createPotentialList(location, this);
 		
-		
-		
 	}
+
 	
-	public String getEventName() {
-		return eventName;
+	public String getoutingName() {
+		return outingName;
 	}
 
 
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
+	public void setoutingName(String outingName) {
+		this.outingName = outingName;
 	}
 
 

@@ -54,7 +54,7 @@ public class HomeController {
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam String userPassword, @RequestParam("street") String street,
-			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String eventName, @RequestParam("date") String date, Model model)
+			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String outingName, @RequestParam("date") String date, Model model)
 /* @RequestParam("votingWindow") String votingWindow, */
 			throws ParseException, AddressException, MessagingException {
 		//creating the daoImpl to write to the database
@@ -72,9 +72,7 @@ public class HomeController {
 		//Adding people coming from the form into relevant databases
 		pdao.addPerson(organizerEmail, userPassword);// we need the id of this organizer for the next push to the database
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();//we need to be able to search a person
-		System.out.println("Organizer id  " +organizerId);
-		
-	
+		String surveyID = outingName + "," + date.toString() + "," + organizerId;//syntax for key
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
@@ -95,37 +93,41 @@ public class HomeController {
 
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
 		// passing location to create and return survey
-		Outing constructingOuting = new Outing(sqlDate, location, organizer, attendees);
+		Outing constructingOuting = new Outing(outingName, sqlDate, organizer, attendees, location, surveyID);
 		
 		//this gets the list of potiential Restaurants
 		Survey mySurvey = constructingOuting.getPotentialEvent();
-		int hardcodedSurveyID = 10; //using a hard coded number until we get this bit figured out
+		
 		System.out.println();
-		outDao.addOuting("test Event Name", "10", eventDate, " none ", organizerId);
+		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);
 		//this builds the HTML OBJ table for voting
-		String outingObjHTML = "<h2> " + eventName + "</h2>";
+		String outingObjHTML = "<h2> " + outingName + "</h2>";
 	    outingObjHTML += "<h4> " + date + "</h4>";
-		outingObjHTML += mySurvey.buildVotingeRestaurantTable();
+	    //this method builds the voting form we need to tell it the SurveyID 
+		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID);
 		
 		
+
 		//Creates email generator object and sends the emnails upon clicking submit on the preferences page.
 		/*EmailGenerator email = new EmailGenerator();
 		for(int i =0; i < emailAddresses.length; ++i) {
 		email.generateAndSendEmail(organizerEmail, emailAddresses[i]);
 		}
 	*/
+
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
 	//TODO needs to be working -- we may have to push a outing variable in a hidden field 
 	@RequestMapping("/recordVote")
-	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote) {
-		System.out.println(restaurantVote.toString());
-		int hardcodedSurvID = 20; //this should be filled from the database- is not right now.
+	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote, @RequestParam("surveyID") String surveyID) {
+		
+		//surveyID should be filled from the database- is not right now.
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
+		System.out.println("Survey ID " + surveyID);
 		
-		SurveyDto surveyDto = surveyDB.searchSurvey("2018-05-17 event Name").get(0);  //this should be filled from the database- is not right now.
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);  //this should be filled from the database
 		System.out.println(" Survey DTO  restaurant ID" + surveyDto.getOptVenueID1() + " vote count " +surveyDto.getVoteCount1());
 		
 		Survey mySurvey = new Survey(surveyDto);

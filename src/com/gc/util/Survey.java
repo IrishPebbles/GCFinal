@@ -100,16 +100,17 @@ public class Survey {
 		SurveyDao sdao = new SurveyDaoImpl(); 
 		potentialVenues = zApi.getList();
 		//This is where the arraylist is created that contains five rest ids that i am immediatly injecting into a survey row
-		String surveyID = parent.getDateOfEvent().toString()+ " event Name "; // this is a really not so great idea but TEMPORARY
+		String surveyID = parent.getSurveyID(); // this is a really not so great idea but TEMPORARY
 		sdao.addSurvey(surveyID, potentialVenues.get(0), potentialVenues.get(1), potentialVenues.get(2), potentialVenues.get(3), potentialVenues.get(4), 0, 0, 0, 0, 0, false);
 		//we need to access a surveyID to let the outing object / table know, but we don't have any primary key we assign, I think we should look at a composite
 		
 	}
 	
-	public String buildVotingeRestaurantTable() {
+	public String buildVotingeRestaurantTable(String surveyID) {
 		String tableHtml = "<h1> Welcome to the event ! </h1>" + "<h3> Please vote below</h3>"
 				+ "<h5>You may vote for more than one choice. Each vote will be weighted equally</h5>"
-				+ "	<form action=\"recordVote\" method =\"get\">" + "	<table border=\"1\">";
+				+ "	<form action=\"recordVote\" method =\"get\">" + "	<table border=\"1\">" ;
+		tableHtml+=  "<input type=\"hidden\" name=\"surveyID\" value=\"" + surveyID +"\">";//this allows us to pass the key
 		RestaurantObj placeholder;
 		for (int i = 0; i < 5; i++) {
 			placeholder = ZoomatoAPI.searchByRestID(potentialVenues.get(i));
@@ -126,15 +127,28 @@ public class Survey {
 	public String buildResultRestaurantTable(String[] restaurantVote) {
 		
 		String tableHtml = "<h1> Welcome to the event ! </h1>"
-				+ "<h3> Thank you for voting!</h3> <h5> Here is what you voted for</h3>" + "	<table border=\"1\">";
+				+ "<h3> Thank you for voting!</h3> <h5> Here is what you voted for</h3>" + "<table border=\"1\">";
 		//we need to think about the name of the restaurant- is this object still built, yes it is because we will get it from the database
 		RestaurantObj placeholder;
 		for (int i = 0; i < restaurantVote.length; i++) {
 			
-			tableHtml += "	<tr> " + "<td>  " + restaurantVote[i] + "</td> <td> Rating:  </td>" + "	</tr>";// 
+			tableHtml += "	<tr> " + "<td>  " + restaurantVote[i] + "</td>	</tr>";// 
 		}
 		tableHtml += "</table> ";
 		return tableHtml;
+	}
+	
+	public String recordVote(String[] voteTally) {
+		//something will say which restaurants (ex 1 and 3)
+		
+		for (int i = 0; i < voteTally.length; i++) {
+			if (voteTally != null) {
+				voteScore[i] ++;
+			}
+		
+		}
+		
+		return "";
 	}
 
 	@Override
