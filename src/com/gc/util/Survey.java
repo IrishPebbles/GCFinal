@@ -76,8 +76,6 @@ public class Survey {
 		return voters;
 	}
 	
-	
-
 	public int updateScore() {
 		return 0;
 	}
