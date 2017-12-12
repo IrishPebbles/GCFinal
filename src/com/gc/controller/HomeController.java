@@ -122,18 +122,18 @@ public class HomeController {
 	@RequestMapping(value ="/voting", method=RequestMethod.GET)
 	public ModelAndView recordVoteFromLink(Model model, @RequestParam("voterEmail") String voterEmail, @RequestParam("surveyID") String surveyID) {
 		//we should search the database for the surveyID
-		/*SurveyDaoImpl surveyDB = new SurveyDaoImpl();
+		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		
 		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);  //this should be filled from the database
 		//we build the survey object from the ID
-		Survey mySurvey = new Survey(surveyDto);*/
+		Survey mySurvey = new Survey(surveyDto);
 		
 		//TODO get the Outing information: Event Name, Organizer, Date from the outing object, if we are searching by ID by doing a join on the table
 		//I tried some SQL queries but we will need help
 		
 		
 		String outingObjHTML = "<h2> Thank you " + voterEmail +" </h2> <h3> Please vote below: " + surveyID + "</h3>";
-		//outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID);//when we have the object built we may not need to pass an array 
+		outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID);//when we have the object built we may not need to pass an array 
 		//TODO call a method to set the email address
 		
 		return new ModelAndView("voting", "result", outingObjHTML);
