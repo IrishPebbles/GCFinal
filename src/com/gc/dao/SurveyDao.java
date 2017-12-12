@@ -24,6 +24,6 @@ public interface SurveyDao {
 	List<SurveyDto> searchID(SurveyDto survID);
 	// TODO Auto-generated method stub
 
-	List<SurveyDto> updateSurvey(SurveyDto survID);
+	List<SurveyDto> updateSurvey(SurveyDto survey);
 	// TODO Auto-generated method stub
 }

@@ -34,11 +34,7 @@ public class SurveyDaoImpl implements SurveyDao {
 		return null;
 	}
 
-	@Override
-	public List<SurveyDto> updateSurvey(SurveyDto survID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -81,7 +77,7 @@ public class SurveyDaoImpl implements SurveyDao {
 	 */
 	@Override
 	public List<SurveyDto> searchSurvey(String surveyID) {
-		System.out.println("In beginning of method");
+		//System.out.println("In beginning of method " + surveyID);
 
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
@@ -93,12 +89,12 @@ public class SurveyDaoImpl implements SurveyDao {
 
 		Criteria crit = session.createCriteria(SurveyDto.class);
 
-		crit.add(Restrictions.like("surveyID", "%"+surveyID + "%"));
+		crit.add(Restrictions.eq("surveyID", surveyID));
 
 		ArrayList<SurveyDto> surveyList = (ArrayList<SurveyDto>) crit.list();
 		tx.commit();
 		session.close();
-		System.out.println("Is it null ?" + surveyList.isEmpty());
+		//System.out.println("Is it null ?" + surveyList.isEmpty());
 		return surveyList;
 	}
 		
@@ -108,16 +104,20 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * 
 	 * @see com.gc.dao.SurveyDao#unpdateID(com.gc.dto.SurveyDto)
 	 */
-	/*@Override
-	public List<SurveyDto> updateSurvey(SurveyDto survID) {
-		
-		SurveyDto temp = new SurveyDto();
+
+
+	@Override
+	public List<SurveyDto> updateSurvey(SurveyDto survey) {
+
+		//SurveyDto temp = new SurveyDto();
 		// by passing in the product id from a hidden field we can determine what row to edit
-		temp.set;
+		
+		
+		/*temp.set;
 		temp.setCode(code);
 		temp.setDescription(desc);
 		temp.setListPrice(price);
-
+*/
 		Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
 
 		SessionFactory sessionFact = cfg.buildSessionFactory();
@@ -126,16 +126,13 @@ public class SurveyDaoImpl implements SurveyDao {
 
 		codes.beginTransaction();
 
-		codes.update(temp); // update the object from the list
+		codes.update(survey); // update the object from the list
 
 		codes.getTransaction().commit(); // update the row from the database table
 
-		ArrayList<ProductDto> prodList = getAllProducts();
-
-		return new ModelAndView("welcome", "message", prodList);
 		// TODO Auto-generated method stub
 		return null;
-	}*/
+	}
 
 
 
