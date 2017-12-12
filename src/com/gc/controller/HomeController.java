@@ -50,14 +50,17 @@ public class HomeController {
 		return new ModelAndView("index", "result", "");
 
 	}
-	//Serhiy add @RequestParam("password") String password
+
+	// Serhiy add @RequestParam("password") String password
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
-			@RequestParam("emailAddress") String emailAddress, @RequestParam String userPassword, @RequestParam("street") String street,
-			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("outingName") String outingName, @RequestParam("date") String date, Model model)
-/* @RequestParam("votingWindow") String votingWindow, */
+			@RequestParam("emailAddress") String emailAddress, @RequestParam String userPassword,
+			@RequestParam("street") String street, @RequestParam("city") String city,
+			@RequestParam("state") String state, @RequestParam("outingName") String outingName,
+			@RequestParam("date") String date, Model model)
+			/* @RequestParam("votingWindow") String votingWindow, */
 			throws ParseException, AddressException, MessagingException {
-		//creating the daoImpl to write to the database
+		// creating the daoImpl to write to the database
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
 
@@ -69,18 +72,20 @@ public class HomeController {
 		Date myDate = formatter.parse(date);
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
 
-		//Adding people coming from the form into relevant databases
-		pdao.addPerson(organizerEmail, userPassword);// we need the id of this organizer for the next push to the database
-		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();//we need to be able to search a person
-		String surveyID = outingName + "," + date.toString() + "," + organizerId;//syntax for key
+		// Adding people coming from the form into relevant databases
+		pdao.addPerson(organizerEmail, userPassword);// we need the id of this organizer for the next push to the
+														// database
+		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();// we need to be able to search a person
+		String surveyID = outingName + "," + date.toString() + "," + organizerId;// syntax for key
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 		System.out.println(Arrays.toString(emailAddresses));
-		/*for (int i = 0; i < emailAddress.length(); ++i) {
-			//pdao.addPerson(emailAddresses[i], "3R5S");
-			//System.out.println("first email" + emailAddresses[0]);	
-		}*/
+		/*
+		 * for (int i = 0; i < emailAddress.length(); ++i) {
+		 * //pdao.addPerson(emailAddresses[i], "3R5S");
+		 * //System.out.println("first email" + emailAddresses[0]); }
+		 */
 
 		Person organizer = new Person(organizerEmail, "nope", null);// we may want the organizer's name
 		attendees.add(organizer);
@@ -94,31 +99,29 @@ public class HomeController {
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
 		// passing location to create and return survey
 		Outing constructingOuting = new Outing(outingName, sqlDate, organizer, attendees, location, surveyID);
-		
-		//this gets the list of potiential Restaurants
+
+		// this gets the list of potiential Restaurants
 		Survey mySurvey = constructingOuting.getPotentialEvent();
-		
+
 		System.out.println();
 		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);
-		//this builds the HTML OBJ table for voting
+		// this builds the HTML OBJ table for voting
 		String outingObjHTML = "<h2> " + outingName + "</h2>";
-	    outingObjHTML += "<h4> " + date + "</h4>";
-	    //this method builds the voting form we need to tell it the SurveyID 
+		outingObjHTML += "<h4> " + date + "</h4>";
+		// this method builds the voting form we need to tell it the SurveyID
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID);
-		
-		
 
-		//Creates email generator object and sends the emails upon clicking submit on the preferences page.
-		/*EmailGenerator email = new EmailGenerator();
-		for(int i =0; i < emailAddresses.length; ++i) {
-		email.generateAndSendEmail(organizerEmail, emailAddresses[i]);
-		}
-	*/
+		// Creates email generator object and sends the emails upon clicking submit on
+		// the preferences page.
+		/*
+		 * EmailGenerator email = new EmailGenerator(); for(int i =0; i <
+		 * emailAddresses.length; ++i) { email.generateAndSendEmail(organizerEmail,
+		 * emailAddresses[i]); }
+		 */
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
-	
-	//TODO This method receives the clickable link
+
 	@RequestMapping(value ="/voting", method=RequestMethod.GET)
 	public ModelAndView recordVoteFromLink(Model model, @RequestParam("voterEmail") String voterEmail, @RequestParam("surveyID") String surveyID) {
 		
@@ -141,41 +144,55 @@ public class HomeController {
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
 	
-	//TODO needs to be working -- we may have to push a outing variable in a hidden field // we need to make another hidden field to record who is voting
-	@RequestMapping("/recordVote")
-	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote, @RequestParam("surveyID") String surveyID) {
+	// TODO This method receives the clickable link
+	@RequestMapping(value = "/addnewuserinfo", method = RequestMethod.POST)
+	public ModelAndView recordUserToDB(Model model, @RequestParam("username") String userName,
+			@RequestParam("passwordBox1") String pass1) {
 		
-		//surveyID should be filled from the database- is not right now.
+		PersonDaoImpl addUser = new PersonDaoImpl();
+		
+		String passHash = Person.generateHashPassword(pass1);
+
+		addUser.addPerson(userName, passHash);
+
+		String outingObjHTML = "<h2> Thank you " + userName + " </h2> <h3> Please vote below: " + passHash + "</h3>";
+		
+
+		return new ModelAndView("voting", "userResult", outingObjHTML);
+	}
+
+	// TODO needs to be working -- we may have to push a outing variable in a hidden
+	// field // we need to make another hidden field to record who is voting
+	@RequestMapping("/recordVote")
+	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote,
+			@RequestParam("surveyID") String surveyID) {
+
+		// surveyID should be filled from the database- is not right now.
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
 		String userEmail = "jenna.otto@gmail.com";
 		System.out.println("Survey ID " + surveyID);
-		
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);  //this should be filled from the database
-		System.out.println(" Survey DTO  restaurant ID" + surveyDto.getOptVenueID1() + " vote count " +surveyDto.getVoteCount1());
-		
+
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this should be filled from the database
+		System.out.println(
+				" Survey DTO  restaurant ID" + surveyDto.getOptVenueID1() + " vote count " + surveyDto.getVoteCount1());
+
 		Survey mySurvey = new Survey(surveyDto);
-		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);//when we have the object built we may not need to pass an array 
+		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built we
+																					// may not need to pass an array
 		// get survey object (from Outing object)
-		
+
 		// update the object
 		// let the person know they have voted
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
 
-	
 	@RequestMapping("preferences")
 	public String viewPreferencesPage() {
-		//System.out.println("Here");
+		// System.out.println("Here");
 
 		return "preferences";
 	}
 
-/*
-	@RequestMapping("voting")
-	public ModelAndView voting() {
-		return new ModelAndView("voting", "", "");
-	}*/
-	
 }

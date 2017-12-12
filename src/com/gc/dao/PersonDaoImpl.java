@@ -92,7 +92,7 @@ public class PersonDaoImpl implements PersonDao {
 		
 		ArrayList<PersonDto> getEmail = (ArrayList<PersonDto>) crit.list();
 		
-		System.out.println("Looking up" + getEmail.get(0).toString());
+		//System.out.println("Looking up" + getEmail.get(0).toString());
 		tx.commit();
 		session.close();
 		return getEmail;
