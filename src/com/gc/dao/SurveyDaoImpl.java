@@ -26,9 +26,18 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * 
 	 * @see com.gc.dao.SurveyDao#getServID(com.gc.dto.SurveyDto)
 	 */
+
+
 	@Override
-	public void getSurvID(SurveyDto survID) {
-		
+	public List<SurveyDto> getSurvID(SurveyDto survID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SurveyDto> updateSurvey(SurveyDto survID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/*
@@ -92,28 +101,7 @@ public class SurveyDaoImpl implements SurveyDao {
 		System.out.println("Is it null ?" + surveyList.isEmpty());
 		return surveyList;
 	}
-		public ArrayList<SurveyDto> test(String surveyID, SurveyDto newVotes) {
-			//TODO figure out where program inserts surveyID
-			
-			ArrayList<SurveyDto> surveyTallyList = (ArrayList<SurveyDto>)searchSurvey(surveyID);
-			int newVote1 = newVotes.getVoteCount1();
-			int newVote2 = newVotes.ge;
-			int newVote3;
-			int newVote4;
-			int newVote5;
-			int oldVote1;
-			int oldVote2;
-			int oldVote3;
-			int oldVote4;
-			int oldVote5;
-			
-			
-			
-			SurveyDto vote = surveyTallyList.get(0);
-			vote.setfinalVenueID(565656567);
-			
-			return null;
-		}
+		
 
 	/*
 	 * (non-Javadoc)
