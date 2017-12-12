@@ -154,13 +154,17 @@ public class Survey {
 		RestaurantObj placeholder;
 
 		if (rstrntNames != null) {
-			for (int i = 0; i < rstrntNames.length; i++) {
-				for (int j = 0; j < 5; j++) {
+			//potential Restaurants
+			for (int i = 0; i < arList.size(); i++) {
+				
+				for (int j = 0; j < rstrntNames.length; j++) {
 					placeholder = ZoomatoAPI.searchByRestID(arList.get(i));
 					String restName = placeholder.getRestName();
-
-					if (restName.equals(rstrntNames[i])) {
-						updateVotes(j);
+						System.out.println("We are matching " + restName + " i "+ i +" to " + rstrntNames[j] +" j " +j);
+					//choices	
+					if (restName.equals(rstrntNames[j])) {
+						updateVotes(i);
+						System.out.println("We had a match");
 					}
 				}
 			}
