@@ -115,19 +115,39 @@ public class HomeController {
 		outingObjHTML += "<h4> " + date + "</h4>";
 		// this method builds the voting form we need to tell it the SurveyID
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID);
-
-		// Creates email generator object and sends the emnails upon clicking submit on
-		// the preferences page.
-		/*
-		 * EmailGenerator email = new EmailGenerator(); for(int i =0; i <
-		 * emailAddresses.length; ++i) { email.generateAndSendEmail(organizerEmail,
-		 * emailAddresses[i]); }
-		 */
+		//Creates email generator object and sends the emails upon clicking submit on the preferences page.
+		/*EmailGenerator email = new EmailGenerator();
+		for(int i =0; i < emailAddresses.length; ++i) {
+		email.generateAndSendEmail(organizerEmail, emailAddresses[i]);
+		}
+	*/
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
+	
+	//TODO This method receives the clickable link
+	@RequestMapping(value ="/voting", method=RequestMethod.GET)
+	public ModelAndView recordVoteFromLink(Model model, @RequestParam("voterEmail") String voterEmail, @RequestParam("surveyID") String surveyID) {
+		//we should search the database for the surveyID
+		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
+		//LINK HAS TO BE FORMATTED WITH NO QUOTES :O 
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);  //this should be filled from the database
+		//we build the survey object from the ID
+		Survey mySurvey = new Survey(surveyDto);
+		
+		//TODO get the Outing information: Event Name, Organizer, Date from the outing object, if we are searching by ID by doing a join on the table
+		//I tried some SQL queries but we will need help
+		
+		
+		String outingObjHTML = "<h2> Thank you " + voterEmail +" </h2> <h3> Please vote below: " + surveyID + "</h3>";
+		outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID);//when we have the object built we may not need to pass an array 
+		//TODO call a method to set the email address
+		
+		return new ModelAndView("voting", "result", outingObjHTML);
+	}
+	
+	//TODO needs to be working -- we may have to push a outing variable in a hidden field // we need to make another hidden field to record who is voting
 
-	// we have to push a outing variable in a hidden field
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote,
 			@RequestParam("surveyID") String surveyID) {

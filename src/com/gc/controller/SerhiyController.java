@@ -51,9 +51,9 @@ import com.gc.util.ZoomatoAPI;
 	
 				
 		@RequestMapping(value = "/indexlogin", method = RequestMethod.POST)
-		public ModelAndView loginCustomer(@RequestParam("username") String username,Model model)throws ClassNotFoundException, SQLException {
+		public ModelAndView loginCustomer(@RequestParam("userEmail") String username,Model model)throws ClassNotFoundException, SQLException {
 			
-		System.out.println("in method login");
+	/*	System.out.println("in method login");*/
 			model.addAttribute("authenticated", username);
 			
 			

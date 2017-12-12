@@ -72,7 +72,7 @@ public class SurveyDaoImpl implements SurveyDao {
 	 */
 	@Override
 	public List<SurveyDto> searchSurvey(String surveyID) {
-		System.out.println("In beginning of method");
+		//System.out.println("In beginning of method " + surveyID);
 
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
@@ -84,12 +84,12 @@ public class SurveyDaoImpl implements SurveyDao {
 
 		Criteria crit = session.createCriteria(SurveyDto.class);
 
-		crit.add(Restrictions.like("surveyID", "%"+surveyID + "%"));
+		crit.add(Restrictions.eq("surveyID", surveyID));
 
 		ArrayList<SurveyDto> surveyList = (ArrayList<SurveyDto>) crit.list();
 		tx.commit();
 		session.close();
-		System.out.println("Is it null ?" + surveyList.isEmpty());
+		//System.out.println("Is it null ?" + surveyList.isEmpty());
 		return surveyList;
 	}
 
