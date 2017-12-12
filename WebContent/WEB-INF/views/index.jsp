@@ -63,7 +63,7 @@
 	
 	   				Choose a date for your Outing: <input type="date" name="date" required><br>
 	
-	   				Enter an address at the center of the search area: <br>
+	   				Enter an address for area event: <br>
 		   			Street: <input type="text" name="street" placeholder="123 Main St" ><br>
 		   			City: <input type="text" name="city" placeholder="Detroit" required><br>
 		   			State: <select name="state">
@@ -124,7 +124,7 @@
 		
 		   		</fieldset>
 		  
-		        <br> How many additional participants would you like to enter?<br>
+		        <br> How many participants would you like to enter?<br>
 		   			<select id="selection" name="numAttendees"
 		   				onchange="createEmailFields(this)">
 		   				<option value="0">0</option>
