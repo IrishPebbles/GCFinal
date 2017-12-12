@@ -123,7 +123,7 @@ public class HomeController {
 	public ModelAndView recordVoteFromLink(Model model, @RequestParam("voterEmail") String voterEmail, @RequestParam("surveyID") String surveyID) {
 		//we should search the database for the surveyID
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
-		
+		//LINK HAS TO BE FORMATTED WITH NO QUOTES :O 
 		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);  //this should be filled from the database
 		//we build the survey object from the ID
 		Survey mySurvey = new Survey(surveyDto);
