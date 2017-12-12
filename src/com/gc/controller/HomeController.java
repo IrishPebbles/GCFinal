@@ -130,6 +130,7 @@ public class HomeController {
 	public ModelAndView recordVoteFromLink(Model model, @RequestParam("voterEmail") String voterEmail,
 			@RequestParam("surveyID") String surveyID) {
 		// we should search the database for the surveyID
+
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// LINK HAS TO BE FORMATTED WITH NO QUOTES :O
 		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this should be filled from the database
@@ -160,7 +161,7 @@ public class HomeController {
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote,
 			@RequestParam("surveyID") String surveyID) {
-
+		System.out.println("hello" + restaurantVote.toString()+ " " +restaurantVote[0] + " " + restaurantVote[1] + " " + restaurantVote[2] + " " + restaurantVote[3] + " " + restaurantVote[4] + " " );
 		// surveyID should be filled from the database
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
