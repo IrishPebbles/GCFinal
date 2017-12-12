@@ -101,13 +101,15 @@ public class SurveyDaoImpl implements SurveyDao {
 	@Override
 	public List<SurveyDto> updateSurvey(SurveyDto survID) {
 		
-		SurveyDto temp = new SurveyDto();
+		//SurveyDto temp = new SurveyDto();
 		// by passing in the product id from a hidden field we can determine what row to edit
-		temp.set;
+		
+		
+		/*temp.set;
 		temp.setCode(code);
 		temp.setDescription(desc);
 		temp.setListPrice(price);
-
+*/
 		Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
 
 		SessionFactory sessionFact = cfg.buildSessionFactory();
@@ -116,13 +118,10 @@ public class SurveyDaoImpl implements SurveyDao {
 
 		codes.beginTransaction();
 
-		codes.update(temp); // update the object from the list
+		codes.update(survID); // update the object from the list
 
 		codes.getTransaction().commit(); // update the row from the database table
 
-		ArrayList<ProductDto> prodList = getAllProducts();
-
-		return new ModelAndView("welcome", "message", prodList);
 		// TODO Auto-generated method stub
 		return null;
 	}
