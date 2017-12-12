@@ -74,6 +74,10 @@
    #    override the bootstrap configs     #
    ######################################### */
 
+#outingbutton{
+	text-align:center;
+	}
+
 .modal-backdrop.in {
     filter: alpha(opacity=50);
     opacity: .8;

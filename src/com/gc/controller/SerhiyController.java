@@ -52,30 +52,29 @@ import com.gc.util.ZoomatoAPI;
 				
 		@RequestMapping(value = "/indexlogin", method = RequestMethod.POST)
 		public ModelAndView loginCustomer(@RequestParam("userEmail") String username,Model model)throws ClassNotFoundException, SQLException {
-			
-	/*	System.out.println("in method login");*/
-			model.addAttribute("authenticated", username);
-			
-			
+		
 			ArrayList<PersonDto> user  =  (ArrayList<PersonDto>) database.searchByEmail(username); // we need to enter if statement to count for userEmail not found
-			
+			System.out.println(user + "  user is empty "+ user.isEmpty());
 			String warning = null;
-			if (user != null) {
+			if (!user.isEmpty()) {
+				model.addAttribute(username);
 				PersonDto searchUser = user.get(0); // getting userEmail from ArrayList<PersonDto> at location zero
 				warning =" Welcome " + username;
 			}
-			if  (user == null) {
-				model.addAttribute(username);
 				
-			}
-	
 			else {
-				warning = "<p class='warning'> You do not have an account associated with this email address."+
-						"Please create an account below or <a href='index2.html> click here  </a> to try a different account. </p>"; 
+				warning = "<p class='warning'> You do not have an account associated with  "+ username +
+						"<form action=\"\" method=\"post\">" +
+						"Please create an account below: </p> Your user name: <input type=\"email\"name=\"username\"><br><br> Please enter your password:     <input type=\"password\"name=\"passwordBox1\"><br> <br> Please Re-enter password your: <input type=\"password\"name=\"passwordBox2\"> <br><br>  <input type=\"submit\"value=\"Submit\"> "; 
+				
 				
 				// what we want to do if they don't have account created. 
 				
-			}
+			}	
+			
+			System.out.println(warning);
+			model.addAttribute("authenticated", username);
+			
 			
 			return new ModelAndView("preferences", "noAccountMessage", warning);
 		}
