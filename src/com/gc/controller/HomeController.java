@@ -135,7 +135,6 @@ public class HomeController {
 		// surveyID should be filled from the database
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
-<<<<<<< HEAD
 		String userEmail = "jenna.otto@gmail.com";//this is the organizer, needs to be a variable
 		
 		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this survey
@@ -148,22 +147,6 @@ public class HomeController {
 		
 		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);//when we have the object built we may not need to pass an array 
 		
-		
-=======
-		String userEmail = "jenna.otto@gmail.com";// this is the organizer, needs to be a variable
-
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
-																		// survey
-
-		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
-		// In progress write a survey method, that check the array to see what was
-		// checked
-		// In progress write to the database
-
-		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built we
-																					// may not need to pass an array
-
->>>>>>> dbf28b907d10e78088fd47c2fd0a2fbc58077aaa
 		// TODO update the OUt object with how many people have left to vote
 		// TODO let the person know they have voted
 
