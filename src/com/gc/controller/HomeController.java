@@ -121,6 +121,8 @@ public class HomeController {
 	//TODO This method receives the clickable link
 	@RequestMapping(value ="/voting", method=RequestMethod.GET)
 	public ModelAndView recordVoteFromLink(Model model, @RequestParam("voterEmail") String voterEmail, @RequestParam("surveyID") String surveyID) {
+		
+		System.out.println("in beginning of method");
 		//we should search the database for the surveyID
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		//LINK HAS TO BE FORMATTED WITH NO QUOTES :O 
