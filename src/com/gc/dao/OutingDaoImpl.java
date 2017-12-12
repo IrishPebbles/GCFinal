@@ -83,5 +83,24 @@ public class OutingDaoImpl implements OutingDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public List<OutingDto> searchSurveyID(String surveyID) {
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
+		SessionFactory sessionFactory = config.buildSessionFactory();
+
+		Session session = sessionFactory.openSession();
+
+		Transaction tx = session.beginTransaction();
+
+		Criteria crit = session.createCriteria(OutingDto.class);
+
+		crit.add(Restrictions.like("surveyID",  surveyID));
+
+		ArrayList<OutingDto> surveyList = (ArrayList<OutingDto>) crit.list();
+		tx.commit();
+		session.close();
+
+		return surveyList;
+	}
 }

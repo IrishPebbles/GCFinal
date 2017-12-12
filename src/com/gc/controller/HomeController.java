@@ -60,7 +60,7 @@ public class HomeController {
 			@RequestParam("state") String state, @RequestParam("outingName") String outingName,
 			@RequestParam("date") String date, Model model)
 			throws ParseException, AddressException, MessagingException {
-		
+
 		// creating the daoImpl to write to the database
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
@@ -74,9 +74,11 @@ public class HomeController {
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
 
 		// Adding people coming from the form into relevant databases
-		pdao.addPerson(organizerEmail, userPassword);// we need the id of this organizer for the next push to the database
+		pdao.addPerson(organizerEmail, userPassword);// we need the id of this organizer for the next push to the
+														// database
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();// we need to be able to search a person
-		String surveyID = outingName + "," + date.toString() + "," + organizerId;// creates a survey ID from collected information
+		String surveyID = outingName + "," + date.toString() + "," + organizerId;// creates a survey ID from collected
+																					// information
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
@@ -112,38 +114,48 @@ public class HomeController {
 		outingObjHTML += "<h4> " + date + "</h4>";
 		// this method builds the voting form we need to tell it the SurveyID
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID);
-		//Creates email generator object and sends the emails upon clicking submit on the preferences page.
-		/*EmailGenerator email = new EmailGenerator();
-		for(int i =0; i < emailAddresses.length; ++i) {
-		email.generateAndSendEmail(organizerEmail, emailAddresses[i]);
-		}
-	*/
+		// Creates email generator object and sends the emails upon clicking submit on
+		// the preferences page.
+		/*
+		 * EmailGenerator email = new EmailGenerator(); for(int i =0; i <
+		 * emailAddresses.length; ++i) { email.generateAndSendEmail(organizerEmail,
+		 * emailAddresses[i]); }
+		 */
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
-	
-	//TODO This method receives the clickable link
-	@RequestMapping(value ="/voting", method=RequestMethod.GET)
-	public ModelAndView recordVoteFromLink(Model model, @RequestParam("voterEmail") String voterEmail, @RequestParam("surveyID") String surveyID) {
-		//we should search the database for the surveyID
+
+	// TODO This method receives the clickable link
+	@RequestMapping(value = "/voting", method = RequestMethod.GET)
+	public ModelAndView recordVoteFromLink(Model model, @RequestParam("voterEmail") String voterEmail,
+			@RequestParam("surveyID") String surveyID) {
+		// we should search the database for the surveyID
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
-		//LINK HAS TO BE FORMATTED WITH NO QUOTES :O 
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);  //this should be filled from the database
-		//we build the survey object from the ID
+		// LINK HAS TO BE FORMATTED WITH NO QUOTES :O
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this should be filled from the database
+		// we build the survey object from the ID
 		Survey mySurvey = new Survey(surveyDto);
-		
-		//TODO get the Outing information: Event Name, Organizer, Date from the outing object, if we are searching by ID by doing a join on the table
-		//I tried some SQL queries but we will need help
-		
-		
-		String outingObjHTML = "<h2> Thank you " + voterEmail +" </h2> <h3> Please vote below: " + surveyID + "</h3>";
-		outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID);//when we have the object built we may not need to pass an array 
-		//TODO call a method to set the email address
-		
+
+		String outingObjHTML = "";
+		if (mySurvey.attendeeCanVote(voterEmail, surveyID)) {
+
+			// TODO get the Outing information: Event Name, Organizer, Date from the outing
+			// object, if we are searching by ID by doing a join on the table
+			// I tried some SQL queries but we will need help
+
+			outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> Please vote below: " + surveyID + "</h3>";
+			outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID);// when we have the object built we may not
+																			// need to pass an array
+			// TODO call a method to set the email address
+		} else {
+			outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> You have already voted </h3>";
+		}
+
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
-	
-	//TODO needs to be working -- we may have to push a outing variable in a hidden field // we need to make another hidden field to record who is voting
+
+	// TODO needs to be working -- we may have to push a outing variable in a hidden
+	// field // we need to make another hidden field to record who is voting
 
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote,
@@ -158,14 +170,15 @@ public class HomeController {
 																		// survey
 
 		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
-		// SurveyDto holds results from survey so that we can manipulate them. See Survey class to see organization
-		
-		// TODO In progress write a survey method, that check the array to see who has voted
-		
+		// SurveyDto holds results from survey so that we can manipulate them. See
+		// Survey class to see organization
+
+		// TODO In progress write a survey method, that check the array to see who has
+		// voted
+
 		mySurvey.votingMethod(restaurantVote, surveyID, surveyDto, surveyDB);
-		
+
 		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
-																					
 
 		// TODO update the OUt object with how many people have left to vote
 		// TODO let the person know they have voted
@@ -179,5 +192,4 @@ public class HomeController {
 		return "preferences";
 	}
 
-	
 }

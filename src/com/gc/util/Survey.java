@@ -1,9 +1,15 @@
 package com.gc.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.gc.dao.AttendeesDaoImpl;
+import com.gc.dao.OutingDaoImpl;
 import com.gc.dao.SurveyDao;
 import com.gc.dao.SurveyDaoImpl;
+import com.gc.dto.AttendeesDto;
+import com.gc.dto.OutingDto;
+import com.gc.dto.PersonDto;
 import com.gc.dto.SurveyDto;
 
 public class Survey {
@@ -175,6 +181,34 @@ public class Survey {
 
 			surveyDB.updateSurvey(surveyDto);
 		}
+	}
+
+	public boolean attendeeCanVote(String emailAddress, String surveyID) {
+		AttendeesDaoImpl aDao = new AttendeesDaoImpl();
+		PersonDto pDto = new PersonDto();
+		OutingDaoImpl oDto = new OutingDaoImpl();
+		pDto.setUserEmail(emailAddress);
+		int userId = pDto.getUserID();
+
+		List<AttendeesDto> attendeeList = new ArrayList<AttendeesDto>();
+		attendeeList = aDao.searchID(userId);
+
+		List<OutingDto> outingList = new ArrayList<OutingDto>();
+		outingList = oDto.searchSurveyID(surveyID);
+
+		int outingID = outingList.get(0).getOutingID();
+
+		if (!attendeeList.get(0).getVoted()) {
+
+			for (int i = 0; i < attendeeList.size(); i++) {
+				if (outingID == attendeeList.get(i).getOutingID()) {
+					attendeeList.get(i).setVoted(true);
+				} else {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	@Override
