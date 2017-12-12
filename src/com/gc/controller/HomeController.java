@@ -131,8 +131,9 @@ public class HomeController {
 		
 		
 		Survey mySurvey = new Survey(surveyDto);//we build a survey object FROM the row in the database
-		//In progress write a survey method, that check the array to see what was checked
-		//In progress write to the database 
+		//SurveyDto holds results from survey so that we can manipulate them. See Survey class to see organization
+		//TODO In progress write a survey method, that check the array to see what was checked
+		//TODO In progress write to the database 
 		
 		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);//when we have the object built we may not need to pass an array 
 		

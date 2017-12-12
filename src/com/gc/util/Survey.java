@@ -19,13 +19,14 @@ public class Survey {
 	}
 	
 	public Survey(SurveyDto DtoObj) {
+		//Below creates an arraylist to store Restaurant ID's which are then inserted 
 		potentialVenues = new ArrayList<String>();
 		potentialVenues.add(DtoObj.getOptVenueID1());
 		potentialVenues.add(DtoObj.getOptVenueID2());
 		potentialVenues.add(DtoObj.getOptVenueID3());
 		potentialVenues.add(DtoObj.getOptVenueID4());
 		potentialVenues.add(DtoObj.getOptVenueID4());
-		//We need look to see if there is a score on the vote
+		//Below creates an array that contains the votes taken
 		voteScore = new Integer[5];
 		voteScore[0] = DtoObj.getVoteCount1();
 		voteScore[1] = DtoObj.getVoteCount2();
