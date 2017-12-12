@@ -92,13 +92,35 @@ public class SurveyDaoImpl implements SurveyDao {
 		System.out.println("Is it null ?" + surveyList.isEmpty());
 		return surveyList;
 	}
+		public ArrayList<SurveyDto> test(String surveyID, SurveyDto newVotes) {
+			//TODO figure out where program inserts surveyID
+			
+			ArrayList<SurveyDto> surveyTallyList = (ArrayList<SurveyDto>)searchSurvey(surveyID);
+			int newVote1 = newVotes.getVoteCount1();
+			int newVote2 = newVotes.ge;
+			int newVote3;
+			int newVote4;
+			int newVote5;
+			int oldVote1;
+			int oldVote2;
+			int oldVote3;
+			int oldVote4;
+			int oldVote5;
+			
+			
+			
+			SurveyDto vote = surveyTallyList.get(0);
+			vote.setfinalVenueID(565656567);
+			
+			return null;
+		}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.gc.dao.SurveyDao#unpdateID(com.gc.dto.SurveyDto)
 	 */
-	@Override
+	/*@Override
 	public List<SurveyDto> updateSurvey(SurveyDto survID) {
 		
 		SurveyDto temp = new SurveyDto();
@@ -125,7 +147,7 @@ public class SurveyDaoImpl implements SurveyDao {
 		return new ModelAndView("welcome", "message", prodList);
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
 
 
