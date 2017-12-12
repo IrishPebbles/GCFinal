@@ -152,21 +152,6 @@ ${noAccountMessage }
 				   			</select>
 				   			<br>
 				
-					</fieldset>
-			      		
-			   		<fieldset>
-			   		<!-- 
-			   			How long would you like to set the voting window for?<br> <select
-			   				name="votingWindow">
-			   				<option value="2h">2 hours</option>
-			   				<option value="4h">4 hours</option>
-			   				<option value="6h">6 hours</option>
-			   				<option value="12h">12 hours</option>
-			   				<option value="24h">24 hours</option>
-			   				<option value="48h">48 hours</option>
-			
-			   			</select> -->
-			   		</fieldset>
 			        <br> How many additional participants would you like to enter?<br>
 			   			<select id="selection" name="numAttendees"
 			   				onchange="createEmailFields(this)">

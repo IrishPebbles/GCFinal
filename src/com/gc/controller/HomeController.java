@@ -53,15 +53,14 @@ public class HomeController {
 
 	}
 
-	// Serhiy add @RequestParam("password") String password
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("passwordInformation") String userPassword,
 			@RequestParam("street") String street, @RequestParam("city") String city,
 			@RequestParam("state") String state, @RequestParam("outingName") String outingName,
 			@RequestParam("date") String date, Model model)
-			/* @RequestParam("votingWindow") String votingWindow, */
 			throws ParseException, AddressException, MessagingException {
+		
 		// creating the daoImpl to write to the database
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
@@ -75,11 +74,9 @@ public class HomeController {
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
 
 		// Adding people coming from the form into relevant databases
-		pdao.addPerson(organizerEmail, userPassword);// we need the id of this organizer for the next push to the
-														// database
+		pdao.addPerson(organizerEmail, userPassword);// we need the id of this organizer for the next push to the database
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();// we need to be able to search a person
-		String surveyID = outingName + "," + date.toString() + "," + organizerId;// creates a survey ID from collected
-																					// informations
+		String surveyID = outingName + "," + date.toString() + "," + organizerId;// creates a survey ID from collected information
 
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
@@ -105,7 +102,7 @@ public class HomeController {
 		// passing location to create and return survey
 		Outing constructingOuting = new Outing(outingName, sqlDate, organizer, attendees, location, surveyID);
 
-		// this gets the list of potiential Restaurants
+		// this gets the list of potential Restaurants
 		Survey mySurvey = constructingOuting.getPotentialEvent();
 
 		// this writes it to the database
@@ -161,14 +158,14 @@ public class HomeController {
 																		// survey
 
 		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
-		// SurveyDto holds results from survey so that we can manipulate them. See
-		// Survey class to see organization
-		// TODO In progress write a survey method, that check the array to see what was
-		// checked
-		// TODO In progress write to the database
-
-		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built we
-																					// may not need to pass an array
+		// SurveyDto holds results from survey so that we can manipulate them. See Survey class to see organization
+		
+		// TODO In progress write a survey method, that check the array to see who has voted
+		
+		mySurvey.votingMethod(restaurantVote, surveyID, surveyDto, surveyDB);
+		
+		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
+																					
 
 		// TODO update the OUt object with how many people have left to vote
 		// TODO let the person know they have voted
@@ -182,44 +179,5 @@ public class HomeController {
 		return "preferences";
 	}
 
-	@RequestMapping("attendeeVoting")
-	public ModelAndView voting(@RequestParam("rstrnt") String[] rstrntNames,
-			@RequestParam("surveyID") String surveyID) {
-		ArrayList<String> arList = new ArrayList<String>();
-		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
-																		// survey
-
-		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
-
-		arList = mySurvey.getPotentialVenues();// gets the list of outing venues from the database
-
-		RestaurantObj placeholder;
-
-		if (rstrntNames != null) {
-			for (int i = 0; i < rstrntNames.length; i++) {
-				for (int j = 0; j < 5; j++) {
-					placeholder = ZoomatoAPI.searchByRestID(arList.get(i));
-					String restName = placeholder.getRestName();
-
-					if (restName.equals(rstrntNames[i])) {
-						mySurvey.updateVotes(j);
-					}
-				}
-			}
-
-			Integer[] voteScore = mySurvey.getVoteScore();
-			
-			surveyDto.setVoteCount1(voteScore[0]);
-			surveyDto.setVoteCount2(voteScore[1]);
-			surveyDto.setVoteCount3(voteScore[2]);
-			surveyDto.setVoteCount4(voteScore[3]);
-			surveyDto.setVoteCount5(voteScore[4]);
-
-			// TODO need to update table/database
-			surveyDB.updateSurvey(surveyDto);
-
-		}
-		return null;
-	}
+	
 }

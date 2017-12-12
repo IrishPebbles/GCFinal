@@ -99,7 +99,7 @@ public class SurveyDaoImpl implements SurveyDao {
 	 * @see com.gc.dao.SurveyDao#unpdateID(com.gc.dto.SurveyDto)
 	 */
 	@Override
-	public List<SurveyDto> updateSurvey(SurveyDto survID) {
+	public List<SurveyDto> updateSurvey(SurveyDto survey) {
 		
 		//SurveyDto temp = new SurveyDto();
 		// by passing in the product id from a hidden field we can determine what row to edit
@@ -118,7 +118,7 @@ public class SurveyDaoImpl implements SurveyDao {
 
 		codes.beginTransaction();
 
-		codes.update(survID); // update the object from the list
+		codes.update(survey); // update the object from the list
 
 		codes.getTransaction().commit(); // update the row from the database table
 
