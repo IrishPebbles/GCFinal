@@ -170,7 +170,7 @@ public class HomeController {
 
 		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
 
-		arList = mySurvey.getPotentialVenues();
+		arList = mySurvey.getPotentialVenues();// gets the list of outing venues from the database
 
 		RestaurantObj placeholder;
 

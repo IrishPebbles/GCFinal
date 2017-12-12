@@ -18,8 +18,8 @@ public class Survey {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateVotes(int vote) {
-		voteScore[vote]++;
+	public void updateVotes(int index) {
+		voteScore[index]++;
 	}
 	
 	public Survey(SurveyDto DtoObj) {
