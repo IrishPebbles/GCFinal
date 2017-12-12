@@ -158,6 +158,7 @@
 	 		 </div> <!-- End of Modal Dialog -->
 		</div><!-- End of Modal Fade -->
 		</form>
+
 </main>
 
 <footer class="container">
