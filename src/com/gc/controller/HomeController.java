@@ -29,6 +29,7 @@ import com.gc.dao.PersonDao;
 import com.gc.dao.PersonDaoImpl;
 import com.gc.dao.SurveyDao;
 import com.gc.dao.SurveyDaoImpl;
+import com.gc.dto.AttendeesDto;
 import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.OutingDto;
 import com.gc.dto.PersonDto;
@@ -409,6 +410,32 @@ public class HomeController {
 
 	
 		}
+	
+	public void attendeeHasVoted(String voterEmail/*@RequestParam("voterEmail") String voterEmail, @RequestParam("surveyID") String surveyID*/){
+		PersonDaoImpl personDAO = new PersonDaoImpl();
+		PersonDto personDTO = new PersonDto();
+		AttendeesDaoImpl attendeeDAO = new AttendeesDaoImpl();
+		AttendeesDto attendeeDTO = new AttendeesDto();
+		
+		
+		//below I create a person object so that we can access the attendee information. We use the person DAP to search for the relevant
+		//person by their email (they are created when their email is entered for the first time). We then have it "get" the object out of 
+		//the array it is returned in.
+		personDTO = personDAO.searchByEmail(voterEmail).get(0);
+		System.out.println("We got: " + personDTO.getUserEmail());
+		
+		
+		// use person id to find attendee
+		attendeeDTO = attendeeDAO.searchByPersonID(personDTO.getUserID()).get(0); 
+		//above we instantiate the attendeeDTO object. We call the information using the DAO that searches by Person ID, then plug in
+		//the person ID by calling it from the person DTO. The get 0 is because the attendeeDAO returns an attendee object in an array,
+		//so we need to "get" it so it can be converted into the object we call attendeeDTO
+		//switch false to true
+		attendeeDTO.setVoted(true);
+		
+		//Here we set the value to true
+		
+	}
 	
 
 	}
