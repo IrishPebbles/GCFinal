@@ -130,13 +130,19 @@ public class HomeController {
 	@RequestMapping(value = "/voting", method = RequestMethod.GET)
 	public ModelAndView recordVoteFromLink(Model model, @RequestParam("voterEmail") String voterEmail,
 			@RequestParam("surveyID") String surveyID) {
+
 		System.out.println("Made it to this method");
 		// we should search the database for the surveyID
+
+		// we should search the database for the surveyID
+
+
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// LINK HAS TO BE FORMATTED WITH NO QUOTES :O
 		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this should be filled from the database
 		// we build the survey object from the ID
 		Survey mySurvey = new Survey(surveyDto);
+
 
 		// TODO get the Outing information: Event Name, Organizer, Date from the outing
 		// object, if we are searching by ID by doing a join on the table
@@ -147,6 +153,22 @@ public class HomeController {
 																		// to pass an array
 		// TODO call a method to set the email address
 
+		String outingObjHTML = "";
+		if (mySurvey.attendeeCanVote(voterEmail, surveyID)) {
+
+			// TODO get the Outing information: Event Name, Organizer, Date from the outing
+			// object, if we are searching by ID by doing a join on the table
+			// I tried some SQL queries but we will need help
+
+			outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> Please vote below: " + surveyID + "</h3>";
+			outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID);// when we have the object built we may not
+																			// need to pass an array
+			// TODO call a method to set the email address
+		} else {
+			outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> You have already voted </h3>";
+		}
+
+
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
 
@@ -156,8 +178,10 @@ public class HomeController {
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote,
 			@RequestParam("surveyID") String surveyID) {
+
 		System.out.println("hello" + restaurantVote.toString() + " " + restaurantVote[0] + " " + restaurantVote[1] + " "
 				+ restaurantVote[2] + " " + restaurantVote[3] + " " + restaurantVote[4] + " ");
+
 		// surveyID should be filled from the database
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
@@ -167,6 +191,9 @@ public class HomeController {
 																		// survey
 
 		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
+
+		System.out.println("Data straight from table " + mySurvey.getPotentialVenues().toString());
+
 		// SurveyDto holds results from survey so that we can manipulate them. See
 		// Survey class to see organization
 
@@ -174,6 +201,8 @@ public class HomeController {
 		// voted
 
 		mySurvey.votingMethod(restaurantVote, surveyID, surveyDto, surveyDB);
+
+		mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
 
 		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
 
@@ -248,5 +277,8 @@ public class HomeController {
 	
 
 	}
+
+
+
 
 

@@ -17,5 +17,8 @@
 		<property name="personID">
 			<column name="personID" sql-type="int"></column>
 		</property>
+		<property name="voted">
+			<column name="voted" sql-type="boolean"></column>
+		</property>
 	</class>
 </hibernate-mapping>

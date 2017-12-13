@@ -25,4 +25,6 @@ List<OutingDto> searchID(OutingDto outingID);
 List<OutingDto> updateID(OutingDto outingID);
 	// TODO Auto-generated method stub
 
+List<OutingDto> searchSurveyID(String surveyID);
+
 }
