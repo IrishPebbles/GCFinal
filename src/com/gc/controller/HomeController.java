@@ -261,7 +261,7 @@ public class HomeController {
 		winningRestInfo = grabInfoFromAPI.searchByRestID(venue); 
 		System.out.println("And the winner is: " + winningRestInfo.getRestName() );
 
-		//TODO play with boolean values for determining whether or not people have voted
+
 		//TODO figure out how to join the tables attendees and survey so we can call from both
 		//TODO Write the logic that switches a survey to finished and triggers the final count and display
 
