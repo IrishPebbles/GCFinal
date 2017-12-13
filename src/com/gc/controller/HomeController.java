@@ -28,6 +28,7 @@ import com.gc.dao.PersonDaoImpl;
 import com.gc.dao.SurveyDao;
 import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.CurrentScoreDto;
+import com.gc.dto.OutingDto;
 import com.gc.dto.SurveyDto;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
@@ -113,7 +114,7 @@ public class HomeController {
 		String outingObjHTML = "<h2> " + outingName + "</h2>";
 		outingObjHTML += "<h4> " + date + "</h4>";
 		// this method builds the voting form we need to tell it the SurveyID
-		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID);
+		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, organizerEmail);
 		// Creates email generator object and sends the emails upon clicking submit on
 		// the preferences page.
 		/*
@@ -126,66 +127,67 @@ public class HomeController {
 	}
 
 	// TODO This method receives the clickable link
-	@RequestMapping(value = "/voting", method = RequestMethod.GET)
-	public ModelAndView recordVoteFromLink(Model model, @RequestParam("voterEmail") String voterEmail,
-			@RequestParam("surveyID") String surveyID) {
-		// we should search the database for the surveyID
-
+	@RequestMapping(value="emailLink", method=RequestMethod.GET)
+	public ModelAndView buildVotePage(Model model, @RequestParam("surveyID") String surveyID, @RequestParam("voterEmail") String voterEmail) {
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
-		// LINK HAS TO BE FORMATTED WITH NO QUOTES :O
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this should be filled from the database
-		// we build the survey object from the ID
+		OutingDaoImpl outingDB = new OutingDaoImpl();
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
+		// survey
+		OutingDto outingDto = outingDB.searchSurveyID(surveyID).get(0);
 		Survey mySurvey = new Survey(surveyDto);
-
-		String outingObjHTML = "";
-		if (mySurvey.attendeeCanVote(voterEmail, surveyID)) {
-
-			// TODO get the Outing information: Event Name, Organizer, Date from the outing
-			// object, if we are searching by ID by doing a join on the table
-			// I tried some SQL queries but we will need help
-
-			outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> Please vote below: " + surveyID + "</h3>";
-			outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID);// when we have the object built we may not
-																			// need to pass an array
-			// TODO call a method to set the email address
-		} else {
-			outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> You have already voted </h3>";
-		}
+		String outingObjHTML = "<h2> " + outingDto.getOutingName() + "</h2>";
+		outingObjHTML += "<h4> " + outingDto.getDateOfEvent().getMonth() + outingDto.getDateOfEvent().getDay() + outingDto.getDateOfEvent().getYear()+ "</h4>";
+		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);
+			
 
 		return new ModelAndView("voting", "result", outingObjHTML);
+	}
+
+	@RequestMapping(value = "/voting", method = RequestMethod.GET)
+	public ModelAndView recordVote(Model model, @RequestParam("voterEmail") String voterEmail,
+			@RequestParam("surveyID") String surveyID, @RequestParam("rstrnt") String[] restaurantVote) {
+	
+				SurveyDaoImpl surveyDB = new SurveyDaoImpl();
+				// we have to know who voter is
+				//String userEmail = "jenna.otto@gmail.com";// this is the organizer, needs to be a variable
+
+				// If you are using a build link it has to be formatted with no quotes
+				SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
+																				// survey
+
+				Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
+				// SurveyDto holds results from survey so that we can manipulate them. See Survey class to see organization
+
+
+				mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
+				String outingObjHTML = "";
+				outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
+
+				// TODO update the OUt object with how many people 
+				// we should search the database for the surveyID
+				
+				/* This will work once the attendees are filled
+				if (mySurvey.attendeeCanVote(voterEmail, surveyID)) {
+
+					// TODO get the Outing information: Event Name, Organizer, Date from the outing
+					// object, if we are searching by ID by doing a join on the table
+					// I tried some SQL queries but we will need help
+
+					outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> Please vote below: " + surveyID + "</h3>";
+					outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);// when we have the object built we may not
+																			// need to pass an array
+					// TODO call a method to set the email address
+				} else {
+					outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> You have already voted </h3>";
+				}*/
+
+				return new ModelAndView("voting", "result", outingObjHTML);
 	}
 
 	// TODO needs to be working -- we may have to push a outing variable in a hidden
 	// field // we need to make another hidden field to record who is voting
 
-	@RequestMapping("/recordVote")
-	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote,
-			@RequestParam("surveyID") String surveyID) {
-		// surveyID should be filled from the database
-		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
-		// we have to know who voter is
-		String userEmail = "jenna.otto@gmail.com";// this is the organizer, needs to be a variable
 
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
-																		// survey
-
-		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
-		System.out.println("Data straight from table " + mySurvey.getPotentialVenues().toString());
-		// SurveyDto holds results from survey so that we can manipulate them. See
-		// Survey class to see organization
-
-		// TODO In progress write a survey method, that check the array to see who has
-		// voted
-
-		mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
-
-		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
-
-		// TODO update the OUt object with how many people have left to vote
-		// TODO let the person know they have voted
-
-		return new ModelAndView("voting", "result", outingObjHTML);
-	}
 
 	@RequestMapping("preferences")
 	public String viewPreferencesPage() {
