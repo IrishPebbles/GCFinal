@@ -30,6 +30,7 @@ import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.OutingDto;
 import com.gc.dto.SurveyDto;
+import com.gc.util.EmailGenerator;
 import com.gc.util.GeolocationAPI;
 import com.gc.util.Outing;
 import com.gc.util.Person;
@@ -103,7 +104,7 @@ public class HomeController {
 		}
 
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
-		// passing location to create and return survey
+		// passing location to create and return survey-- I dont know that we ever use this outing object?
 		Outing constructingOuting = new Outing(outingName, sqlDate, organizer, attendees, location, surveyID);
 
 		// this gets the list of potential Restaurants
@@ -116,13 +117,16 @@ public class HomeController {
 		outingObjHTML += "<h4> " + date + "</h4>";
 		// this method builds the voting form we need to tell it the SurveyID
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, organizerEmail);
+		
+		String votingLink =" http://localhost:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail=" +attendees.get(0).getUserEmail();
 		// Creates email generator object and sends the emails upon clicking submit on
 		// the preferences page.
-		/*
-		 * EmailGenerator email = new EmailGenerator(); for(int i =0; i <
-		 * emailAddresses.length; ++i) { email.generateAndSendEmail(organizerEmail,
-		 * emailAddresses[i]); }
-		 */
+		
+		  EmailGenerator email = new EmailGenerator(); 
+		  for(int i =0; i < emailAddresses.length; ++i) { 
+			  email.generateAndSendEmail(organizerEmail,emailAddresses[i], votingLink); 
+		  }
+		
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
@@ -152,7 +156,7 @@ public class HomeController {
 	
 				SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 				// we have to know who voter is
-				//String userEmail = "jenna.otto@gmail.com";// this is the organizer, needs to be a variable
+		
 
 
 				// If you are using a build link it has to be formatted with no quotes
