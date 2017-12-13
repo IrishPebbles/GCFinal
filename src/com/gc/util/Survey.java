@@ -136,7 +136,7 @@ public class Survey {
 					+ "</td><td> Rating:" + placeholder.getRestRating() + "</td>\n</tr>";
 		}
 
-		tableHtml += "</table> " + "<input type=\"submit\" value=\"Vote\" > </form>";
+		tableHtml += "</table> ";
 		return tableHtml;
 	}
 
