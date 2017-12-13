@@ -43,43 +43,14 @@ import com.gc.util.ZoomatoAPI;
 
 @Controller
 	
-	@SessionAttributes({"authenticated", "username"})
+
 		public class SerhiyController {
-		private PersonDaoImpl database = new PersonDaoImpl();
+
 		
 		// this is an example showing how to take data from a form and just add it to a page
 	
 				
-		@RequestMapping(value = "/indexlogin", method = RequestMethod.POST)
-		public ModelAndView loginCustomer(@RequestParam("userEmail") String username,Model model)throws ClassNotFoundException, SQLException {
 		
-			ArrayList<PersonDto> user  =  (ArrayList<PersonDto>) database.searchByEmail(username); // we need to enter if statement to count for userEmail not found
-			System.out.println(user + "  user is empty "+ user.isEmpty());
-			String warning = null;
-			if (!user.isEmpty()) {
-				model.addAttribute("user",username);
-				
-				PersonDto searchUser = user.get(0); // getting userEmail from ArrayList<PersonDto> at location zero
-				warning =" Welcome " + username;
-				
-			}
-				
-			else {
-				warning = "<p class='warning'> You do not have an account associated with  "+ username +
-						"<form action=\"addnewuserinfo\" method=\"post\">" +
-						"Please create an account below: </p> Your user name: <input type=\"email\"name=\"username\"value=\"" + username + "\"><br><br> Please enter your password:     <input type=\"password\"name=\"passwordBox1\"><br> <br> Please Re-enter password your: <input type=\"password\"name=\"passwordBox2\"> <br><br>  <input type=\"submit\"value=\"Submit\"> "; 
-				
-				//return new ModelAndView("voting", "userName", warning);
-				// what we want to do if they don't have account created. 
-				
-			}	
-			
-			//System.out.println(warning);
-			model.addAttribute("authenticated", username);
-			return new ModelAndView("voting", "result", warning);
-			
-			//return new ModelAndView("preferences", "noAccountMessage", warning);
-		}
 				
 	}
 		/*@RequestMapping(value = "/submitform", method = RequestMethod.POST)

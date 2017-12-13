@@ -19,11 +19,10 @@ public class Person {
 	}
 	
 	
-	public Person(String userEmail, String password, ArrayList<Outing> createdOutings) {
+	public Person(String userEmail, String password) {
 		super();
 		this.userEmail = userEmail;
 		this.password = password;
-		this.createdOutings = createdOutings;
 	}
 	
 	public String getUserEmail() {
