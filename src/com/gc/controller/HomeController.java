@@ -73,11 +73,11 @@ public class HomeController {
 		// creating the daoImpl to write to the database
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
-		
+		AttendeesDao  attendDao = new AttendeesDaoImpl();
 		
 		ArrayList<PersonDto> user  =  (ArrayList<PersonDto>) pdao.searchByEmail(organizerEmail); // we need to enter if statement to count for userEmail not found
 		System.out.println(user + "  user is empty "+ user.isEmpty());
-		String userLoginText = "<p>";
+		String userLoginText = "";
 		if (!user.isEmpty()) {
 			model.addAttribute("user",organizerEmail);
 			
@@ -90,7 +90,7 @@ public class HomeController {
 		userLoginText = "<p > You do not have an account associated with  "+ organizerEmail + ". </p>" +"Please create an account below: </p> Your user name: <input type=\"email\"name=\"username\"value=\"" + organizerEmail + "\"><br><br> Please enter your password:     <input type=\"password\"name=\"passwordBox1\"><br> <br> Please Re-enter password your: <input type=\"password\"name=\"passwordBox2\"> <br><br> "; 
 			
 			// what we want to do if they don't have account created. 
-			
+			pdao.addPerson(organizerEmail, "1");
 			}	
 		
 		//System.out.println(warning);
@@ -107,6 +107,7 @@ public class HomeController {
 		// Adding people coming from the form into relevant databases
 		//// we need the id of this organizer for the next push to the
 														// database
+		//fix after lunch -- we need to check again if user exists
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();// we need to be able to search a person
 						// a different field
 
@@ -129,25 +130,32 @@ public class HomeController {
 		// this builds the HTML OBJ table for voting
 		
 		
-		String votingLink =" http://localhost:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="+organizerEmail;
+		
 		// Creates email generator object and sends the emails upon clicking submit on
 		// the preferences page.
 		
 		  EmailGenerator email = new EmailGenerator(); 
+		  String votingLink = "";
 		  for(int i =0; i < emailAddresses.length; ++i) { 
+			  votingLink =" http://localhost:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="+ emailAddresses[i];
 			  email.generateAndSendEmail(organizerEmail,emailAddresses[i], votingLink); 
 		  }
 
 		// this gets the list of potiential Restaurants		
-	
+	      int outingID = outDao.searchSurveyID(surveyID).get(0).getOutingID();
 		  for (int i = 0; i < emailAddresses.length; i++) {
-				
-			pdao.addPerson(emailAddresses[i], "1");
-			//write to the attendees database
-			
-			 
-			
+			  user  =  (ArrayList<PersonDto>) pdao.searchByEmail(emailAddresses[i]); // we need to enter if statement to count for userEmail not found
+			 System.out.println(user + "  user is empty "+ user.isEmpty());
+			 if (!user.isEmpty()) {
+					pdao.addPerson(emailAddresses[i], "1");
+					
+			}
+			 int personID = pdao.searchByEmail(emailAddresses[i]).get(0).getUserID();
+			//write to the attendees database		
+			 attendDao.addNewAttendees(personID, outingID);
 		}
+		  
+		  
 		 
 		
 		//this is where we need to output the HTML for logging
