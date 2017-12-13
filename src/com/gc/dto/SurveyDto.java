@@ -83,7 +83,7 @@ public class SurveyDto implements Serializable {
 		this.finalVenueID = finalVenueID;
 	}
 
-	public boolean isHasVoted() {
+	public boolean getHasVoted() {
 		return hasVoted;
 	}
 
