@@ -50,6 +50,7 @@ public class HomeController {
 		SurveyDao sdao = new SurveyDaoImpl();
 		model.addAttribute("displayPreference", "\"display:none;\"");
 
+		determineAndViewFinalResults();
 		return new ModelAndView("index", "result", "");
 
 	}
@@ -127,6 +128,7 @@ public class HomeController {
 	}
 
 	// TODO This method receives the clickable link
+
 	@RequestMapping(value="emailLink", method=RequestMethod.GET)
 	public ModelAndView buildVotePage(Model model, @RequestParam("surveyID") String surveyID, @RequestParam("voterEmail") String voterEmail) {
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
@@ -135,6 +137,7 @@ public class HomeController {
 		// survey
 		OutingDto outingDto = outingDB.searchSurveyID(surveyID).get(0);
 		Survey mySurvey = new Survey(surveyDto);
+
 		String outingObjHTML = "<h2> " + outingDto.getOutingName() + "</h2>";
 		outingObjHTML += "<h4> " + outingDto.getDateOfEvent().getMonth() + outingDto.getDateOfEvent().getDay() + outingDto.getDateOfEvent().getYear()+ "</h4>";
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);
@@ -151,23 +154,32 @@ public class HomeController {
 				// we have to know who voter is
 				//String userEmail = "jenna.otto@gmail.com";// this is the organizer, needs to be a variable
 
+
 				// If you are using a build link it has to be formatted with no quotes
 				SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
-																				// survey
+
 
 				Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
-				// SurveyDto holds results from survey so that we can manipulate them. See Survey class to see organization
+
+	
+
+				// SurveyDto holds results from survey so that we can manipulate them. See
+				// Survey class to see organization
 
 
 				mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
 				String outingObjHTML = "";
 				outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
 
+
 				// TODO update the OUt object with how many people 
 				// we should search the database for the surveyID
 				
 				/* This will work once the attendees are filled
 				if (mySurvey.attendeeCanVote(voterEmail, surveyID)) {
+
+
+				mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
 
 					// TODO get the Outing information: Event Name, Organizer, Date from the outing
 					// object, if we are searching by ID by doing a join on the table
@@ -195,4 +207,67 @@ public class HomeController {
 		return "preferences";
 	}
 
-}
+	@RequestMapping("/recordvote")
+	public void determineAndViewFinalResults() {
+		AttendeesDaoImpl attendeeDao = new AttendeesDaoImpl();
+		SurveyDaoImpl surveyDao = new SurveyDaoImpl();
+		SurveyDto surveyDTO = new SurveyDto();
+		ZoomatoAPI grabInfoFromAPI = new ZoomatoAPI(); 
+		RestaurantObj winningRestInfo = new RestaurantObj(); 
+
+		// Here we pull in the survey once the column value "HasVoted" has been marked
+		// true.
+		// This triggers once the last participant has submitted their vote
+		ArrayList<SurveyDto> finalSurvey = (ArrayList<SurveyDto>) surveyDao
+				.searchSurvey("WeaselStompingDay,2017-12-21,97");
+		surveyDTO = finalSurvey.get(0);
+		// Above I assign the arraylist the survey arrives in into an object for
+		// manipulation
+
+		ArrayList<Integer> voteCountArray = new ArrayList();
+		voteCountArray.add(surveyDTO.getVoteCount1());
+		voteCountArray.add(surveyDTO.getVoteCount2());
+		voteCountArray.add(surveyDTO.getVoteCount3());
+		voteCountArray.add(surveyDTO.getVoteCount4());
+		voteCountArray.add(surveyDTO.getVoteCount5());
+		// Here I'm assigning the numbers of votes and venue IDs into corresponding
+		// positions in two different arrays
+		ArrayList<String> venueArray = new ArrayList();
+		venueArray.add(surveyDTO.getOptVenueID1());
+		venueArray.add(surveyDTO.getOptVenueID2());
+		venueArray.add(surveyDTO.getOptVenueID3());
+		venueArray.add(surveyDTO.getOptVenueID4());
+		venueArray.add(surveyDTO.getOptVenueID5());
+
+		int temp = 0;
+		String venue = "";
+		// This "for" loop cycles through the voteCountArray list and finds the highest
+		// vote count.
+		// It also returns the restaurant ID of the corresponding entry from venueArray.
+		for (int i = 0; i < voteCountArray.size(); i++) {
+			if (voteCountArray.get(i) > temp) {
+				temp = voteCountArray.get(i);
+				venue = venueArray.get(i).toString();
+			}
+		}
+		
+		
+		//Here I call the api and put in the winning venue's restID
+		//I then assign it to a local Restaurant object, which is how I present the information.
+		winningRestInfo = grabInfoFromAPI.searchByRestID(venue); 
+		System.out.println("And the winner is: " + winningRestInfo.getRestName() );
+
+		//TODO play with boolean values for determining whether or not people have voted
+		//TODO figure out how to join the tables attendees and survey so we can call from both
+		//TODO Write the logic that switches a survey to finished and triggers the final count and display
+
+	
+		}
+	
+
+	}
+
+
+
+
+
