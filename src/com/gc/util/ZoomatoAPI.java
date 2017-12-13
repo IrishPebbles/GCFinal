@@ -76,6 +76,23 @@ public class ZoomatoAPI {
 		
 		return restID;
 	}
+	
+	public ArrayList<String> getNewList() {
+		restID = new ArrayList<String>();
+		JSONObject objJson =connectToAPI(buildParameterforList("8046.72"));//this number is a radius of 5 miles in meters
+		JSONObject restaurant = null;
+		
+		// assign the returned result to a json object
+		JSONArray restArray = objJson.getJSONArray("restaurants");// we are creating an array from JSON tree
+		for (int i = 5; i < 10; i++) {
+			
+			restaurant = restArray.getJSONObject(i).getJSONObject("restaurant");
+			restID.add(i, restaurant.getString("id"));
+
+		}
+		
+		return restID;
+	}
 
 	// this method is minimal stub I have to make call to API with correct
 	// parameters. We can also make a method that connects to API for us
