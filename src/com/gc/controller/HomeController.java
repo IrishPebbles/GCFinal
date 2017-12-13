@@ -161,7 +161,6 @@ public class HomeController {
 	@RequestMapping("/recordVote")
 	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote,
 			@RequestParam("surveyID") String surveyID) {
-		System.out.println("hello" + restaurantVote.toString()+ " " +restaurantVote[0] + " " + restaurantVote[1] + " " + restaurantVote[2] + " " + restaurantVote[3] + " " + restaurantVote[4] + " " );
 		// surveyID should be filled from the database
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
@@ -171,13 +170,14 @@ public class HomeController {
 																		// survey
 
 		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
+		System.out.println("Data straight from table " + mySurvey.getPotentialVenues().toString());
 		// SurveyDto holds results from survey so that we can manipulate them. See
 		// Survey class to see organization
 
 		// TODO In progress write a survey method, that check the array to see who has
 		// voted
 
-		mySurvey.votingMethod(restaurantVote, surveyID, surveyDto, surveyDB);
+		mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
 
 		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
 
