@@ -43,13 +43,14 @@ import com.gc.util.ZoomatoAPI;
 
 @Controller
 	
-	@SessionAttributes({"authenticated", "username"})
+
 		public class SerhiyController {
-		private PersonDaoImpl database = new PersonDaoImpl();
+
 		
-		// this is an example showing how to take data from a form and just add it to a page
+	/*	// this is an example showing how to take data from a form and just add it to a page
 	
 				
+
 		@RequestMapping(value = "/indexlogin", method = RequestMethod.POST)
 		public ModelAndView loginCustomer(@RequestParam("username") String username, Model model)throws ClassNotFoundException, SQLException {
 			
@@ -78,7 +79,8 @@ import com.gc.util.ZoomatoAPI;
 			}
 			
 			return new ModelAndView("preferences", "noAccountMessage", warning);
-		}
+		}*/
+
 				
 	
 		/*@RequestMapping(value = "/submitform", method = RequestMethod.POST)

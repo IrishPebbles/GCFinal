@@ -11,7 +11,7 @@
 
 
 #login-modal .modal-dialog {
-    width: 350px;
+    width: 650px;
 }
 
 #login-modal input[type=text], input[type=password] {
@@ -66,13 +66,17 @@
 }
 
 #img_logo {
-    max-height: 100px;
-    max-width: 100px;
+    max-height: 50px;
+    max-width: 50px;
 }
 
 /* #########################################
    #    override the bootstrap configs     #
    ######################################### */
+
+#outingbutton{
+	text-align:center;
+	}
 
 .modal-backdrop.in {
     filter: alpha(opacity=50);

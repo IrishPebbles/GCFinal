@@ -28,7 +28,7 @@ public class EmailGenerator {
         System.out.println("\n\n ===> Your Java Program has just sent an Email successfully. Check your email..");
     }*/
  
-    public static void generateAndSendEmail(String orgEmail, String emailAddresses) throws AddressException, MessagingException {
+    public static void generateAndSendEmail(String orgEmail, String emailAddresses, String link) throws AddressException, MessagingException {
     	//for(int i = 0; i < emailAddresses.length; i++) {
         // Step1
         System.out.println("\n 1st ===> setup Mail Server Properties..");
@@ -48,9 +48,9 @@ public class EmailGenerator {
         
         
        // generateMailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress("Lena.L.Hand@gmail.com"));
-        generateMailMessage.setSubject("Greetings from Outings");
-        String emailBody = "Test email by your boi Outings " + "<br><br>Nah just kidding it's your friendly neighborhood"
-                + " Jimmy sending you <br> some spicey emails from the comfort of his PC" + "<br><br> Regards, <br>Outings by Somebody";
+        //If we send the organizer as a person to get the name or sned the envent info
+        generateMailMessage.setSubject("Vote for Event");
+        String emailBody = "Hello,  " + "<br><br><p>Please click the link or paste it in your url bar" +  "<a href=\"" + link+ "\">"  + link + " </a> </p><br><br> Regards, <br>Outings by Somebody";
         generateMailMessage.setContent(emailBody, "text/html");
         System.out.println("Mail Session has been created successfully..");
  

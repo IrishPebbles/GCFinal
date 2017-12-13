@@ -11,15 +11,17 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 </head>
 <body>
+${ noAccountMessage}
 
+<<<<<<< HEAD
 <form action="voting" method="post">
 		
 
 		<fieldset>
 			Log in or provide email address: <input type="email" name="organizerEmail" placeholder="email@domain.com" required><br>
-			
+			    		
 			Outing name <input type="text" name="outingName"><br><br>
-			
+			Password : <input id="login_password" class="form-control" type="password" placeholder="Password" name="passwordInformation"required > <br>
 			Choose a date for your Outing: <input type="date" name="date" required><br>
 			
 			Enter an address at the center of the search area: <br>
@@ -111,9 +113,11 @@
 		<fieldset> -->
 			<div id="email"></div>
 		</fieldset>
-		<input type="submit" value="Submit"> <input type="reset"
-			value="Reset">
+		<input type="submit" value="Submit"> 
+		<input type="reset" value="Reset">
 	</form>
+=======
+>>>>>>> user-interface
 	<script>
 		function createEmailFields(val) {
 			document.getElementById("email").innerHTML = "<div></div>";
