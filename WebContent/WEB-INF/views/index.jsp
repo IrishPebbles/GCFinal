@@ -16,15 +16,20 @@
   <!-- Main jumbotron for a primary marketing message or call to action -->
  
 	  <div class="jumbotron">
-	    <div class="container">
-	      <h1 class="display-3" style = "text-align: center">Welcome to Outings</h1>
-	      
-	      <p style = "text-align: center">Organize fun events with your friends and family and easily decide where to go. Getting together easier and more enjoyable than ever before.</p>
-	     
-	     <h6>Please enter email to start an Outing:</h6>
-	     <input type="email" name="organizerEmail"><br><br>   
-	      <p id="outingbutton"> <a class="btn btn-primary btn-lg" role="button" data-toggle="modal" data-target="#login-modal"> Create an Outing </a></p>
-	      
+	    <div class="container" >
+	    		<div style="background: white; opacity: 0.90; border-radius: 4px;">
+		      <h1 class="display-3" style = "text-align: center">Welcome to Outings</h1>
+		      
+		      <p style = "text-align: center">Organize fun events with your friends and family and easily decide where to go. Getting together easier and more enjoyable than ever before.</p>
+		     
+		     
+		     <div class="input-group">
+				<input type="email" class="form-control" placeholder="your-email@emailAddress.com"   name="organizerEmail">
+     			 <span class="input-group-btn">
+        				<button id="outingbutton" class="btn btn-primary btn-default" type="button"  data-toggle="modal" data-target="#login-modal">Create an Outing</button>
+      			</span>
+			 </div>
+			</div>
 	    </div>
 	  </div>
 	  
