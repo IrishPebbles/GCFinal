@@ -18,6 +18,6 @@ ${result }
 
 <script src="/resources/passwordvalidation.js"></script>
 
-<a href="tryagain"
+<a href="tryagain"></a>
 </body>
 </html>

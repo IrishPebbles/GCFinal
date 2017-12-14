@@ -31,7 +31,7 @@ public class OutingDaoImpl implements OutingDao {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		OutingDto newOuting = new OutingDto();
-		System.out.println("IN DB update " + organizer);
+	
 		newOuting.setDateOfEvent(dateOfEvent);
 		newOuting.setFinalLocation(finalLoc);
 		newOuting.setOrganizer(14);
