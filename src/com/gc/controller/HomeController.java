@@ -196,7 +196,8 @@ public class HomeController {
 			
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
-
+	
+	//in this method we are recording the users vote
 	@RequestMapping(value = "/recordVote", method = RequestMethod.GET)
 	public ModelAndView recordVote(Model model, @RequestParam("voterEmail") String voterEmail,
 			@RequestParam("surveyID") String surveyID, @RequestParam("rstrnt") String[] restaurantVote, 
@@ -255,94 +256,7 @@ public class HomeController {
 				return new ModelAndView("voting", "result", outingObjHTML);
 	}
 
-	// TODO needs to be working -- we may have to push a outing variable in a hidden
-	// field // we need to make another hidden field to record who is voting
 
-
-
-	
-
-	
-	@RequestMapping(value = "/addnewuserinfo", method = RequestMethod.POST)
-	public ModelAndView recordUserToDB(Model model, @RequestParam("username") String userName,
-			@RequestParam("passwordBox1") String pass1) {
-		
-		PersonDaoImpl addUser = new PersonDaoImpl();
-		
-		String passHash = Person.generateHashPassword(pass1);
-
-		addUser.addPerson(userName, passHash);
-
-		String outingObjHTML = "<h2> Thank you " + userName + " </h2> <h3> Please vote below: " + passHash + "</h3>";
-		
-
-		return new ModelAndView("voting", "userResult", outingObjHTML);
-	}
-
-	// TODO needs to be working -- we may have to push a outing variable in a hidden
-	// field // we need to make another hidden field to record who is voting
-	/*@RequestMapping("/needstobemerged")
-	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote,
-			@RequestParam("surveyID") String surveyID, @RequestParam("username") String userName,
-			@RequestParam("passwordBox1") String pass1) {
-		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
-		PersonDaoImpl addUser = new PersonDaoImpl();	
-		String passHash = Person.generateHashPassword(pass1);
-		addUser.addPerson(userName, passHash);
-
-		// surveyID should be filled from the database- is not right now.
-	
-		// we have to know who voter is
-		
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this should be filled from the database
-		System.out.println(
-				" Survey DTO  restaurant ID" + surveyDto.getOptVenueID1() + " vote count " + surveyDto.getVoteCount1());
-
-		Survey mySurvey = new Survey(surveyDto);
-		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built we
-																					// may not need to pass an array
-		// get survey object (from Outing object)
-
-		// update the object
-		// let the person know they have voted
-
-		return new ModelAndView("voting", "result", outingObjHTML);
-	}
-	*/
-	
-	@RequestMapping(value = "/indexlogin", method = RequestMethod.POST)
-	public ModelAndView loginCustomer(@RequestParam("userEmail") String username,Model model)throws ClassNotFoundException, SQLException {
-		PersonDaoImpl database = new PersonDaoImpl();
-	
-		ArrayList<PersonDto> user  =  (ArrayList<PersonDto>) database.searchByEmail(username); // we need to enter if statement to count for userEmail not found
-		System.out.println(user + "  user is empty "+ user.isEmpty());
-		String warning = null;
-		//if the person is in the database
-		if (!user.isEmpty()) {
-			model.addAttribute("user",username);
-			
-			PersonDto searchUser = user.get(0); // getting userEmail from ArrayList<PersonDto> at location zero
-			warning =" Welcome " + username;
-			//we just let them vote
-			
-		}
-		// they need to create password	
-		else {
-			warning = "<p class='warning'> You do not have an account associated with  "+ username +
-					"<form action=\"addnewuserinfo\" method=\"post\">" +
-					"Please create an account below: </p> Your user name: <input type=\"email\"name=\"username\"value=\"" + username + "\"><br><br> Please enter your password:     <input type=\"password\"name=\"passwordBox1\"><br> <br> Please Re-enter password your: <input type=\"password\"name=\"passwordBox2\"> <br><br>  <input type=\"submit\"value=\"Submit\"> "; 
-			
-			//return new ModelAndView("voting", "userName", warning);
-			// what we want to do if they don't have account created. 
-			
-		}	
-		
-		//System.out.println(warning);
-		model.addAttribute("authenticated", username);
-		return new ModelAndView("voting", "result", warning);
-		
-		//return new ModelAndView("preferences", "noAccountMessage", warning);
-	}
 	@RequestMapping("preferences")
 	public String viewPreferencesPage() {
 		// System.out.println("Here");
