@@ -5,7 +5,7 @@
 <head>
 <script src="https://use.fontawesome.com/84c291ee55.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Welcome to Outings </title>
+<title>Welcome to Out with Friends!</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 <link rel="stylesheet" href="resources/modallogin.css" type="text/css">
 </head>
@@ -20,7 +20,7 @@
 	    		<div style="background: white; opacity: 0.90; border-radius: 4px;">
 		      <h1 class="display-3" style = "text-align: center">Welcome to Out with Friends</h1>
 		      
-		      <p style = "text-align: center">Organize fun events with your friends and family and easily decide where to go. Getting together easier and more enjoyable than ever before.</p>
+		      <p style = "text-align: center">Taking the anxiety out of being social</p>
 		     
 		     
 		     <div class="input-group">
@@ -68,7 +68,7 @@
 	
 	   				Choose a date for your Outing: <input type="date" name="date" required><br>
 	
-	   				Enter an address for area event: <br>
+	   				Enter an address for the event area: <br>
 		   			Street: <input type="text" name="street" placeholder="123 Main St" ><br>
 		   			City: <input type="text" name="city" placeholder="Detroit" required><br>
 		   			State: <select name="state">
@@ -168,12 +168,10 @@
 
 <footer class="container">
 
-  <p style="text-align:center" >&copy; Outings Planner 2017 </p>
-  <p style="text-align:center">  Made possible by <a href="http://grandcircus.co">  Grand Circus </a>
-   with special thanks to Antonella and Merc for all their guidance.</p>
-  <p style="text-align:center">
-     Code for this project can be found on Github <a href="https://github.com/jennaprice/GCFinal"> here.</a>
-  </p>
+  <p style="text-align:center" >&copy; Out with Friends, 2017 </p>
+  <p style="text-align:center">Made possible by <a href="http://grandcircus.co">Grand Circus</a> with special thanks to Antonella and Merc. We couldn't have done it without your help!</p>
+  <p style="text-align:center">We couldn't have done it without your help!</p>
+  <p style="text-align:center">Code for this project can be found on <a href="https://github.com/jennaprice/GCFinal">Github</a>.</p>
   
 </footer>
 
