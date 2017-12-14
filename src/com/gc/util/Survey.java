@@ -125,7 +125,7 @@ public class Survey {
 				+ "	<form action=\"voting\" method =\"get\">" + "	<table border=\"1\">";
 		
 		//passsing the organizer and the surveyID
-		tableHtml += "<input type=\"hidden\" name=\"surveyID\" value=\"" + surveyID + "\"><input type=\"hidden\" name=\"voterEmail\" value=\"" + voterEmail + "\">";
+		tableHtml += "<input type=\"hidden\" name=\"surveyID\" value=\"" + surveyID + "\">";
 		
 		RestaurantObj placeholder;
 		for (int i = 0; i < 5; i++) {
