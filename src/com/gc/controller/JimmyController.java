@@ -97,6 +97,7 @@ import com.gc.util.ZoomatoAPI;
 		//so we need to "get" it so it can be converted into the object we call attendeeDTO
 		//switch false to true
 		attendeeDTO.setVoted(true);
+		attendeeDAO.updateAttendees(attendeeDTO);
 		
 		//Here we set the value to true
 		
@@ -105,8 +106,22 @@ import com.gc.util.ZoomatoAPI;
 	public void lastVoteSendResults(String surveyID) {
 		OutingDaoImpl outingDAO = new OutingDaoImpl();
 		OutingDto outingDTO = new OutingDto();
+		AttendeesDaoImpl attendeeDAO = new AttendeesDaoImpl();
+		AttendeesDto attendeeDTO = new AttendeesDto();
+		
 		
 		outingDTO = outingDAO.searchSurveyID(surveyID).get(0);
+		 
+		
+		//call all attendees by outing id
+		
+		ArrayList<AttendeesDto> voteCheckArray = (ArrayList<AttendeesDto>) attendeeDAO.searchByOutingID(outingDTO.getOutingID()); 
+		int temp = 0;
+		for(int i = 0; i < voteCheckArray.size(); i++) {
+			temp += 1; 
+		}
+		System.out.println("Did it work? " + temp);
+		//instantiate them into DTO's
 		
 		
 		
