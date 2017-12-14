@@ -46,22 +46,25 @@ import com.gc.util.ZoomatoAPI;
 @SessionAttributes({ "authenticated", "username" })
 @Controller
 public class HomeController {
-
+	
+	
+	//Homepage loading with HTML
 	@RequestMapping({ "/", "index" })
 	public ModelAndView homepage(Model model) {
+		
+		//Jenna: I am not sure what this is for but I think Jimmy knows
 		CurrentScoreDto dto = new CurrentScoreDto();
 		CurrentScoreDao dao = new CurrentScoreDaoImpl();
 		AttendeesDao adao = new AttendeesDaoImpl();
 		OutingDao odao = new OutingDaoImpl();
 		PersonDao pdao = new PersonDaoImpl();
 		SurveyDao sdao = new SurveyDaoImpl();
-		model.addAttribute("displayPreference", "\"display:none;\"");
-
+	
 		lastVoteSendResults("WeaselStompingDay,2017-12-21,97");
 		return new ModelAndView("index", "result", "");
 
 	}
-
+	//this the process that runs after someone hits submit on to create an outing 
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
@@ -78,10 +81,10 @@ public class HomeController {
 		// create an account or login
 		String userLoginHTML = Person.checkUserGenerateHTML(organizerEmail);
 
-		// System.out.println(warning);
+		// If we wanted to track is a person to login with with the session ID
 		// model.addAttribute("userResult", userLogin);
 
-		// Changes input java date into sql date
+		// Changes input java date into sql date, this is the date that can be stored in the database
 		String[] formatDate = date.split("-");
 		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
 				Integer.parseInt(formatDate[2]));
@@ -89,47 +92,32 @@ public class HomeController {
 		Date myDate = formatter.parse(date);
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
 
-		// Adding people coming from the form into relevant databases
-		//// we need the id of this organizer for the next push to the
-		// database
-		// fix after lunch -- we need to check again if user exists--checked user should
-		// exist
-
+		
+		//we need the Organizer ID from the table to write to the attendees tables
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();// we need to be able to search a person
 
-		String surveyID = outingName + "," + date.toString() + "," + organizerId;// syntax for key
+		String surveyID = outingName + "," + date.toString() + "," + organizerId;// syntax for  unique key
 
+		//splits the emailAddress String into an array
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 		System.out.println(Arrays.toString(emailAddresses));
 
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
-		// passing location to create and return survey-- I dont know that we ever use
-		// this outing object?
+		// passing location to create and return survey-- we create this outingIbj to build and create a survey
 		Outing constructingOuting = new Outing(outingName, sqlDate, null, null, location, surveyID);
 
-		// this gets the list of potential Restaurants
+		// this gets the list of potential Restaurants that was creating int he OUting Object
 		Survey mySurvey = constructingOuting.getPotentialEvent();
-		System.out.println("Organizer ID " + organizerId);
-		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);
-		// this builds the HTML OBJ table for voting
-
-		// Creates email generator object and sends the emails upon clicking submit on
-		// the preferences page.
-
-		  EmailGenerator email = new EmailGenerator(); 
-		  String votingLink = "";
-		  
-		  for(int i =0; i < emailAddresses.length; ++i) { 
-			  votingLink =" http://192.168.0.8:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="+ emailAddresses[i] +"&lat="+ location.getLatitude() + "&long=" + location.getLongitude();
-			  email.generateAndSendEmail(organizerEmail,emailAddresses[i], votingLink); 
-		  }
+	
+		//writes the information to the table with finalLocation blank
+		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);		
 
 		// this gets the list of potiential Restaurants		
-		  ArrayList<PersonDto> user;
-		  Person attendee;
-	      int outingID = outDao.searchSurveyID(surveyID).get(0).getOutingID();
-		  for (int i = 0; i < emailAddresses.length; i++) {
+		 ArrayList<PersonDto> user;
+		 Person attendee;
+	     int outingID = outDao.searchSurveyID(surveyID).get(0).getOutingID();
+		 for (int i = 0; i < emailAddresses.length; i++) {
 			  attendee = Person.checkUserExistsOrCreate(emailAddresses[i]);
 			
 			 int personID = attendee.getPersonID();
@@ -146,23 +134,27 @@ public class HomeController {
 		//this is where we need to output the HTML for logging
 		 
 		// this builds the HTML OBJ table for voting
-		String outingObjHTML = "<h1>  Welcome to" + outingName + "</h1>";
+		String outingObjHTML = "<h1>  Welcome to " + outingName + "</h1>";
 		outingObjHTML += "<h4>  for " + date + "</h4>";
 		outingObjHTML +=  "<h3> Please vote below</h3>" + "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>"+ "	<form action=\"voting\" method =\"get\">";
 		outingObjHTML +=  " <input type=\"hidden\" name=\"lat\" value=\" "+ location.getLatitude()+ "\" >";
 		outingObjHTML +=  " <input type=\"hidden\" name=\"long\" value=\" "+ location.getLongitude() +"\" >";
+		//this line for the form action is critcal for votes, user and  password validation
 		outingObjHTML += "<form action=\"recordVote\" method =\"get\">" ;
 		outingObjHTML += userLoginHTML;
 		// this method builds the voting form we need to tell it the SurveyID
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, organizerEmail);
 		outingObjHTML += "<input type=\"submit\" value=\"Vote\" > </form>";
+		
 		// Creates email generator object and sends the emails upon clicking submit on
-		// the preferences page.
-		/*
-		 * EmailGenerator email = new EmailGenerator(); for(int i =0; i <
-		 * emailAddresses.length; ++i) { email.generateAndSendEmail(organizerEmail,
-		 * emailAddresses[i]); }
-		 */
+				// the preferences page.
+				EmailGenerator email = new EmailGenerator(); 
+				String votingLink = "";
+				  
+				for(int i =0; i < emailAddresses.length; ++i) { 
+					  votingLink =" http://localhost:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="+ emailAddresses[i] +"&lat="+ location.getLatitude() + "&long=" + location.getLongitude();
+					  email.generateAndSendEmail(organizerEmail,emailAddresses[i], votingLink); 
+				}
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
