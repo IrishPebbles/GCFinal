@@ -3,9 +3,11 @@ package com.gc.controller;
 import java.util.ArrayList;
 
 import com.gc.dao.AttendeesDaoImpl;
+import com.gc.dao.OutingDaoImpl;
 import com.gc.dao.PersonDaoImpl;
 import com.gc.dao.SurveyDaoImpl;
 import com.gc.dto.AttendeesDto;
+import com.gc.dto.OutingDto;
 import com.gc.dto.PersonDto;
 import com.gc.dto.SurveyDto;
 import com.gc.util.RestaurantObj;
@@ -97,6 +99,16 @@ import com.gc.util.ZoomatoAPI;
 		attendeeDTO.setVoted(true);
 		
 		//Here we set the value to true
+		
+	}
+	
+	public void lastVoteSendResults(String surveyID) {
+		OutingDaoImpl outingDAO = new OutingDaoImpl();
+		OutingDto outingDTO = new OutingDto();
+		
+		outingDTO = outingDAO.searchSurveyID(surveyID).get(0);
+		
+		
 		
 	}
 				

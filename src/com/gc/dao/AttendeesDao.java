@@ -21,5 +21,7 @@ public interface AttendeesDao {
 	
 	List<AttendeesDto> searchByPersonID (int personID);
 	
+	List<AttendeesDto> searchByOutingID (int outingID); 
+	
 	
 }

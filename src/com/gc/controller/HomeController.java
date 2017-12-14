@@ -56,7 +56,7 @@ public class HomeController {
 		SurveyDao sdao = new SurveyDaoImpl();
 		model.addAttribute("displayPreference", "\"display:none;\"");
 
-		determineAndViewFinalResults();
+		tallyFinalVoteCount();
 		return new ModelAndView("index", "result", "");
 
 	}
@@ -356,7 +356,7 @@ public class HomeController {
 
 	//we need to have it taking in an authenticated user, 
 	@RequestMapping("/recordvote")
-	public void determineAndViewFinalResults() {
+	public void tallyFinalVoteCount() {
 		AttendeesDaoImpl attendeeDao = new AttendeesDaoImpl();
 		SurveyDaoImpl surveyDao = new SurveyDaoImpl();
 		SurveyDto surveyDTO = new SurveyDto();
@@ -410,8 +410,8 @@ public class HomeController {
 
 	
 		}
-	
-	public void attendeeHasVoted(String voterEmail/*@RequestParam("voterEmail") String voterEmail, @RequestParam("surveyID") String surveyID*/){
+//has been rendered irrelevant by Lena's code	
+	/*public void attendeeHasVoted(String voterEmail@RequestParam("voterEmail") String voterEmail, @RequestParam("surveyID") String surveyID){
 		PersonDaoImpl personDAO = new PersonDaoImpl();
 		PersonDto personDTO = new PersonDto();
 		AttendeesDaoImpl attendeeDAO = new AttendeesDaoImpl();
@@ -434,11 +434,11 @@ public class HomeController {
 		attendeeDTO.setVoted(true);
 		
 		//Here we set the value to true
-		
+		*/
 	}
 	
 
-	}
+	
 
 
 

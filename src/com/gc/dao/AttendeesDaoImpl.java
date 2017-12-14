@@ -88,6 +88,26 @@ public class AttendeesDaoImpl implements AttendeesDao {
 		session.close();
 		return list;
 	}
+	
+	@Override
+	public List<AttendeesDto> searchByOutingID(int outingID) {
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+
+		SessionFactory sessionFactory = config.buildSessionFactory();
+
+		Session session = sessionFactory.openSession();
+
+		Transaction tx = session.beginTransaction();
+
+		Criteria crit = session.createCriteria(AttendeesDto.class);
+
+		crit.add(Restrictions.eq("outingID", outingID));
+
+		ArrayList<AttendeesDto> list = (ArrayList<AttendeesDto>) crit.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
 
 	/*
 	 * (non-Javadoc)
