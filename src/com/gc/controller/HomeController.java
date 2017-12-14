@@ -240,7 +240,7 @@ public class HomeController {
 		 * + " </h2> <h3> You have already voted </h3>"; }
 		 */
 
-		hasAttendeeVoted(voterEmail);
+		hasAttendeeVoted(voterEmail, surveyID);
 		hasEveryoneVoted(surveyID);
 		countVotesAndPickWinner(surveyID);
 
@@ -255,7 +255,7 @@ public class HomeController {
 
 	// we need to have it taking in an authenticated user,
 
-	public void countVotesAndPickWinner(String surveyID) {
+	public String countVotesAndPickWinner(String surveyID) {
 		AttendeesDaoImpl attendeeDao = new AttendeesDaoImpl();
 		SurveyDaoImpl surveyDao = new SurveyDaoImpl();
 		SurveyDto surveyDTO = new SurveyDto();
@@ -313,15 +313,17 @@ public class HomeController {
 		// from both
 		// TODO Write the logic that switches a survey to finished and triggers the
 		// final count and display
-
+		return winningRestInfo.getRestName();
 	}
 	// has been rendered irrelevant by Lena's code
 
-	public void hasAttendeeVoted(@RequestParam("voterEmail") String voterEmail) {
+	public void hasAttendeeVoted(String voterEmail, String surveyID) {
 		PersonDaoImpl personDAO = new PersonDaoImpl();
 		PersonDto personDTO = new PersonDto();
 		AttendeesDaoImpl attendeeDAO = new AttendeesDaoImpl();
 		AttendeesDto attendeeDTO = new AttendeesDto();
+		OutingDaoImpl outingDAO = new OutingDaoImpl(); 
+		OutingDto outingDTO = new OutingDto(); 
 
 		// below I create a person object so that we can access the attendee
 		// information. We use the person DAO to search for the relevant
@@ -330,9 +332,15 @@ public class HomeController {
 		// the array it is returned in.
 		personDTO = personDAO.searchByEmail(voterEmail).get(0);
 		System.out.println("We got: " + personDTO.getUserEmail()); // test purposes TODO delete when ready
-
+		
+		
+		//We need the outing ID as well, so we create an outing DTO to get it for us
+		outingDTO = outingDAO.searchSurveyID(surveyID).get(0);
+		System.out.println("This outing id is " + outingDTO.getOutingID());
+		int personID = personDTO.getUserID();
+		int outingID = outingDTO.getOutingID(); 
 		// use person id to find attendee
-		attendeeDTO = attendeeDAO.searchByPersonID(personDTO.getUserID()).get(0);
+		attendeeDTO = attendeeDAO.searchByPersonIDAndOutID(personID,outingID).get(0);
 		// above we instantiate the attendeeDTO object. We call the information using
 		// the DAO that searches by Person ID, then plug in
 		// the person ID by calling it from the person DTO. The get 0 is because the
@@ -354,13 +362,14 @@ public class HomeController {
 
 	}
 
-	public void hasEveryoneVoted(String surveyID) {
+	public int hasEveryoneVoted(String surveyID) {
 		OutingDaoImpl outingDAO = new OutingDaoImpl();
 		OutingDto outingDTO = new OutingDto();
 		AttendeesDaoImpl attendeeDAO = new AttendeesDaoImpl();
 		AttendeesDto attendeeDTO = new AttendeesDto();
 		SurveyDaoImpl surveyDAO = new SurveyDaoImpl();
 		SurveyDto surveyDTO = new SurveyDto();
+		int remainder = 0;
 		// Here I'm creating an outing ID by searching using the surveyID passed to us
 		outingDTO = outingDAO.searchSurveyID(surveyID).get(0);
 
@@ -388,12 +397,13 @@ public class HomeController {
 			surveyDTO = surveyDAO.searchSurvey(surveyID).get(0);
 			surveyDTO.setHasVoted(true);
 			surveyDAO.updateSurvey(surveyDTO);
-
+			
 		} else {
-			System.out.println("Need " + (voteCheckArray.size() - temp) + " more votes!");
+			 remainder = voteCheckArray.size() - temp;
+			System.out.println("Need " + remainder + " more votes!");
 		}
 		System.out.println("Did it work? " + temp);
 		// instantiate them into DTO's
-
+		return remainder;
 	}
 }
