@@ -207,10 +207,10 @@ public class HomeController {
 			//if the voterEmail have an account where we have added a " " as the password
 			PersonDto voter = userList.searchByEmail(voterEmail).get(0);
 			if(voter.getUserPassword().equals("1")) {
-				
+				int userID = voter.getUserID();
 				String passHash = Person.generateHashPassword(pass1);
-		
-				userList.addPerson(voterEmail, passHash);
+				PersonDto personToUpdate = new PersonDto(userID, voterEmail, passHash);
+				userList.updatePassword(personToUpdate);
 		
 			}
 			else {
