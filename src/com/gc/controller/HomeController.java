@@ -100,6 +100,7 @@ public class HomeController {
 
 		// this gets the list of potential Restaurants that was creating int he OUting Object
 		Survey mySurvey = constructingOuting.getPotentialEvent();
+
 	
 		//writes the information to the table with finalLocation blank
 		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);		
@@ -125,12 +126,15 @@ public class HomeController {
 		//this is where we need to output the HTML for logging
 		 
 
+
 		// this builds the HTML OBJ table for voting
 		String outingObjHTML = "<h1>  Welcome to " + outingName + "</h1>";
 		outingObjHTML += "<h4>  for " + date + "</h4>";
 
+
 		outingObjHTML +=  "<h3> Please vote below</h3>" + "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>";
 		outingObjHTML += "<form action=\"recordVote\" method =\"get\">" ;
+
 		outingObjHTML +=  " <input type=\"hidden\" name=\"lat\" value=\" "+ location.getLatitude()+ "\" >";
 		outingObjHTML +=  " <input type=\"hidden\" name=\"long\" value=\" "+ location.getLongitude() +"\" >";
 		//this line for the form action is critcal for votes, user and  password validation
@@ -203,7 +207,9 @@ public class HomeController {
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
 		// If you are using a build link it has to be formatted with no quotes
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);
+		System.out.println("Look here Jimmy" + surveyDto.getOptVenueID1().toString());
+		// this gets the row record from the data for this
 		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
 
 		// SurveyDto holds results from survey so that we can manipulate them. See
@@ -234,6 +240,10 @@ public class HomeController {
 		 * set the email address } else { outingObjHTML = "<h2> Thank you " + voterEmail
 		 * + " </h2> <h3> You have already voted </h3>"; }
 		 */
+		
+		hasAttendeeVoted(voterEmail);
+		hasEveryoneVoted(surveyID);
+		countVotesAndPickWinner(surveyID);
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
@@ -253,11 +263,16 @@ public class HomeController {
 		ZoomatoAPI grabInfoFromAPI = new ZoomatoAPI();
 		RestaurantObj winningRestInfo = new RestaurantObj();
 
+		
+		
+		
 		// Here we pull in the survey once the column value "HasVoted" has been marked
 		// true.
 		// This triggers once the last participant has submitted their vote
-		ArrayList<SurveyDto> finalSurvey = (ArrayList<SurveyDto>) surveyDao.searchSurvey(surveyID);
-		surveyDTO = finalSurvey.get(0);
+	
+		surveyDTO = surveyDao.searchSurvey(surveyID).get(0);
+		
+		if(surveyDTO.getHasVoted()== true) {
 		// Above I assign the arraylist the survey arrives in into an object for
 		// manipulation
 
@@ -293,6 +308,10 @@ public class HomeController {
 		// information.
 		winningRestInfo = grabInfoFromAPI.searchByRestID(venue);
 		System.out.println("And the winner is: " + winningRestInfo.getRestName());
+		
+		} else {
+			System.out.println("Still waiting for votes");
+		}
 
 		// TODO figure out how to join the tables attendees and survey so we can call
 		// from both
