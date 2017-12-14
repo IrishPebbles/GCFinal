@@ -20,6 +20,8 @@ public interface PersonDao {
 	List<PersonDto> addPerson(String userEmail, String userPassword);
 
 	List<PersonDto> searchByEmail(String userEmail);
+	
+	List<PersonDto> searchByPassword(String userPassword);
 
 	List<PersonDto> updateID(PersonDto userID);
 	// TODO Auto-generated method stub

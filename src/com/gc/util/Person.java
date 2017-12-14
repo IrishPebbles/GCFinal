@@ -53,7 +53,7 @@ public class Person {
 		return "Person [userEmail=" + userEmail + ", password=" + password + ", createdOutings=" + createdOutings + "]";
 	}
 	
-	public void login(String typedPassword) {
+	/*public void login(String typedPassword) {
 		//check database for user
 		PersonDaoImpl databaseConnection = new PersonDaoImpl();
 		//new implementation of database
@@ -73,7 +73,7 @@ public class Person {
 			
 		}
 				
-	}
+	}*/
 
 	public static String generateHashPassword(String typedPassword) { // String returns success or failure msg 
 		
