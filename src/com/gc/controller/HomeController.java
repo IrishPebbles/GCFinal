@@ -46,16 +46,16 @@ import com.gc.util.ZoomatoAPI;
 @SessionAttributes({ "authenticated", "username" })
 @Controller
 public class HomeController {
-	
-	
-	//Homepage loading with HTML
+
+	// Homepage loading with HTML
 	@RequestMapping({ "/", "index" })
 	public ModelAndView homepage(Model model) {
 
 		return new ModelAndView("index", "result", "");
 
 	}
-	//this the process that runs after someone hits submit on to create an outing 
+
+	// this the process that runs after someone hits submit on to create an outing
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
@@ -75,7 +75,8 @@ public class HomeController {
 		// If we wanted to track is a person to login with with the session ID
 		// model.addAttribute("userResult", userLogin);
 
-		// Changes input java date into sql date, this is the date that can be stored in the database
+		// Changes input java date into sql date, this is the date that can be stored in
+		// the database
 		String[] formatDate = date.split("-");
 		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
 				Integer.parseInt(formatDate[2]));
@@ -83,53 +84,49 @@ public class HomeController {
 		Date myDate = formatter.parse(date);
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
 
-		
-		//we need the Organizer ID from the table to write to the attendees tables
+		// we need the Organizer ID from the table to write to the attendees tables
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();// we need to be able to search a person
 
-		String surveyID = outingName + "," + date.toString() + "," + organizerId;// syntax for  unique key
+		String surveyID = outingName + "," + date.toString() + "," + organizerId;// syntax for unique key
 
-		//splits the emailAddress String into an array
+		// splits the emailAddress String into an array
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 		System.out.println(Arrays.toString(emailAddresses));
 
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
-		// passing location to create and return survey-- we create this outingIbj to build and create a survey
+		// passing location to create and return survey-- we create this outingIbj to
+		// build and create a survey
 		Outing constructingOuting = new Outing(outingName, sqlDate, null, null, location, surveyID);
 
-		// this gets the list of potential Restaurants that was creating int he OUting Object
+		// this gets the list of potential Restaurants that was creating int he OUting
+		// Object
 		Survey mySurvey = constructingOuting.getPotentialEvent();
 
-	
-		//writes the information to the table with finalLocation blank
-		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);		
+		// writes the information to the table with finalLocation blank
+		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);
 
-		// this gets the list of potiential Restaurants		
-		 ArrayList<PersonDto> user;
-		 Person attendee;
-	     int outingID = outDao.searchSurveyID(surveyID).get(0).getOutingID();
-		 for (int i = 0; i < emailAddresses.length; i++) {
-			  attendee = Person.checkUserExistsOrCreate(emailAddresses[i]);
-			
-			 int personID = attendee.getPersonID();
-			//write to the attendees database	
-			 attendDao.addNewAttendees(personID, outingID);		
-			 
-		  }
-		  //add the organizer the attendees database as well 
-		  attendDao.addNewAttendees(organizerId, outingID);
-		  
-		  
-		 
-		
-		//this is where we need to output the HTML for logging
-		 
+		// this gets the list of potiential Restaurants
+		ArrayList<PersonDto> user;
+		Person attendee;
+		int outingID = outDao.searchSurveyID(surveyID).get(0).getOutingID();
+		for (int i = 0; i < emailAddresses.length; i++) {
+			attendee = Person.checkUserExistsOrCreate(emailAddresses[i]);
 
+			int personID = attendee.getPersonID();
+			// write to the attendees database
+			attendDao.addNewAttendees(personID, outingID);
+
+		}
+		// add the organizer the attendees database as well
+		attendDao.addNewAttendees(organizerId, outingID);
+
+		// this is where we need to output the HTML for logging
 
 		// this builds the HTML OBJ table for voting
 		String outingObjHTML = "<h1>  Welcome to " + outingName + "</h1>";
 		outingObjHTML += "<h4>  for " + date + "</h4>";
+
 
 
 		outingObjHTML +=  "<h3> Please vote below</h3>" + "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>";
@@ -138,20 +135,22 @@ public class HomeController {
 		outingObjHTML +=  " <input type=\"hidden\" name=\"lat\" value=\" "+ location.getLatitude()+ "\" >";
 		outingObjHTML +=  " <input type=\"hidden\" name=\"long\" value=\" "+ location.getLongitude() +"\" >";
 		//this line for the form action is critcal for votes, user and  password validation
+
 		outingObjHTML += userLoginHTML;
 		// this method builds the voting form we need to tell it the SurveyID
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, organizerEmail);
 		outingObjHTML += "<input type=\"submit\" value=\"Vote\" > </form>";
-		
+
 		// Creates email generator object and sends the emails upon clicking submit on
-				// the preferences page.
-				EmailGenerator email = new EmailGenerator(); 
-				String votingLink = "";
-				  
-				for(int i =0; i < emailAddresses.length; ++i) { 
-					  votingLink =" http://localhost:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="+ emailAddresses[i] +"&lat="+ location.getLatitude() + "&long=" + location.getLongitude();
-					  email.generateAndSendEmail(organizerEmail,emailAddresses[i], votingLink); 
-				}
+		// the preferences page.
+		EmailGenerator email = new EmailGenerator();
+		String votingLink = "";
+
+		for (int i = 0; i < emailAddresses.length; ++i) {
+			votingLink = " http://localhost:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="
+					+ emailAddresses[i] + "&lat=" + location.getLatitude() + "&long=" + location.getLongitude();
+			email.generateAndSendEmail(organizerEmail, emailAddresses[i], votingLink);
+		}
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
@@ -240,7 +239,7 @@ public class HomeController {
 		 * set the email address } else { outingObjHTML = "<h2> Thank you " + voterEmail
 		 * + " </h2> <h3> You have already voted </h3>"; }
 		 */
-		
+
 		hasAttendeeVoted(voterEmail);
 		hasEveryoneVoted(surveyID);
 		countVotesAndPickWinner(surveyID);
@@ -255,7 +254,7 @@ public class HomeController {
 	}
 
 	// we need to have it taking in an authenticated user,
-	
+
 	public void countVotesAndPickWinner(String surveyID) {
 		AttendeesDaoImpl attendeeDao = new AttendeesDaoImpl();
 		SurveyDaoImpl surveyDao = new SurveyDaoImpl();
@@ -263,52 +262,49 @@ public class HomeController {
 		ZoomatoAPI grabInfoFromAPI = new ZoomatoAPI();
 		RestaurantObj winningRestInfo = new RestaurantObj();
 
-		
-		
-		
 		// Here we pull in the survey once the column value "HasVoted" has been marked
 		// true.
 		// This triggers once the last participant has submitted their vote
-	
+
 		surveyDTO = surveyDao.searchSurvey(surveyID).get(0);
-		
-		if(surveyDTO.getHasVoted()== true) {
-		// Above I assign the arraylist the survey arrives in into an object for
-		// manipulation
 
-		ArrayList<Integer> voteCountArray = new ArrayList();
-		voteCountArray.add(surveyDTO.getVoteCount1());
-		voteCountArray.add(surveyDTO.getVoteCount2());
-		voteCountArray.add(surveyDTO.getVoteCount3());
-		voteCountArray.add(surveyDTO.getVoteCount4());
-		voteCountArray.add(surveyDTO.getVoteCount5());
-		// Here I'm assigning the numbers of votes and venue IDs into corresponding
-		// positions in two different arrays
-		ArrayList<String> venueArray = new ArrayList();
-		venueArray.add(surveyDTO.getOptVenueID1());
-		venueArray.add(surveyDTO.getOptVenueID2());
-		venueArray.add(surveyDTO.getOptVenueID3());
-		venueArray.add(surveyDTO.getOptVenueID4());
-		venueArray.add(surveyDTO.getOptVenueID5());
+		if (surveyDTO.getHasVoted() == true) {
+			// Above I assign the arraylist the survey arrives in into an object for
+			// manipulation
 
-		int temp = 0;
-		String venue = "";
-		// This "for" loop cycles through the voteCountArray list and finds the highest
-		// vote count.
-		// It also returns the restaurant ID of the corresponding entry from venueArray.
-		for (int i = 0; i < voteCountArray.size(); i++) {
-			if (voteCountArray.get(i) > temp) {
-				temp = voteCountArray.get(i);
-				venue = venueArray.get(i).toString();
+			ArrayList<Integer> voteCountArray = new ArrayList();
+			voteCountArray.add(surveyDTO.getVoteCount1());
+			voteCountArray.add(surveyDTO.getVoteCount2());
+			voteCountArray.add(surveyDTO.getVoteCount3());
+			voteCountArray.add(surveyDTO.getVoteCount4());
+			voteCountArray.add(surveyDTO.getVoteCount5());
+			// Here I'm assigning the numbers of votes and venue IDs into corresponding
+			// positions in two different arrays
+			ArrayList<String> venueArray = new ArrayList();
+			venueArray.add(surveyDTO.getOptVenueID1());
+			venueArray.add(surveyDTO.getOptVenueID2());
+			venueArray.add(surveyDTO.getOptVenueID3());
+			venueArray.add(surveyDTO.getOptVenueID4());
+			venueArray.add(surveyDTO.getOptVenueID5());
+
+			int temp = 0;
+			String venue = "";
+			// This "for" loop cycles through the voteCountArray list and finds the highest
+			// vote count.
+			// It also returns the restaurant ID of the corresponding entry from venueArray.
+			for (int i = 0; i < voteCountArray.size(); i++) {
+				if (voteCountArray.get(i) > temp) {
+					temp = voteCountArray.get(i);
+					venue = venueArray.get(i).toString();
+				}
 			}
-		}
 
-		// Here I call the api and put in the winning venue's restID
-		// I then assign it to a local Restaurant object, which is how I present the
-		// information.
-		winningRestInfo = grabInfoFromAPI.searchByRestID(venue);
-		System.out.println("And the winner is: " + winningRestInfo.getRestName());
-		
+			// Here I call the api and put in the winning venue's restID
+			// I then assign it to a local Restaurant object, which is how I present the
+			// information.
+			winningRestInfo = grabInfoFromAPI.searchByRestID(venue);
+			System.out.println("And the winner is: " + winningRestInfo.getRestName());
+
 		} else {
 			System.out.println("Still waiting for votes");
 		}
@@ -344,7 +340,7 @@ public class HomeController {
 		// so we need to "get" it so it can be converted into the object we call
 		// attendeeDTO
 		// switch false to true
-
+		System.out.println("If he voted: " + attendeeDTO.getVoted());
 		if (attendeeDTO.getVoted() == false) {
 			attendeeDTO.setVoted(true);
 		} else {
