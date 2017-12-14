@@ -18,7 +18,7 @@
 	  <div class="jumbotron">
 	    <div class="container" >
 	    		<div style="background: white; opacity: 0.90; border-radius: 4px;">
-		      <h1 class="display-3" style = "text-align: center">Welcome to Outings</h1>
+		      <h1 class="display-3" style = "text-align: center">Welcome to Out with Friends</h1>
 		      
 		      <p style = "text-align: center">Organize fun events with your friends and family and easily decide where to go. Getting together easier and more enjoyable than ever before.</p>
 		     

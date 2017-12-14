@@ -158,7 +158,11 @@ public class Survey {
 		
 		}
 		else {
-			tableHtml += " <h5> There are " + votersLeft + ". We will send you an email when we have the final vote. </h5>";
+			if(votersLeft == 1) {
+				tableHtml += " <h5> There is " + votersLeft + "person that still needs to vote.c" + "We will send you an email when we have the final vote. </h5>";
+				tableHtml +=" <h5>  Would you like to  <a href= \"index.html\"> create an outing yourself </a> ?</h5>";
+			}
+			tableHtml += " <h5> There are " + votersLeft + "people that still need to vote. " + " We will send you an email when we have the final vote. </h5>";
 			tableHtml +=" <h5>  Would you like to  <a href= \"index.html\"> create an outing yourself </a> ?</h5>";
 		}
 			
