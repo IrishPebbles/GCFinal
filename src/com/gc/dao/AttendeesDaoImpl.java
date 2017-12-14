@@ -16,20 +16,23 @@ import org.hibernate.criterion.Restrictions;
 import com.gc.dto.AttendeesDto;
 import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.SurveyDto;
+import com.gc.util.HibernateUtil;
 
 /**
  * @author Serhiy Bardysh
  *
  */
 public class AttendeesDaoImpl implements AttendeesDao {
-
+	 private static SessionFactory sessionFactory;
+	 
+	 public AttendeesDaoImpl() {
+		 sessionFactory = HibernateUtil.getSessionFactory();
+	 }
 	
 	//Working add function
 	@Override
 	public List<AttendeesDto> addNewAttendees(int userID, int outingID) {
 		List<AttendeesDto> scoreList = new ArrayList<AttendeesDto>();
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		AttendeesDto newAttendees = new AttendeesDto();
@@ -52,9 +55,6 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	 */
 	@Override
 	public List<AttendeesDto> searchID(int attendeesID) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
 
 		Session session = sessionFactory.openSession();
 
@@ -72,9 +72,6 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	
 	@Override
 	public List<AttendeesDto> searchByPersonID(int personID) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
 
 		Session session = sessionFactory.openSession();
 
@@ -92,9 +89,6 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	
 	@Override
 	public List<AttendeesDto> searchByOutingID(int outingID) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
 
 		Session session = sessionFactory.openSession();
 
@@ -119,28 +113,15 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	public List<AttendeesDto> updateAttendees(AttendeesDto newUser) {
 		// TODO Auto-generated method stub@Override
 
-			//SurveyDto temp = new SurveyDto();
-			// by passing in the product id from a hidden field we can determine what row to edit
+			Session session = sessionFactory.openSession();
+
+			session.beginTransaction();
+
+			session.update(newUser); // update the object from the list
+
+			session.getTransaction().commit(); // update the row from the database table
 			
-			
-			/*temp.set;
-			temp.setCode(code);
-			temp.setDescription(desc);
-			temp.setListPrice(price);
-	*/
-			Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
-
-			SessionFactory sessionFact = cfg.buildSessionFactory();
-
-			Session codes = sessionFact.openSession();
-
-			codes.beginTransaction();
-
-			codes.update(newUser); // update the object from the list
-
-			codes.getTransaction().commit(); // update the row from the database table
-			
-			codes.close();
+			session.close();
 
 		
 		return null;

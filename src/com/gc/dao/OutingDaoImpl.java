@@ -14,15 +14,20 @@ import org.hibernate.criterion.Restrictions;
 import com.gc.dto.AttendeesDto;
 import com.gc.dto.OutingDto;
 import com.gc.dto.PersonDto;
+import com.gc.util.HibernateUtil;
 
 public class OutingDaoImpl implements OutingDao {
-
+	
+	private static SessionFactory sessionFactory;
+	
+	public OutingDaoImpl() {
+		sessionFactory = HibernateUtil.getSessionFactory();
+	}
+	
 	@Override
 	public List<OutingDto> addOuting(String outingName, String surveyID, Date dateOfEvent, String finalLoc, int organizer){
 		
 		List<OutingDto> outingList = new ArrayList<OutingDto>();
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		OutingDto newOuting = new OutingDto();
@@ -41,9 +46,6 @@ public class OutingDaoImpl implements OutingDao {
 
 	@Override
 	public List<OutingDto> getOutingID(int outingID) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
 
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -58,9 +60,6 @@ public class OutingDaoImpl implements OutingDao {
 
 	@Override
 	public List<OutingDto> searchID(OutingDto outingID) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
 
 		Session session = sessionFactory.openSession();
 
@@ -85,9 +84,6 @@ public class OutingDaoImpl implements OutingDao {
 	}
 	@Override
 	public List<OutingDto> searchSurveyID(String surveyID) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
 
 		Session session = sessionFactory.openSession();
 

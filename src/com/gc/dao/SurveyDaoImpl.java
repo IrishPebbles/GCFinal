@@ -14,13 +14,18 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.SurveyDto;
+import com.gc.util.HibernateUtil;
 
 /**
  * @author Serhiy Bardysh
  *
  */
 public class SurveyDaoImpl implements SurveyDao {
-
+	private static SessionFactory sessionFactory;
+	
+	public SurveyDaoImpl() {
+		sessionFactory = HibernateUtil.getSessionFactory();
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -44,8 +49,6 @@ public class SurveyDaoImpl implements SurveyDao {
 	@Override
 	public List<SurveyDto> addSurvey(String surveyID, String restID1, String restID2, String restID3, String restID4, String restID5, int voteCount1, int voteCount2, int voteCount3, int voteCount4, int voteCount5, boolean hasVoted) {
 		List<SurveyDto> surveyList = new ArrayList<SurveyDto>();
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		SurveyDto newSurvDto = new SurveyDto();
@@ -78,10 +81,6 @@ public class SurveyDaoImpl implements SurveyDao {
 	@Override
 	public List<SurveyDto> searchSurvey(String surveyID) {
 
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
-
 		Session session = sessionFactory.openSession();
 
 		Transaction tx = session.beginTransaction();
@@ -108,36 +107,21 @@ public class SurveyDaoImpl implements SurveyDao {
 	@Override
 	public List<SurveyDto> updateSurvey(SurveyDto survey) {
 
-		//SurveyDto temp = new SurveyDto();
-		// by passing in the product id from a hidden field we can determine what row to edit
+		Session session = sessionFactory.openSession();
+
+		session.beginTransaction();
+
+		session.update(survey); // update the object from the list
+
+		session.getTransaction().commit(); // update the row from the database table
 		
-		
-		/*temp.set;
-		temp.setCode(code);
-		temp.setDescription(desc);
-		temp.setListPrice(price);
-*/
-		Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFact = cfg.buildSessionFactory();
-
-		Session codes = sessionFact.openSession();
-
-		codes.beginTransaction();
-
-		codes.update(survey); // update the object from the list
-
-		codes.getTransaction().commit(); // update the row from the database table
-		
-		codes.close();
+		session.close();
 
 		return null;
 	}
 
 	public List<SurveyDto> changeRestSurvey(String surveyID, String restID1, String restID2, String restID3, String restID4, String restID5) {
 		List<SurveyDto> surveyList = new ArrayList<SurveyDto>();
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		SurveyDto changeSurvDto = new SurveyDto();
 

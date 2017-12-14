@@ -14,6 +14,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.PersonDto;
+import com.gc.util.HibernateUtil;
 
 
 /**
@@ -21,18 +22,17 @@ import com.gc.dto.PersonDto;
  *
  */
 public class PersonDaoImpl implements PersonDao {
-
-
+	private static SessionFactory sessionFactory;
+	
+	 public PersonDaoImpl() {
+		 sessionFactory = HibernateUtil.getSessionFactory();
+	}
 
 	@Override
 
 	public List<PersonDto> addPerson(String userEmail, String userPassword) {
-		
-		
 
 		List<PersonDto> restList = new ArrayList<PersonDto>();
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		PersonDto newPersonDto = new PersonDto();
@@ -51,11 +51,6 @@ public class PersonDaoImpl implements PersonDao {
 	@Override
 	public List<PersonDto> getPerson(int userID) {
 		
-	
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
-
 		Session session = sessionFactory.openSession();
 
 		Transaction tx = session.beginTransaction();
@@ -80,10 +75,7 @@ public class PersonDaoImpl implements PersonDao {
 
 	@Override
 	public List<PersonDto> searchByEmail(String userEmail) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
-
+		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria crit = session.createCriteria(PersonDto.class);
@@ -100,29 +92,23 @@ public class PersonDaoImpl implements PersonDao {
 	}
 		public void  updatePassword(PersonDto person) {
 		
-			Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
 
-			SessionFactory sessionFact = cfg.buildSessionFactory();
+			Session session = sessionFactory.openSession();
 
-			Session codes = sessionFact.openSession();
-
-			codes.beginTransaction();
+			session.beginTransaction();
 			
 
-			codes.update(person); // update the object from the list
+			session.update(person); // update the object from the list
 
-			codes.getTransaction().commit(); // update the row from the database table
+			session.getTransaction().commit(); // update the row from the database table
 			
-			codes.close();
+			session.close();
 
 		}
 
 
 	@Override
 	public List<PersonDto> searchByPassword(String userPassword) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-
-		SessionFactory sessionFactory = config.buildSessionFactory();
 
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();

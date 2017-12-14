@@ -216,36 +216,12 @@ public class HomeController {
 		// Survey class to see organization
 
 		mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
-		String outingObjHTML = "";
-		outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
-
-		// TODO update the Out object with how many people
-		// we should search the database for the surveyID
-
-		/*
-		 * This will work once the attendees are filled if
-		 * (mySurvey.attendeeCanVote(voterEmail, surveyID)) {
-		 * 
-		 * 
-		 * mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
-		 * 
-		 * // TODO get the Outing information: Event Name, Organizer, Date from the
-		 * outing // object, if we are searching by ID by doing a join on the table // I
-		 * tried some SQL queries but we will need help
-		 * 
-		 * outingObjHTML = "<h2> Thank you " + voterEmail +
-		 * " </h2> <h3> Please vote below: " + surveyID + "</h3>"; outingObjHTML =
-		 * mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);// when we have
-		 * the object built we may not // need to pass an array // TODO call a method to
-		 * set the email address } else { outingObjHTML = "<h2> Thank you " + voterEmail
-		 * + " </h2> <h3> You have already voted </h3>"; }
-		 */
 		
 		hasAttendeeVoted(voterEmail);
 		hasEveryoneVoted(surveyID);
 		countVotesAndPickWinner(surveyID);
 		RestaurantObj winner = new RestaurantObj("16774318");
-		int votersLeft; 
+		int votersLeft = 0; 
 		String outingObjHTML = "";
 		outingObjHTML = mySurvey.buildResultRestaurantTable(winner, votersLeft);// when we have the object built
 

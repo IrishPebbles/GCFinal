@@ -15,13 +15,21 @@ import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.CurrentScoreDto;
 import com.gc.dto.PersonDto;
+import com.gc.util.HibernateUtil;
 
 /**
  * @author Serhiy Bardysh
  *
  */
 public class CurrentScoreDaoImpl implements CurrentScoreDao {
-
+	
+	private static SessionFactory sessionFactory;
+	 
+	 public CurrentScoreDaoImpl() {
+		// TODO Auto-generated constructor stub
+		 sessionFactory = HibernateUtil.getSessionFactory();
+	 }
+	
 	/* (non-Javadoc)
 	 * @see com.gc.dao.CurrentScoreDao#getRestID(com.gc.dto.CurrentScoreDto)
 	 */
@@ -36,8 +44,6 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 	 */
 	@Override
 	public List<CurrentScoreDto> getCurrentScore(int currentScoreID) {
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria crit = session.createCriteria(CurrentScoreDto.class);
@@ -61,8 +67,6 @@ public class CurrentScoreDaoImpl implements CurrentScoreDao {
 	@Override
 	public List<CurrentScoreDto> addcurrentScore(int totalscore, int restID) {
 		List<CurrentScoreDto> scoreList = new ArrayList<CurrentScoreDto>();
-		Configuration config = new Configuration().configure("hibernate.cfg.xml");
-		SessionFactory sessionFactory = config.buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		CurrentScoreDto newScoreDto = new CurrentScoreDto();
