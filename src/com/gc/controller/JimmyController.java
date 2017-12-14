@@ -118,7 +118,10 @@ import com.gc.util.ZoomatoAPI;
 		ArrayList<AttendeesDto> voteCheckArray = (ArrayList<AttendeesDto>) attendeeDAO.searchByOutingID(outingDTO.getOutingID()); 
 		int temp = 0;
 		for(int i = 0; i < voteCheckArray.size(); i++) {
-			temp += 1; 
+			attendeeDTO = voteCheckArray.get(i);
+			if(attendeeDTO.getVoted() == true) {
+				temp += 1; 
+			}
 		}
 		System.out.println("Did it work? " + temp);
 		//instantiate them into DTO's
