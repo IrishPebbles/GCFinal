@@ -148,7 +148,7 @@ public class HomeController {
 		String votingLink = "";
 
 		for (int i = 0; i < emailAddresses.length; ++i) {
-			votingLink = " http://localhost:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="
+			votingLink = "http://gcoutings.us-east-2.elasticbeanstalk.com/emailLink?surveyID=" + surveyID + "&voterEmail="
 					+ emailAddresses[i] + "&lat=" + location.getLatitude() + "&long=" + location.getLongitude();
 			email.generateAndSendEmail(organizerEmail, emailAddresses[i], votingLink);
 		}
