@@ -46,16 +46,17 @@ import com.gc.util.ZoomatoAPI;
 @SessionAttributes({ "authenticated", "username" })
 @Controller
 public class HomeController {
+	//Homepage loading with HTML
+	@RequestMapping({ "/", "index", "tryagain" })
 
-	// Homepage loading with HTML
-	@RequestMapping({ "/", "index" })
 	public ModelAndView homepage(Model model) {
 
 		return new ModelAndView("index", "result", "");
 
 	}
+	
+	//this the process that runs after someone hits submit on to create an outing 
 
-	// this the process that runs after someone hits submit on to create an outing
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
 			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
