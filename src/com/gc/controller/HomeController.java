@@ -46,7 +46,7 @@ import com.gc.util.ZoomatoAPI;
 @SessionAttributes({ "authenticated", "username" })
 @Controller
 public class HomeController {
-	//Homepage loading with HTML
+	// Homepage loading with HTML
 	@RequestMapping({ "/", "index", "tryagain" })
 
 	public ModelAndView homepage(Model model) {
@@ -54,8 +54,8 @@ public class HomeController {
 		return new ModelAndView("index", "result", "");
 
 	}
-	
-	//this the process that runs after someone hits submit on to create an outing 
+
+	// this the process that runs after someone hits submit on to create an outing
 
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
@@ -128,14 +128,14 @@ public class HomeController {
 		String outingObjHTML = "<h1>  Welcome to " + outingName + "</h1>";
 		outingObjHTML += "<h4>  for " + date + "</h4>";
 
+		outingObjHTML += "<h3> Please vote below</h3>"
+				+ "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>";
+		outingObjHTML += "<form action=\"recordVote\" method =\"get\">";
 
-
-		outingObjHTML +=  "<h3> Please vote below</h3>" + "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>";
-		outingObjHTML += "<form action=\"recordVote\" method =\"get\">" ;
-
-		outingObjHTML +=  " <input type=\"hidden\" name=\"lat\" value=\" "+ location.getLatitude()+ "\" >";
-		outingObjHTML +=  " <input type=\"hidden\" name=\"long\" value=\" "+ location.getLongitude() +"\" >";
-		//this line for the form action is critcal for votes, user and  password validation
+		outingObjHTML += " <input type=\"hidden\" name=\"lat\" value=\" " + location.getLatitude() + "\" >";
+		outingObjHTML += " <input type=\"hidden\" name=\"long\" value=\" " + location.getLongitude() + "\" >";
+		// this line for the form action is critcal for votes, user and password
+		// validation
 
 		outingObjHTML += userLoginHTML;
 		// this method builds the voting form we need to tell it the SurveyID
@@ -148,8 +148,9 @@ public class HomeController {
 		String votingLink = "";
 
 		for (int i = 0; i < emailAddresses.length; ++i) {
-			votingLink = "http://gcoutings.us-east-2.elasticbeanstalk.com/emailLink?surveyID=" + surveyID + "&voterEmail="
-					+ emailAddresses[i] + "&lat=" + location.getLatitude() + "&long=" + location.getLongitude();
+			votingLink = "http://gcoutings.us-east-2.elasticbeanstalk.com/emailLink?surveyID=" + surveyID
+					+ "&voterEmail=" + emailAddresses[i] + "&lat=" + location.getLatitude() + "&long="
+					+ location.getLongitude();
 			email.generateAndSendEmail(organizerEmail, emailAddresses[i], votingLink);
 		}
 
@@ -174,7 +175,8 @@ public class HomeController {
 		String outingObjHTML = "<h1>  Welcome to" + outingDto.getOutingName() + "</h1>";
 		outingObjHTML += "<h4> " + outingDto.getDateOfEvent().getMonth() + outingDto.getDateOfEvent().getDay()
 				+ outingDto.getDateOfEvent().getYear() + "</h4>";
-		outingObjHTML += "<h3> Please vote below</h3>" + "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>";
+		outingObjHTML += "<h3> Please vote below</h3>"
+				+ "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>";
 		outingObjHTML += "<form action=\"recordVote\" method=\"get\">";
 		outingObjHTML += " <input type=\"hidden\" name=\"lat\" value=\" " + location.getLatitude() + "\" >";
 		outingObjHTML += " <input type=\"hidden\" name=\"long\" value=\" " + location.getLongitude() + "\" >";
@@ -208,7 +210,7 @@ public class HomeController {
 		// we have to know who voter is
 		// If you are using a build link it has to be formatted with no quotes
 		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);
-		System.out.println("Look here Jimmy" + surveyDto.getOptVenueID1().toString());
+
 		// this gets the row record from the data for this
 		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
 
@@ -219,9 +221,9 @@ public class HomeController {
 
 		hasAttendeeVoted(voterEmail, surveyID);
 		int votersLeft = hasEveryoneVoted(surveyID);
-		
+
 		RestaurantObj winner = new RestaurantObj(countVotesAndPickWinner(surveyID));
-		
+
 		String outingObjHTML = "";
 		outingObjHTML = mySurvey.buildResultRestaurantTable(winner, votersLeft);// when we have the object built
 
@@ -303,8 +305,8 @@ public class HomeController {
 		PersonDto personDTO = new PersonDto();
 		AttendeesDaoImpl attendeeDAO = new AttendeesDaoImpl();
 		AttendeesDto attendeeDTO = new AttendeesDto();
-		OutingDaoImpl outingDAO = new OutingDaoImpl(); 
-		OutingDto outingDTO = new OutingDto(); 
+		OutingDaoImpl outingDAO = new OutingDaoImpl();
+		OutingDto outingDTO = new OutingDto();
 
 		// below I create a person object so that we can access the attendee
 		// information. We use the person DAO to search for the relevant
@@ -313,15 +315,14 @@ public class HomeController {
 		// the array it is returned in.
 		personDTO = personDAO.searchByEmail(voterEmail).get(0);
 		System.out.println("We got: " + personDTO.getUserEmail()); // test purposes TODO delete when ready
-		
-		
-		//We need the outing ID as well, so we create an outing DTO to get it for us
+
+		// We need the outing ID as well, so we create an outing DTO to get it for us
 		outingDTO = outingDAO.searchSurveyID(surveyID).get(0);
 		System.out.println("This outing id is " + outingDTO.getOutingID());
 		int personID = personDTO.getUserID();
-		int outingID = outingDTO.getOutingID(); 
+		int outingID = outingDTO.getOutingID();
 		// use person id to find attendee
-		attendeeDTO = attendeeDAO.searchByPersonIDAndOutID(personID,outingID).get(0);
+		attendeeDTO = attendeeDAO.searchByPersonIDAndOutID(personID, outingID).get(0);
 		// above we instantiate the attendeeDTO object. We call the information using
 		// the DAO that searches by Person ID, then plug in
 		// the person ID by calling it from the person DTO. The get 0 is because the
@@ -378,9 +379,9 @@ public class HomeController {
 			surveyDTO = surveyDAO.searchSurvey(surveyID).get(0);
 			surveyDTO.setHasVoted(true);
 			surveyDAO.updateSurvey(surveyDTO);
-			
+
 		} else {
-			 remainder = voteCheckArray.size() - temp;
+			remainder = voteCheckArray.size() - temp;
 			System.out.println("Need " + remainder + " more votes!");
 		}
 		System.out.println("Did it work? " + temp);
