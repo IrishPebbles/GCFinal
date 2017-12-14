@@ -42,7 +42,7 @@ import com.gc.util.RestaurantObj;
 import com.gc.util.Survey;
 import com.gc.util.ZoomatoAPI;
 
-@SessionAttributes({"authenticated", "username"})
+@SessionAttributes({ "authenticated", "username" })
 @Controller
 public class HomeController {
 
@@ -56,48 +56,46 @@ public class HomeController {
 		SurveyDao sdao = new SurveyDaoImpl();
 		model.addAttribute("displayPreference", "\"display:none;\"");
 
-		attendeeHasVoted("helpingofburgers@gmail.com");
+		lastVoteSendResults("WeaselStompingDay,2017-12-21,97");
 		return new ModelAndView("index", "result", "");
 
 	}
 
-
 	@RequestMapping(value = "voting", method = RequestMethod.POST)
 	public ModelAndView votingGeneration(@RequestParam("organizerEmail") String organizerEmail,
-			@RequestParam("emailAddress") String emailAddress,
-			@RequestParam("street") String street, @RequestParam("city") String city,
-			@RequestParam("state") String state, @RequestParam("outingName") String outingName,
-			@RequestParam("date") String date, Model model)
+			@RequestParam("emailAddress") String emailAddress, @RequestParam("street") String street,
+			@RequestParam("city") String city, @RequestParam("state") String state,
+			@RequestParam("outingName") String outingName, @RequestParam("date") String date, Model model)
 			throws ParseException, AddressException, MessagingException {
-
 
 		// creating the daoImpl to write to the database
 		PersonDao pdao = new PersonDaoImpl();
 		OutingDao outDao = new OutingDaoImpl();
-		AttendeesDao  attendDao = new AttendeesDaoImpl();
-		
-		//validating user and returning the correct password fields for the user to create an account or login
+		AttendeesDao attendDao = new AttendeesDaoImpl();
+
+		// validating user and returning the correct password fields for the user to
+		// create an account or login
 		String userLoginHTML = Person.checkUserGenerateHTML(organizerEmail);
-		
-		
-		//System.out.println(warning);
-		//model.addAttribute("userResult", userLogin);
-		
+
+		// System.out.println(warning);
+		// model.addAttribute("userResult", userLogin);
 
 		// Changes input java date into sql date
 		String[] formatDate = date.split("-");
-		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]), Integer.parseInt(formatDate[2]));
+		Date eventDate = new Date(Integer.parseInt(formatDate[0]), Integer.parseInt(formatDate[1]),
+				Integer.parseInt(formatDate[2]));
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date myDate = formatter.parse(date);
 		java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
 
 		// Adding people coming from the form into relevant databases
 		//// we need the id of this organizer for the next push to the
-														// database
-		//fix after lunch -- we need to check again if user exists--checked user should exist
-		
+		// database
+		// fix after lunch -- we need to check again if user exists--checked user should
+		// exist
+
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();// we need to be able to search a person
-						// a different field
+		// a different field
 		System.out.println();
 
 		String surveyID = outingName + "," + date.toString() + "," + organizerId;// syntax for key
@@ -105,11 +103,10 @@ public class HomeController {
 		String[] emailAddresses = emailAddress.split(",");
 		ArrayList<Person> attendees = new ArrayList<>(emailAddresses.length + 1);// when can from here search the
 		System.out.println(Arrays.toString(emailAddresses));
-		
-		
-		
+
 		GeolocationAPI location = new GeolocationAPI(street, city, state);
-		// passing location to create and return survey-- I dont know that we ever use this outing object?
+		// passing location to create and return survey-- I dont know that we ever use
+		// this outing object?
 		Outing constructingOuting = new Outing(outingName, sqlDate, null, null, location, surveyID);
 
 		// this gets the list of potential Restaurants
@@ -117,44 +114,40 @@ public class HomeController {
 		System.out.println("Organizer ID " + organizerId);
 		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);
 		// this builds the HTML OBJ table for voting
-		
-		
-		
+
 		// Creates email generator object and sends the emails upon clicking submit on
 		// the preferences page.
-		
-		  EmailGenerator email = new EmailGenerator(); 
-		  String votingLink = "";
-		  
-		  for(int i =0; i < emailAddresses.length; ++i) { 
-			  votingLink =" http://192.168.0.8:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="+ emailAddresses[i];
-			  email.generateAndSendEmail(organizerEmail,emailAddresses[i], votingLink); 
-		  }
 
-		// this gets the list of potiential Restaurants		
-		  ArrayList<PersonDto> user;
-		  Person attendee;
-	      int outingID = outDao.searchSurveyID(surveyID).get(0).getOutingID();
-		  for (int i = 0; i < emailAddresses.length; i++) {
-			  attendee = Person.checkUserExistsOrCreate(emailAddresses[i]);
-			
-			 int personID = attendee.getPersonID();
-			//write to the attendees database	
-			 attendDao.addNewAttendees(personID, outingID);		
-			 
-		  }
-		  //add the organizer the attendees database as well 
-		  attendDao.addNewAttendees(organizerId, outingID);
-		  
-		  
-		 
-		
-		//this is where we need to output the HTML for logging
-		
+		EmailGenerator email = new EmailGenerator();
+		String votingLink = "";
+
+		for (int i = 0; i < emailAddresses.length; ++i) {
+			votingLink = " http://192.168.0.8:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="
+					+ emailAddresses[i];
+			email.generateAndSendEmail(organizerEmail, emailAddresses[i], votingLink);
+		}
+
+		// this gets the list of potiential Restaurants
+		ArrayList<PersonDto> user;
+		Person attendee;
+		int outingID = outDao.searchSurveyID(surveyID).get(0).getOutingID();
+		for (int i = 0; i < emailAddresses.length; i++) {
+			attendee = Person.checkUserExistsOrCreate(emailAddresses[i]);
+
+			int personID = attendee.getPersonID();
+			// write to the attendees database
+			attendDao.addNewAttendees(personID, outingID);
+
+		}
+		// add the organizer the attendees database as well
+		attendDao.addNewAttendees(organizerId, outingID);
+
+		// this is where we need to output the HTML for logging
+
 		// this builds the HTML OBJ table for voting
 		String outingObjHTML = "<h2> " + outingName + "</h2>";
 		outingObjHTML += "<h4> " + date + "</h4>";
-		outingObjHTML += "<form action=\"recordVote\" method =\"get\">" ;
+		outingObjHTML += "<form action=\"recordVote\" method =\"get\">";
 		outingObjHTML += userLoginHTML;
 		// this method builds the voting form we need to tell it the SurveyID
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, organizerEmail);
@@ -167,95 +160,93 @@ public class HomeController {
 		 * emailAddresses[i]); }
 		 */
 
-
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
 
-
 	// TODO This method receives the clickable link
 
-	@RequestMapping(value="emailLink", method=RequestMethod.GET)
-	public ModelAndView buildVotePage(Model model, @RequestParam("surveyID") String surveyID, @RequestParam("voterEmail") String voterEmail) {
+	@RequestMapping(value = "emailLink", method = RequestMethod.GET)
+	public ModelAndView buildVotePage(Model model, @RequestParam("surveyID") String surveyID,
+			@RequestParam("voterEmail") String voterEmail) {
 
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		OutingDaoImpl outingDB = new OutingDaoImpl();
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this survey
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
+																		// survey
 		OutingDto outingDto = outingDB.searchSurveyID(surveyID).get(0);
 		Survey mySurvey = new Survey(surveyDto);
 		String userloginHTML = Person.checkUserGenerateHTML(voterEmail);
-		
-		
-
 
 		String outingObjHTML = "<h2> " + outingDto.getOutingName() + "</h2>";
-		outingObjHTML += "<h4> " + outingDto.getDateOfEvent().getMonth() + outingDto.getDateOfEvent().getDay() + outingDto.getDateOfEvent().getYear()+ "</h4>";
+		outingObjHTML += "<h4> " + outingDto.getDateOfEvent().getMonth() + outingDto.getDateOfEvent().getDay()
+				+ outingDto.getDateOfEvent().getYear() + "</h4>";
 		outingObjHTML += "<form action=\"recordVote\" method=\"get\">";
 		outingObjHTML += userloginHTML;
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);
 		outingObjHTML += "<input type=\"submit\" value=\"Vote\" > </form>";
-			
+
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
-	
-	//in this method we are recording the users vote
+
+	// in this method we are recording the users vote
 	@RequestMapping(value = "/recordVote", method = RequestMethod.GET)
 	public ModelAndView recordVote(Model model, @RequestParam("voterEmail") String voterEmail,
-			@RequestParam("surveyID") String surveyID, @RequestParam("rstrnt") String[] restaurantVote, 
+			@RequestParam("surveyID") String surveyID, @RequestParam("rstrnt") String[] restaurantVote,
 			@RequestParam("passwordBox1") String pass1) {
-			System.out.println(" Voter email is "+ voterEmail);
-			PersonDaoImpl userList = new PersonDaoImpl();
-			
-			//if the voterEmail have an account where we have added a " " as the password
-			PersonDto voter = userList.searchByEmail(voterEmail).get(0);
-			if(voter.getUserPassword().equals("1")) {
-				int userID = voter.getUserID();
-				String passHash = Person.generateHashPassword(pass1);
-				PersonDto personToUpdate = new PersonDto(userID, voterEmail, passHash);
-				userList.updatePassword(personToUpdate);
-		
-			}
-			else {
-				//validate user password
-			}
-		
-		
-				SurveyDaoImpl surveyDB = new SurveyDaoImpl();
-				// we have to know who voter is
-				// If you are using a build link it has to be formatted with no quotes
-				SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
-				Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
+		System.out.println(" Voter email is " + voterEmail);
+		PersonDaoImpl userList = new PersonDaoImpl();
 
-				// SurveyDto holds results from survey so that we can manipulate them. See
-				// Survey class to see organization
+		// if the voterEmail have an account where we have added a " " as the password
+		PersonDto voter = userList.searchByEmail(voterEmail).get(0);
+		if (voter.getUserPassword().equals("1")) {
+			int userID = voter.getUserID();
+			String passHash = Person.generateHashPassword(pass1);
+			PersonDto personToUpdate = new PersonDto(userID, voterEmail, passHash);
+			userList.updatePassword(personToUpdate);
 
-				mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
-				String outingObjHTML = "";
-				outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
+		} else {
+			// validate user password
+		}
 
-				// TODO update the Out object with how many people 
-				// we should search the database for the surveyID
-				
-				/* This will work once the attendees are filled
-				if (mySurvey.attendeeCanVote(voterEmail, surveyID)) {
+		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
+		// we have to know who voter is
+		// If you are using a build link it has to be formatted with no quotes
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
+		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
 
+		// SurveyDto holds results from survey so that we can manipulate them. See
+		// Survey class to see organization
 
-				mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
+		mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
+		String outingObjHTML = "";
+		outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
 
-				// TODO get the Outing information: Event Name, Organizer, Date from the outing
-				// object, if we are searching by ID by doing a join on the table
-				// I tried some SQL queries but we will need help
+		attendeeHasVoted(surveyID);
 
-					outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> Please vote below: " + surveyID + "</h3>";
-					outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);// when we have the object built we may not
-																			// need to pass an array
-					// TODO call a method to set the email address
-				} else {
-					outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> You have already voted </h3>";
-				}*/
+		// TODO update the Out object with how many people
+		// we should search the database for the surveyID
 
-				return new ModelAndView("voting", "result", outingObjHTML);
+		/*
+		 * This will work once the attendees are filled if
+		 * (mySurvey.attendeeCanVote(voterEmail, surveyID)) {
+		 * 
+		 * 
+		 * mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
+		 * 
+		 * // TODO get the Outing information: Event Name, Organizer, Date from the
+		 * outing // object, if we are searching by ID by doing a join on the table // I
+		 * tried some SQL queries but we will need help
+		 * 
+		 * outingObjHTML = "<h2> Thank you " + voterEmail +
+		 * " </h2> <h3> Please vote below: " + surveyID + "</h3>"; outingObjHTML =
+		 * mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);// when we have
+		 * the object built we may not // need to pass an array // TODO call a method to
+		 * set the email address } else { outingObjHTML = "<h2> Thank you " + voterEmail
+		 * + " </h2> <h3> You have already voted </h3>"; }
+		 */
+
+		return new ModelAndView("voting", "result", outingObjHTML);
 	}
-
 
 	@RequestMapping("preferences")
 	public String viewPreferencesPage() {
@@ -263,19 +254,20 @@ public class HomeController {
 		return "preferences";
 	}
 
-	//we need to have it taking in an authenticated user, 
+	// we need to have it taking in an authenticated user,
 	@RequestMapping("/recordvote")
 	public void tallyFinalVoteCount() {
 		AttendeesDaoImpl attendeeDao = new AttendeesDaoImpl();
 		SurveyDaoImpl surveyDao = new SurveyDaoImpl();
 		SurveyDto surveyDTO = new SurveyDto();
-		ZoomatoAPI grabInfoFromAPI = new ZoomatoAPI(); 
-		RestaurantObj winningRestInfo = new RestaurantObj(); 
+		ZoomatoAPI grabInfoFromAPI = new ZoomatoAPI();
+		RestaurantObj winningRestInfo = new RestaurantObj();
 
 		// Here we pull in the survey once the column value "HasVoted" has been marked
 		// true.
 		// This triggers once the last participant has submitted their vote
-		ArrayList<SurveyDto> finalSurvey = (ArrayList<SurveyDto>) surveyDao.searchSurvey("WeaselStompingDay,2017-12-21,97");
+		ArrayList<SurveyDto> finalSurvey = (ArrayList<SurveyDto>) surveyDao
+				.searchSurvey("WeaselStompingDay,2017-12-21,97");
 		surveyDTO = finalSurvey.get(0);
 		// Above I assign the arraylist the survey arrives in into an object for
 		// manipulation
@@ -306,63 +298,84 @@ public class HomeController {
 				venue = venueArray.get(i).toString();
 			}
 		}
-		
-		
-		//Here I call the api and put in the winning venue's restID
-		//I then assign it to a local Restaurant object, which is how I present the information.
-		winningRestInfo = grabInfoFromAPI.searchByRestID(venue); 
-		System.out.println("And the winner is: " + winningRestInfo.getRestName() );
 
+		// Here I call the api and put in the winning venue's restID
+		// I then assign it to a local Restaurant object, which is how I present the
+		// information.
+		winningRestInfo = grabInfoFromAPI.searchByRestID(venue);
+		System.out.println("And the winner is: " + winningRestInfo.getRestName());
 
-		//TODO figure out how to join the tables attendees and survey so we can call from both
-		//TODO Write the logic that switches a survey to finished and triggers the final count and display
+		// TODO figure out how to join the tables attendees and survey so we can call
+		// from both
+		// TODO Write the logic that switches a survey to finished and triggers the
+		// final count and display
 
-	
-		}
-//has been rendered irrelevant by Lena's code	
-	public void attendeeHasVoted(@RequestParam("voterEmail") String voterEmail){
+	}
+	// has been rendered irrelevant by Lena's code
+
+	public void attendeeHasVoted(@RequestParam("voterEmail") String voterEmail) {
 		PersonDaoImpl personDAO = new PersonDaoImpl();
 		PersonDto personDTO = new PersonDto();
 		AttendeesDaoImpl attendeeDAO = new AttendeesDaoImpl();
 		AttendeesDto attendeeDTO = new AttendeesDto();
-		
-		
-		//below I create a person object so that we can access the attendee information. We use the person DAO to search for the relevant
-		//person by their email (they are created when their email is entered for the first time). We then have it "get" the object out of 
-		//the array it is returned in.
+
+		// below I create a person object so that we can access the attendee
+		// information. We use the person DAO to search for the relevant
+		// person by their email (they are created when their email is entered for the
+		// first time). We then have it "get" the object out of
+		// the array it is returned in.
 		personDTO = personDAO.searchByEmail(voterEmail).get(0);
-		System.out.println("We got: " + personDTO.getUserEmail()); //test purposes TODO delete when ready
-		
-		
+		System.out.println("We got: " + personDTO.getUserEmail()); // test purposes TODO delete when ready
+
 		// use person id to find attendee
-		attendeeDTO = attendeeDAO.searchByPersonID(personDTO.getUserID()).get(0); 
-		//above we instantiate the attendeeDTO object. We call the information using the DAO that searches by Person ID, then plug in
-		//the person ID by calling it from the person DTO. The get 0 is because the attendeeDAO returns an attendee object in an array,
-		//so we need to "get" it so it can be converted into the object we call attendeeDTO
-		//switch false to true
-		
-		if(attendeeDTO.getVoted() == false) {
+		attendeeDTO = attendeeDAO.searchByPersonID(personDTO.getUserID()).get(0);
+		// above we instantiate the attendeeDTO object. We call the information using
+		// the DAO that searches by Person ID, then plug in
+		// the person ID by calling it from the person DTO. The get 0 is because the
+		// attendeeDAO returns an attendee object in an array,
+		// so we need to "get" it so it can be converted into the object we call
+		// attendeeDTO
+		// switch false to true
+
+		if (attendeeDTO.getVoted() == false) {
 			attendeeDTO.setVoted(true);
 		} else {
 			System.out.println("He already voted!");
 		}
-		
-		
+
 		attendeeDAO.updateAttendees(attendeeDTO);
-		System.out.println("The ID should be 95: " + attendeeDTO.getPersonID()); //test purposes TODO delete when ready
-		
-		//Here we set the value to true and send it to the database
-		
+		System.out.println("The ID should be 95: " + attendeeDTO.getPersonID()); // test purposes TODO delete when ready
+
+		// Here we set the value to true and send it to the database
+
+	}
+
+	public void lastVoteSendResults(String surveyID) {
+		OutingDaoImpl outingDAO = new OutingDaoImpl();
+		OutingDto outingDTO = new OutingDto();
+		AttendeesDaoImpl attendeeDAO = new AttendeesDaoImpl();
+		AttendeesDto attendeeDTO = new AttendeesDto();
+		// Here I'm creating an outing ID by searching using the surveyID passed to us
+		outingDTO = outingDAO.searchSurveyID(surveyID).get(0);
+
+		// I then create an arraylist to hold all of the attendees DTO's so that we can
+		// check each one to see if they've voted
+		ArrayList<AttendeesDto> voteCheckArray = (ArrayList<AttendeesDto>) attendeeDAO
+				.searchByOutingID(outingDTO.getOutingID());
+		int temp = 0;
+		for (int i = 0; i < voteCheckArray.size(); i++) {
+			attendeeDTO = voteCheckArray.get(i);
+			if (attendeeDTO.getVoted() == true) {
+				temp += 1;
+			}
+		}
+		if(temp == voteCheckArray.size()) {
+			System.out.println("Vote Complete!");
+		} else {
+			System.out.println("Need " + (voteCheckArray.size() - temp) + " more votes!");
+		}
+		System.out.println("Did it work? " + temp);
+		// instantiate them into DTO's
+
 	}
 }
-	
-
-	
-
-
-
-
-
-
-
-
