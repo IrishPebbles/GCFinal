@@ -72,27 +72,27 @@ public class Person {
 		return "Person [userEmail=" + userEmail + ", password=" + password + ", createdOutings=" + createdOutings + "]";
 	}
 	
-	/*public void login(String typedPassword) {
-		//check database for user
-		PersonDaoImpl databaseConnection = new PersonDaoImpl();
-		//new implementation of database
-		ArrayList<PersonDto> searchedPerson = (ArrayList<PersonDto>) databaseConnection.searchByEmail(userEmail);
-		//search email
+	public String login (String userPassword) {
 		
-		if (searchedPerson != null) {
-			PersonDto locatedPerson = searchedPerson.get(0);
-			String userPassword = locatedPerson.getUserPassword();
-			// I need to check to password in database
+		PersonDaoImpl databaseConnection = new PersonDaoImpl();
+		
+		String pw_hash = BCrypt.hashpw(userPassword, BCrypt.gensalt(12));
+		
+		ArrayList<PersonDto> searchedPass = (ArrayList<PersonDto>) databaseConnection.searchByEmail(userEmail);
+		// search password
+		
+		
+		if (userPassword.equals(pw_hash) ) {
 			
-			if (userPassword == generateHashPassword(typedPassword)) {
-			// if they match user loged in
-			}
+			String loggedIN = "Yes";
+			
+			
 		}else {
-			// we need to create a person or force them to register
+			String loggedIN = "Password you entered doesn't match";
 			
 		}
-				
-	}*/
+			return "loggedIN";	
+	}
 
 	public static String generateHashPassword(String typedPassword) { // String returns success or failure msg 
 		
