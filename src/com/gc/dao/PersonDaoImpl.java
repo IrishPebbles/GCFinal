@@ -89,7 +89,7 @@ public class PersonDaoImpl implements PersonDao {
 		Criteria crit = session.createCriteria(PersonDto.class);
 		
 		crit.add(Restrictions.eq("userEmail", userEmail));
-		
+	
 		ArrayList<PersonDto> getEmail = (ArrayList<PersonDto>) crit.list();
 		
 		//System.out.println("Looking up" + getEmail.get(0).toString());
@@ -116,5 +116,25 @@ public class PersonDaoImpl implements PersonDao {
 			codes.close();
 
 		}
+
+
+	@Override
+	public List<PersonDto> searchByPassword(String userPassword) {
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+
+		SessionFactory sessionFactory = config.buildSessionFactory();
+
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		Criteria crit = session.createCriteria(PersonDto.class);
+		
+		crit.add(Restrictions.eq("userPassword", userPassword));
+		ArrayList<PersonDto> getPassword = (ArrayList<PersonDto>) crit.list();
+		
+		//System.out.println("Looking up" + getEmail.get(0).toString());
+		tx.commit();
+		session.close();
+		return getPassword;
+	}
 
 }
