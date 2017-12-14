@@ -25,6 +25,11 @@ public class GeolocationAPI {
 		calculateLatLong();
 	}
 	
+	public GeolocationAPI(double latitude, double longitude) {
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+
 	public String getTypedStreet() {
 		return typedStreet;
 	}

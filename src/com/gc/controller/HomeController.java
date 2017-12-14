@@ -10,6 +10,7 @@ import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.tools.DocumentationTool.Location;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,7 +99,7 @@ public class HomeController {
 		
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();// we need to be able to search a person
 						// a different field
-		System.out.println();
+		
 
 		String surveyID = outingName + "," + date.toString() + "," + organizerId;// syntax for key
 
@@ -127,7 +128,7 @@ public class HomeController {
 		  String votingLink = "";
 		  
 		  for(int i =0; i < emailAddresses.length; ++i) { 
-			  votingLink =" http://192.168.0.8:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="+ emailAddresses[i];
+			  votingLink =" http://192.168.0.8:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="+ emailAddresses[i] +"&lat="+ location.getLatitude() + "&long=" + location.getLongitude();
 			  email.generateAndSendEmail(organizerEmail,emailAddresses[i], votingLink); 
 		  }
 
@@ -154,6 +155,8 @@ public class HomeController {
 		// this builds the HTML OBJ table for voting
 		String outingObjHTML = "<h2> " + outingName + "</h2>";
 		outingObjHTML += "<h4> " + date + "</h4>";
+		outingObjHTML +=  " <input type=\"hidden\" name=\"lat\" value=\" "+ location.getLatitude()+ "\" >";
+		outingObjHTML +=  " <input type=\"hidden\" name=\"long\" value=\" "+ location.getLongitude() +"\" >";
 		outingObjHTML += "<form action=\"recordVote\" method =\"get\">" ;
 		outingObjHTML += userLoginHTML;
 		// this method builds the voting form we need to tell it the SurveyID
@@ -175,8 +178,8 @@ public class HomeController {
 	// TODO This method receives the clickable link
 
 	@RequestMapping(value="emailLink", method=RequestMethod.GET)
-	public ModelAndView buildVotePage(Model model, @RequestParam("surveyID") String surveyID, @RequestParam("voterEmail") String voterEmail) {
-
+	public ModelAndView buildVotePage(Model model, @RequestParam("surveyID") String surveyID, @RequestParam("voterEmail") String voterEmail, @RequestParam("lat") String latString, @RequestParam("long") String longString) {
+		GeolocationAPI location = new GeolocationAPI(Double.parseDouble(latString), Double.parseDouble(longString));
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		OutingDaoImpl outingDB = new OutingDaoImpl();
 		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this survey
@@ -202,7 +205,6 @@ public class HomeController {
 	public ModelAndView recordVote(Model model, @RequestParam("voterEmail") String voterEmail,
 			@RequestParam("surveyID") String surveyID, @RequestParam("rstrnt") String[] restaurantVote, 
 			@RequestParam("passwordBox1") String pass1) {
-			System.out.println(" Voter email is "+ voterEmail);
 			PersonDaoImpl userList = new PersonDaoImpl();
 			
 			//if the voterEmail have an account where we have added a " " as the password
@@ -219,39 +221,39 @@ public class HomeController {
 			}
 		
 		
-				SurveyDaoImpl surveyDB = new SurveyDaoImpl();
-				// we have to know who voter is
-				// If you are using a build link it has to be formatted with no quotes
-				SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
-				Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
+			SurveyDaoImpl surveyDB = new SurveyDaoImpl();
+			// we have to know who voter is
+			// If you are using a build link it has to be formatted with no quotes
+			SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
+			Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
 
-				// SurveyDto holds results from survey so that we can manipulate them. See
-				// Survey class to see organization
+			// SurveyDto holds results from survey so that we can manipulate them. See
+			// Survey class to see organization
 
-				mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
-				String outingObjHTML = "";
-				outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
+			mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
+			String outingObjHTML = "";
+			outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built
 
-				// TODO update the Out object with how many people 
-				// we should search the database for the surveyID
-				
-				/* This will work once the attendees are filled
-				if (mySurvey.attendeeCanVote(voterEmail, surveyID)) {
+			// TODO update the Out object with how many people 
+			// we should search the database for the surveyID
+			
+			/* This will work once the attendees are filled
+			if (mySurvey.attendeeCanVote(voterEmail, surveyID)) {
 
 
-				mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
+			mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
 
-				// TODO get the Outing information: Event Name, Organizer, Date from the outing
-				// object, if we are searching by ID by doing a join on the table
-				// I tried some SQL queries but we will need help
+			// TODO get the Outing information: Event Name, Organizer, Date from the outing
+			// object, if we are searching by ID by doing a join on the table
+			// I tried some SQL queries but we will need help
 
-					outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> Please vote below: " + surveyID + "</h3>";
-					outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);// when we have the object built we may not
-																			// need to pass an array
-					// TODO call a method to set the email address
-				} else {
-					outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> You have already voted </h3>";
-				}*/
+				outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> Please vote below: " + surveyID + "</h3>";
+				outingObjHTML = mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);// when we have the object built we may not
+																		// need to pass an array
+				// TODO call a method to set the email address
+			} else {
+				outingObjHTML = "<h2> Thank you " + voterEmail + " </h2> <h3> You have already voted </h3>";
+			}*/
 
 				return new ModelAndView("voting", "result", outingObjHTML);
 	}

@@ -158,7 +158,7 @@ public class ZoomatoAPI {
 		return "restaurant?res_id=" + restaurantID; // TODO need to change parameters later
 	}
 	
-	public String getStyling(String restName, String restRating, String restURL, ) {
+	public String getStyling(String restName, String restRating, String restURL) {
 		String htmlCard = "<div class=\"card\"><a href=\"\">" + 
 				"  <img class=\"card-img-top\" src=\"...\" alt=\"Card image cap\">\n" + 
 				"  <div class=\"card-block\">\n" + 
