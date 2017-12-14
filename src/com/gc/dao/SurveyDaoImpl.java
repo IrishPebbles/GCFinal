@@ -129,11 +129,31 @@ public class SurveyDaoImpl implements SurveyDao {
 		codes.update(survey); // update the object from the list
 
 		codes.getTransaction().commit(); // update the row from the database table
+		
+		codes.close();
 
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	public List<SurveyDto> changeRestSurvey(String surveyID, String restID1, String restID2, String restID3, String restID4, String restID5) {
+		List<SurveyDto> surveyList = new ArrayList<SurveyDto>();
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+		SessionFactory sessionFactory = config.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+		SurveyDto changeSurvDto = new SurveyDto();
+
+		changeSurvDto.setOptVenueID1(restID1);
+		changeSurvDto.setOptVenueID2(restID2);
+		changeSurvDto.setOptVenueID3(restID3);
+		changeSurvDto.setOptVenueID4(restID4);
+		changeSurvDto.setOptVenueID5(restID5);
+		
+		session.update(changeSurvDto);
+		session.getTransaction().commit();
+		
+		session.close();
+		return surveyList;
+	}
 
 
 	@Override
