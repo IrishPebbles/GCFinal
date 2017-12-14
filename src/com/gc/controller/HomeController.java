@@ -56,7 +56,7 @@ public class HomeController {
 		PersonDao pdao = new PersonDaoImpl();
 		SurveyDao sdao = new SurveyDaoImpl();
 		model.addAttribute("displayPreference", "\"display:none;\"");
-		hasAttendeeVoted("jeeves723@gmail.com");
+
 		hasEveryoneVoted("WeaselStompingDay,2017-12-21,97");
 		return new ModelAndView("index", "result", "");
 
@@ -263,7 +263,7 @@ public class HomeController {
 
 	// we need to have it taking in an authenticated user,
 	@RequestMapping("/recordvote")
-	public void countVotesAndPickWinner() {
+	public void countVotesAndPickWinner(String surveyID) {
 		AttendeesDaoImpl attendeeDao = new AttendeesDaoImpl();
 		SurveyDaoImpl surveyDao = new SurveyDaoImpl();
 		SurveyDto surveyDTO = new SurveyDto();
@@ -273,8 +273,7 @@ public class HomeController {
 		// Here we pull in the survey once the column value "HasVoted" has been marked
 		// true.
 		// This triggers once the last participant has submitted their vote
-		ArrayList<SurveyDto> finalSurvey = (ArrayList<SurveyDto>) surveyDao
-				.searchSurvey("WeaselStompingDay,2017-12-21,97");
+		ArrayList<SurveyDto> finalSurvey = (ArrayList<SurveyDto>) surveyDao.searchSurvey(surveyID);
 		surveyDTO = finalSurvey.get(0);
 		// Above I assign the arraylist the survey arrives in into an object for
 		// manipulation
@@ -371,6 +370,9 @@ public class HomeController {
 		// check each one to see if they've voted
 		ArrayList<AttendeesDto> voteCheckArray = (ArrayList<AttendeesDto>) attendeeDAO
 				.searchByOutingID(outingDTO.getOutingID());
+
+		// The for loop checks each attendeeDTO to see if they've voted. If they have,
+		// it adds to a counter.
 		int temp = 0;
 		for (int i = 0; i < voteCheckArray.size(); i++) {
 			attendeeDTO = voteCheckArray.get(i);
@@ -378,14 +380,22 @@ public class HomeController {
 				temp += 1;
 			}
 		}
+		// At the end of the loop, it checks the value of the counter against the length
+		// of the voteCheckArray (number of potential voters)
+		// If they are equal, that means everyone has voted, so it calls the Survey dao
+		// and carries out the process of changing the
+		// Survey tables hasVoted to true, which triggers the final count method.
 		if (temp == voteCheckArray.size()) {
 			System.out.println("Vote Complete!");
+			surveyDTO = surveyDAO.searchSurvey(surveyID).get(0);
+			surveyDTO.setHasVoted(true);
+			surveyDAO.updateSurvey(surveyDTO);
+
 		} else {
 			System.out.println("Need " + (voteCheckArray.size() - temp) + " more votes!");
 		}
 		System.out.println("Did it work? " + temp);
 		// instantiate them into DTO's
-		surveyDTO.setHasVoted(true);
 
 	}
 }
