@@ -57,7 +57,7 @@ public class HomeController {
 		SurveyDao sdao = new SurveyDaoImpl();
 		model.addAttribute("displayPreference", "\"display:none;\"");
 
-		hasEveryoneVoted("WeaselStompingDay,2017-12-21,97");
+		
 		return new ModelAndView("index", "result", "");
 
 	}
@@ -121,7 +121,7 @@ public class HomeController {
 		String votingLink = "";
 
 		for (int i = 0; i < emailAddresses.length; ++i) {
-			votingLink = " http://192.168.0.8:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="
+			votingLink = " http://localhost8080/GCFinal/emaillink?surveyID=" + surveyID + "&voterEmail="
 					+ emailAddresses[i] + "&lat=" + location.getLatitude() + "&long=" + location.getLongitude();
 			email.generateAndSendEmail(organizerEmail, emailAddresses[i], votingLink);
 		}
@@ -147,8 +147,8 @@ public class HomeController {
 		String outingObjHTML = "<h1>  Welcome to" + outingName + "</h1>";
 		outingObjHTML += "<h4>  for " + date + "</h4>";
 		outingObjHTML += "<h3> Please vote below</h3>"
-				+ "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>"
-				+ "	<form action=\"voting\" method =\"get\">";
+				+ "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>";
+				;
 		outingObjHTML += " <input type=\"hidden\" name=\"lat\" value=\" " + location.getLatitude() + "\" >";
 		outingObjHTML += " <input type=\"hidden\" name=\"long\" value=\" " + location.getLongitude() + "\" >";
 		outingObjHTML += "<form action=\"recordVote\" method =\"get\">";
@@ -220,7 +220,9 @@ public class HomeController {
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		// we have to know who voter is
 		// If you are using a build link it has to be formatted with no quotes
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0);
+		System.out.println("Look here Jimmy" + surveyDto.getOptVenueID1().toString());
+		// this gets the row record from the data for this
 		Survey mySurvey = new Survey(surveyDto);// we build a survey object FROM the row in the database
 
 		// SurveyDto holds results from survey so that we can manipulate them. See
@@ -251,6 +253,10 @@ public class HomeController {
 		 * set the email address } else { outingObjHTML = "<h2> Thank you " + voterEmail
 		 * + " </h2> <h3> You have already voted </h3>"; }
 		 */
+		
+		hasAttendeeVoted(voterEmail);
+		hasEveryoneVoted(surveyID);
+		countVotesAndPickWinner(surveyID);
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
@@ -262,7 +268,7 @@ public class HomeController {
 	}
 
 	// we need to have it taking in an authenticated user,
-	@RequestMapping("/recordvote")
+	
 	public void countVotesAndPickWinner(String surveyID) {
 		AttendeesDaoImpl attendeeDao = new AttendeesDaoImpl();
 		SurveyDaoImpl surveyDao = new SurveyDaoImpl();
@@ -270,11 +276,16 @@ public class HomeController {
 		ZoomatoAPI grabInfoFromAPI = new ZoomatoAPI();
 		RestaurantObj winningRestInfo = new RestaurantObj();
 
+		
+		
+		
 		// Here we pull in the survey once the column value "HasVoted" has been marked
 		// true.
 		// This triggers once the last participant has submitted their vote
-		ArrayList<SurveyDto> finalSurvey = (ArrayList<SurveyDto>) surveyDao.searchSurvey(surveyID);
-		surveyDTO = finalSurvey.get(0);
+	
+		surveyDTO = surveyDao.searchSurvey(surveyID).get(0);
+		
+		if(surveyDTO.getHasVoted()== true) {
 		// Above I assign the arraylist the survey arrives in into an object for
 		// manipulation
 
@@ -310,6 +321,10 @@ public class HomeController {
 		// information.
 		winningRestInfo = grabInfoFromAPI.searchByRestID(venue);
 		System.out.println("And the winner is: " + winningRestInfo.getRestName());
+		
+		} else {
+			System.out.println("Still waiting for votes");
+		}
 
 		// TODO figure out how to join the tables attendees and survey so we can call
 		// from both
