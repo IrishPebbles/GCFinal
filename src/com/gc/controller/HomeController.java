@@ -127,14 +127,14 @@ public class HomeController {
 		String outingObjHTML = "<h1>  Welcome to " + outingName + "</h1>";
 		outingObjHTML += "<h4>  for " + date + "</h4>";
 
-		outingObjHTML += "<h3> Please vote below</h3>"
-				+ "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>";
-		outingObjHTML += "<form action=\"recordVote\" method =\"get\">";
-		outingObjHTML += " <input type=\"hidden\" name=\"lat\" value=\" " + location.getLatitude() + "\" >";
-		
-		outingObjHTML += " <input type=\"hidden\" name=\"long\" value=\" " + location.getLongitude() + "\" >";
-		// this line for the form action is critcal for votes, user and password
-		// validation
+
+
+		outingObjHTML +=  "<h3> Please vote below</h3>" + "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>";
+		outingObjHTML += "<form action=\"recordVote\" method =\"get\">" ;
+
+		outingObjHTML +=  " <input type=\"hidden\" name=\"lat\" value=\" "+ location.getLatitude()+ "\" >";
+		outingObjHTML +=  " <input type=\"hidden\" name=\"long\" value=\" "+ location.getLongitude() +"\" >";
+		//this line for the form action is critcal for votes, user and  password validation
 
 		outingObjHTML += userLoginHTML;
 		// this method builds the voting form we need to tell it the SurveyID
@@ -173,9 +173,7 @@ public class HomeController {
 		String outingObjHTML = "<h1>  Welcome to" + outingDto.getOutingName() + "</h1>";
 		outingObjHTML += "<h4> " + outingDto.getDateOfEvent().getMonth() + outingDto.getDateOfEvent().getDay()
 				+ outingDto.getDateOfEvent().getYear() + "</h4>";
-		outingObjHTML += "<h3> Please vote below</h3>"
-				+ "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>"
-				+ "	<form action=\"voting\" method =\"get\">";
+		outingObjHTML += "<h3> Please vote below</h3>" + "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>";
 		outingObjHTML += "<form action=\"recordVote\" method=\"get\">";
 		outingObjHTML += " <input type=\"hidden\" name=\"lat\" value=\" " + location.getLatitude() + "\" >";
 		outingObjHTML += " <input type=\"hidden\" name=\"long\" value=\" " + location.getLongitude() + "\" >";
