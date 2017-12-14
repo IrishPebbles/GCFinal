@@ -11,6 +11,15 @@
 </head>
 <body>
 
+<<<<<<< HEAD
+<%-- <form action="indexlogin" method="POST">
+User Name <input type="email" name="username">
+<input type="submit" value="Submit">
+${noAccountMessage}
+
+</form>  --%>
+=======
+>>>>>>> ba260fd96b1e2b1b0333123b63642492262cadaa
   <main role="main">
   <form action="voting" id="login-form" method="POST" style = "text-align: center" >
   <!-- Main jumbotron for a primary marketing message or call to action -->

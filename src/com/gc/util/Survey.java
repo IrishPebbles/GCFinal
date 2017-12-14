@@ -119,6 +119,17 @@ public class Survey {
 
 	}
 
+	public void createNewRestList(ZoomatoAPI zApi, Survey survey) {
+		
+		SurveyDao sdao = new SurveyDaoImpl();
+		potentialVenues = zApi.getNewList();
+
+		String surveyID = survey.getSurveyID();
+		sdao.changeRestSurvey(surveyID, potentialVenues.get(0), potentialVenues.get(1), potentialVenues.get(2),
+				potentialVenues.get(3), potentialVenues.get(4));
+
+	}
+	
 	public String buildVotingeRestaurantTable(String surveyID, String voterEmail) {
 		String tableHtml = "<h1> Welcome to the event ! </h1>" + "<h3> Please vote below</h3>"
 				+ "<h5>You may vote for more than one choice. Each vote will be weighted equally</h5>"
