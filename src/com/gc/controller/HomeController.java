@@ -294,7 +294,7 @@ public class HomeController {
 		// from both
 		// TODO Write the logic that switches a survey to finished and triggers the
 		// final count and display
-		return winningRestInfo.getRestName();
+		return winningRestInfo.getZomatoID();
 	}
 	// has been rendered irrelevant by Lena's code
 
