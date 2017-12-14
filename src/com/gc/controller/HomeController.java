@@ -151,10 +151,11 @@ public class HomeController {
 		 
 		
 		//this is where we need to output the HTML for logging
-		
+		 
 		// this builds the HTML OBJ table for voting
-		String outingObjHTML = "<h2> " + outingName + "</h2>";
-		outingObjHTML += "<h4> " + date + "</h4>";
+		String outingObjHTML = "<h1>  Welcome to" + outingName + "</h1>";
+		outingObjHTML += "<h4>  for " + date + "</h4>";
+		outingObjHTML +=  "<h3> Please vote below</h3>" + "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>"+ "	<form action=\"voting\" method =\"get\">";
 		outingObjHTML +=  " <input type=\"hidden\" name=\"lat\" value=\" "+ location.getLatitude()+ "\" >";
 		outingObjHTML +=  " <input type=\"hidden\" name=\"long\" value=\" "+ location.getLongitude() +"\" >";
 		outingObjHTML += "<form action=\"recordVote\" method =\"get\">" ;
@@ -190,9 +191,13 @@ public class HomeController {
 		
 
 
-		String outingObjHTML = "<h2> " + outingDto.getOutingName() + "</h2>";
+		
+		String outingObjHTML = "<h1>  Welcome to" + outingDto.getOutingName() + "</h1>";
 		outingObjHTML += "<h4> " + outingDto.getDateOfEvent().getMonth() + outingDto.getDateOfEvent().getDay() + outingDto.getDateOfEvent().getYear()+ "</h4>";
+		outingObjHTML +=  "<h3> Please vote below</h3>" + "<h6>You may vote for more than one choice. Each vote will be weighted equally</h6>"+ "	<form action=\"voting\" method =\"get\">";
 		outingObjHTML += "<form action=\"recordVote\" method=\"get\">";
+		outingObjHTML +=  " <input type=\"hidden\" name=\"lat\" value=\" "+ location.getLatitude()+ "\" >";
+		outingObjHTML +=  " <input type=\"hidden\" name=\"long\" value=\" "+ location.getLongitude() +"\" >";
 		outingObjHTML += userloginHTML;
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);
 		outingObjHTML += "<input type=\"submit\" value=\"Vote\" > </form>";

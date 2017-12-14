@@ -79,7 +79,7 @@ public class ZoomatoAPI {
 	
 	public ArrayList<String> getNewList() {
 		restID = new ArrayList<String>();
-		JSONObject objJson =connectToAPI(buildParameterforList("8046.72"));//this number is a radius of 5 miles in meters
+		JSONObject objJson =connectToAPI(buildParameterforList("2046.72"));//this number is a radius of 5 miles in meters
 		JSONObject restaurant = null;
 		
 		// assign the returned result to a json object
@@ -105,11 +105,15 @@ public class ZoomatoAPI {
 		String restRating = restaurant.getJSONObject("user_rating").getString("aggregate_rating");
 		String restCuisine = restaurant.getString("cuisines");//this may have to be parsed if there are more than one type
 		String restURL = restaurant.getString("url");
+		String featImage = restaurant.getString("featured_image");
 			
 		RestaurantObj myRest = new RestaurantObj(restName, restLocation, restRating, restID);
 		myRest.setRestURL(restURL);
+		myRest.setCusineType(restCuisine);
+		myRest.setFeatImgURL(featImage);
 		return myRest;
 	}
+	
 	
 	public static JSONObject connectToAPI(String parameter) {
 		String results = "";
@@ -158,12 +162,13 @@ public class ZoomatoAPI {
 		return "restaurant?res_id=" + restaurantID; // TODO need to change parameters later
 	}
 	
-	public String getStyling(String restName, String restRating, String restURL) {
-		String htmlCard = "<div class=\"card\"><a href=\"\">" + 
-				"  <img class=\"card-img-top\" src=\"...\" alt=\"Card image cap\">\n" + 
+	public static String getStyling(RestaurantObj restaurant) {
+		//System.out.println("Url= " + restaurant.getFeatImgURL());
+		String htmlCard = "<div class=\"card\"><a href=\"" + restaurant.getRestURL()+"\" target=\"_blank\" >" + 
+				"  <img class=\"card-img-top\" src=\"\" alt=\"\">\n" + 
 				"  <div class=\"card-block\">\n" + 
-				"    <p class=\"card-text\">" + restName + "</p>\n" + 
-				"  </div>\n" + 
+				"    <p class=\"card-text\">" + restaurant.getRestName() + " Cusine Type:" + restaurant.getCusineType()+" with a rating of " + restaurant.getRestRating()+
+				"  <br> Located at "+ restaurant.getRestLocation() + "  </p>" + "  </div>\n" + 
 				"</a></div>";
 		
 		return htmlCard;

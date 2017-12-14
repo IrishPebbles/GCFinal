@@ -131,20 +131,16 @@ public class Survey {
 	}
 	
 	public String buildVotingeRestaurantTable(String surveyID, String voterEmail) {
-		String tableHtml = "<h1> Welcome to the event ! </h1>" + "<h3> Please vote below</h3>"
-				+ "<h5>You may vote for more than one choice. Each vote will be weighted equally</h5>"
-				+ "	<form action=\"voting\" method =\"get\">" + "	<table border=\"1\">";
-		
+		String tableHtml = "";
 		//passsing the organizer and the surveyID
-		tableHtml += "<input type=\"hidden\" name=\"surveyID\" value=\"" + surveyID + "\">";
+		tableHtml += " <table style=\"a { text-decoration:none;}\"><input type=\"hidden\" name=\"surveyID\" value=\"" + surveyID + "\">";
 		
 		RestaurantObj placeholder;
 		for (int i = 0; i < 5; i++) {
 			placeholder = ZoomatoAPI.searchByRestID(potentialVenues.get(i));
 
-			tableHtml += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\"" + placeholder.getRestName()
-					+ "\" >" + " <a href=\" " + placeholder.getRestURL() + "\">" + placeholder.getRestName() + "</a>"
-					+ "</td><td> Rating:" + placeholder.getRestRating() + "</td>\n</tr>";
+			tableHtml += "	<tr><td> <input type=\"checkbox\" name=\"rstrnt\" value=\"" + placeholder.getRestName() + "\" > </td>";
+			tableHtml += "<td> " + ZoomatoAPI.getStyling(placeholder) + "</td> </tr>";
 		}
 
 		tableHtml += "</table> ";
@@ -154,7 +150,7 @@ public class Survey {
 	public String buildResultRestaurantTable(String[] restaurantVote) {
 
 		String tableHtml = "<h1> Welcome to the event ! </h1>"
-				+ "<h3> Thank you for voting!</h3> <h5> Here is what you voted for</h3>" + "<table border=\"1\">";
+				+ "<h3> Thank you for voting!</h3> <h5> Here is what you voted for</h3>" + "<table style=\"a { text-decoration:none;}\">";
 		for (int i = 0; i < restaurantVote.length; i++) {
 
 			tableHtml += "	<tr> " + "<td>  " + restaurantVote[i] + "</td>	</tr>";//
