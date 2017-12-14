@@ -18,6 +18,6 @@ ${result }
 
 <script src="/resources/passwordvalidation.js"></script>
 
-<a href="tryagain"
+<a href="tryagain">Try Again! (Must have different Event name)</a>
 </body>
 </html>
