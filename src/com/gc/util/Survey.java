@@ -147,15 +147,23 @@ public class Survey {
 		return tableHtml;
 	}
 
-	public String buildResultRestaurantTable(String[] restaurantVote) {
+	public String buildResultRestaurantTable(RestaurantObj winner, int votersLeft) {
 
-		String tableHtml = "<h1> Welcome to the event ! </h1>"
-				+ "<h3> Thank you for voting!</h3> <h5> Here is what you voted for</h3>" + "<table style=\"a { text-decoration:none;}\">";
-		for (int i = 0; i < restaurantVote.length; i++) {
-
-			tableHtml += "	<tr> " + "<td>  " + restaurantVote[i] + "</td>	</tr>";//
+		String tableHtml = "<h3> Thank you for voting!</h3> ";
+		if(votersLeft ==0 ) {
+			tableHtml += "<h4> You are the last voter, so here are the results for this outing. We will also send an email to all the participants";
+			tableHtml += " <table style=\"a { text-decoration:none;}\">";
+			tableHtml += "<td> " + ZoomatoAPI.getStyling(winner) + "</td> </tr>";
+			tableHtml += "<table style=\"a { text-decoration:none;}\"> </table> ";
+		
 		}
-		tableHtml += "</table> ";
+		else {
+			tableHtml += " <h5> There are " + votersLeft + ". We will send you an email when we have the final vote. </h5>";
+			tableHtml +=" <h5>  Would you like to  <a href= \"index.html\"> create an outing yourself </a> ?</h5>";
+		}
+			
+
+		
 		return tableHtml;
 	}
 

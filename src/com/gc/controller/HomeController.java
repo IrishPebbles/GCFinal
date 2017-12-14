@@ -244,6 +244,10 @@ public class HomeController {
 		hasAttendeeVoted(voterEmail);
 		hasEveryoneVoted(surveyID);
 		countVotesAndPickWinner(surveyID);
+		RestaurantObj winner = new RestaurantObj("16774318");
+		int votersLeft; 
+		String outingObjHTML = "";
+		outingObjHTML = mySurvey.buildResultRestaurantTable(winner, votersLeft);// when we have the object built
 
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
