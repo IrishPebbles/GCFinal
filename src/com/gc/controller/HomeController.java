@@ -76,23 +76,9 @@ public class HomeController {
 		OutingDao outDao = new OutingDaoImpl();
 		AttendeesDao  attendDao = new AttendeesDaoImpl();
 		
-		ArrayList<PersonDto> user  =  (ArrayList<PersonDto>) pdao.searchByEmail(organizerEmail); // we need to enter if statement to count for userEmail not found
-		System.out.println(user + "  user is empty "+ user.isEmpty());
-		String userLoginText = "";
-		if (!user.isEmpty()) {
-			model.addAttribute("user",organizerEmail);
-			
-			PersonDto searchUser = user.get(0); // getting userEmail from ArrayList<PersonDto> at location zero
-			userLoginText =" <h2> Welcome " + organizerEmail+ "</h2> Your user name: <input type=\"email\" name=\"username\"value=\"" + organizerEmail + "\"><br><br> Please enter your password:  <input type=\"password\"name=\"passwordBox1\">";
-			
-		}
-			
-		else {
-		userLoginText = "<p > You do not have an account associated with  "+ organizerEmail + ". </p>" +"Please create an account below: </p> Your user name: <input type=\"email\"name=\"username\"value=\"" + organizerEmail + "\"><br><br> Please enter your password:     <input type=\"password\"name=\"passwordBox1\"><br> <br> Please Re-enter password your: <input type=\"password\"name=\"passwordBox2\"> <br><br> "; 
-			
-			// what we want to do if they don't have account created. 
-			pdao.addPerson(organizerEmail, "1");
-			}	
+		//validating user and returning the correct password fields for the user to create an account or login
+		String userLoginHTML = Person.checkUserGenerateHTML(organizerEmail);
+		
 		
 		//System.out.println(warning);
 		//model.addAttribute("userResult", userLogin);
@@ -108,9 +94,11 @@ public class HomeController {
 		// Adding people coming from the form into relevant databases
 		//// we need the id of this organizer for the next push to the
 														// database
-		//fix after lunch -- we need to check again if user exists
+		//fix after lunch -- we need to check again if user exists--checked user should exist
+		
 		int organizerId = pdao.searchByEmail(organizerEmail).get(0).getUserID();// we need to be able to search a person
 						// a different field
+		System.out.println();
 
 		String surveyID = outingName + "," + date.toString() + "," + organizerId;// syntax for key
 
@@ -126,7 +114,7 @@ public class HomeController {
 
 		// this gets the list of potential Restaurants
 		Survey mySurvey = constructingOuting.getPotentialEvent();
-		
+		System.out.println("Organizer ID " + organizerId);
 		outDao.addOuting(outingName, surveyID, eventDate, " ", organizerId);
 		// this builds the HTML OBJ table for voting
 		
@@ -137,24 +125,26 @@ public class HomeController {
 		
 		  EmailGenerator email = new EmailGenerator(); 
 		  String votingLink = "";
+		  
 		  for(int i =0; i < emailAddresses.length; ++i) { 
-			  votingLink =" http://localhost:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="+ emailAddresses[i];
+			  votingLink =" http://192.168.0.8:8080/GCFinal/emailLink?surveyID=" + surveyID + "&voterEmail="+ emailAddresses[i];
 			  email.generateAndSendEmail(organizerEmail,emailAddresses[i], votingLink); 
 		  }
 
 		// this gets the list of potiential Restaurants		
+		  ArrayList<PersonDto> user;
+		  Person attendee;
 	      int outingID = outDao.searchSurveyID(surveyID).get(0).getOutingID();
 		  for (int i = 0; i < emailAddresses.length; i++) {
-			  user  =  (ArrayList<PersonDto>) pdao.searchByEmail(emailAddresses[i]); // we need to enter if statement to count for userEmail not found
-			 System.out.println(user + "  user is empty "+ user.isEmpty());
-			 if (!user.isEmpty()) {
-					pdao.addPerson(emailAddresses[i], "1");
-					
-			}
-			 int personID = pdao.searchByEmail(emailAddresses[i]).get(0).getUserID();
-			//write to the attendees database		
-			 attendDao.addNewAttendees(personID, outingID);
-		}
+			  attendee = Person.checkUserExistsOrCreate(emailAddresses[i]);
+			
+			 int personID = attendee.getPersonID();
+			//write to the attendees database	
+			 attendDao.addNewAttendees(personID, outingID);		
+			 
+		  }
+		  //add the organizer the attendees database as well 
+		  attendDao.addNewAttendees(organizerId, outingID);
 		  
 		  
 		 
@@ -165,7 +155,7 @@ public class HomeController {
 		String outingObjHTML = "<h2> " + outingName + "</h2>";
 		outingObjHTML += "<h4> " + date + "</h4>";
 		outingObjHTML += "<form action=\"recordVote\" method =\"get\">" ;
-		outingObjHTML += userLoginText;
+		outingObjHTML += userLoginHTML;
 		// this method builds the voting form we need to tell it the SurveyID
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, organizerEmail);
 		outingObjHTML += "<input type=\"submit\" value=\"Vote\" > </form>";
@@ -189,33 +179,39 @@ public class HomeController {
 
 		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
 		OutingDaoImpl outingDB = new OutingDaoImpl();
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this
-		// survey
+		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this gets the row record from the data for this survey
 		OutingDto outingDto = outingDB.searchSurveyID(surveyID).get(0);
 		Survey mySurvey = new Survey(surveyDto);
+		String userloginHTML = Person.checkUserGenerateHTML(voterEmail);
+		
+		
 
 
 		String outingObjHTML = "<h2> " + outingDto.getOutingName() + "</h2>";
 		outingObjHTML += "<h4> " + outingDto.getDateOfEvent().getMonth() + outingDto.getDateOfEvent().getDay() + outingDto.getDateOfEvent().getYear()+ "</h4>";
 		outingObjHTML += "<form action=\"recordVote\" method=\"get\">";
+		outingObjHTML += userloginHTML;
 		outingObjHTML += mySurvey.buildVotingeRestaurantTable(surveyID, voterEmail);
 		outingObjHTML += "<input type=\"submit\" value=\"Vote\" > </form>";
 			
 		return new ModelAndView("voting", "result", outingObjHTML);
 	}
-
+	
+	//in this method we are recording the users vote
 	@RequestMapping(value = "/recordVote", method = RequestMethod.GET)
 	public ModelAndView recordVote(Model model, @RequestParam("voterEmail") String voterEmail,
-			@RequestParam("surveyID") String surveyID, @RequestParam("rstrnt") String[] restaurantVote, @RequestParam("username") String userName,
+			@RequestParam("surveyID") String surveyID, @RequestParam("rstrnt") String[] restaurantVote, 
 			@RequestParam("passwordBox1") String pass1) {
-			PersonDaoImpl addUser = new PersonDaoImpl();
+			System.out.println(" Voter email is "+ voterEmail);
+			PersonDaoImpl userList = new PersonDaoImpl();
 			
 			//if the voterEmail have an account where we have added a " " as the password
-			if(addUser.searchByEmail(voterEmail).get(0).getUserPassword().equals("1")) {
-				
+			PersonDto voter = userList.searchByEmail(voterEmail).get(0);
+			if(voter.getUserPassword().equals("1")) {
+				int userID = voter.getUserID();
 				String passHash = Person.generateHashPassword(pass1);
-		
-				addUser.addPerson(userName, passHash);
+				PersonDto personToUpdate = new PersonDto(userID, voterEmail, passHash);
+				userList.updatePassword(personToUpdate);
 		
 			}
 			else {
@@ -260,94 +256,7 @@ public class HomeController {
 				return new ModelAndView("voting", "result", outingObjHTML);
 	}
 
-	// TODO needs to be working -- we may have to push a outing variable in a hidden
-	// field // we need to make another hidden field to record who is voting
 
-
-
-	
-
-	
-	@RequestMapping(value = "/addnewuserinfo", method = RequestMethod.POST)
-	public ModelAndView recordUserToDB(Model model, @RequestParam("username") String userName,
-			@RequestParam("passwordBox1") String pass1) {
-		
-		PersonDaoImpl addUser = new PersonDaoImpl();
-		
-		String passHash = Person.generateHashPassword(pass1);
-
-		addUser.addPerson(userName, passHash);
-
-		String outingObjHTML = "<h2> Thank you " + userName + " </h2> <h3> Please vote below: " + passHash + "</h3>";
-		
-
-		return new ModelAndView("voting", "userResult", outingObjHTML);
-	}
-
-	// TODO needs to be working -- we may have to push a outing variable in a hidden
-	// field // we need to make another hidden field to record who is voting
-	/*@RequestMapping("/needstobemerged")
-	public ModelAndView recordVote(Model model, @RequestParam("rstrnt") String[] restaurantVote,
-			@RequestParam("surveyID") String surveyID, @RequestParam("username") String userName,
-			@RequestParam("passwordBox1") String pass1) {
-		SurveyDaoImpl surveyDB = new SurveyDaoImpl();
-		PersonDaoImpl addUser = new PersonDaoImpl();	
-		String passHash = Person.generateHashPassword(pass1);
-		addUser.addPerson(userName, passHash);
-
-		// surveyID should be filled from the database- is not right now.
-	
-		// we have to know who voter is
-		
-		SurveyDto surveyDto = surveyDB.searchSurvey(surveyID).get(0); // this should be filled from the database
-		System.out.println(
-				" Survey DTO  restaurant ID" + surveyDto.getOptVenueID1() + " vote count " + surveyDto.getVoteCount1());
-
-		Survey mySurvey = new Survey(surveyDto);
-		String outingObjHTML = mySurvey.buildResultRestaurantTable(restaurantVote);// when we have the object built we
-																					// may not need to pass an array
-		// get survey object (from Outing object)
-
-		// update the object
-		// let the person know they have voted
-
-		return new ModelAndView("voting", "result", outingObjHTML);
-	}
-	*/
-	
-	@RequestMapping(value = "/indexlogin", method = RequestMethod.POST)
-	public ModelAndView loginCustomer(@RequestParam("userEmail") String username,Model model)throws ClassNotFoundException, SQLException {
-		PersonDaoImpl database = new PersonDaoImpl();
-	
-		ArrayList<PersonDto> user  =  (ArrayList<PersonDto>) database.searchByEmail(username); // we need to enter if statement to count for userEmail not found
-		System.out.println(user + "  user is empty "+ user.isEmpty());
-		String warning = null;
-		//if the person is in the database
-		if (!user.isEmpty()) {
-			model.addAttribute("user",username);
-			
-			PersonDto searchUser = user.get(0); // getting userEmail from ArrayList<PersonDto> at location zero
-			warning =" Welcome " + username;
-			//we just let them vote
-			
-		}
-		// they need to create password	
-		else {
-			warning = "<p class='warning'> You do not have an account associated with  "+ username +
-					"<form action=\"addnewuserinfo\" method=\"post\">" +
-					"Please create an account below: </p> Your user name: <input type=\"email\"name=\"username\"value=\"" + username + "\"><br><br> Please enter your password:     <input type=\"password\"name=\"passwordBox1\"><br> <br> Please Re-enter password your: <input type=\"password\"name=\"passwordBox2\"> <br><br>  <input type=\"submit\"value=\"Submit\"> "; 
-			
-			//return new ModelAndView("voting", "userName", warning);
-			// what we want to do if they don't have account created. 
-			
-		}	
-		
-		//System.out.println(warning);
-		model.addAttribute("authenticated", username);
-		return new ModelAndView("voting", "result", warning);
-		
-		//return new ModelAndView("preferences", "noAccountMessage", warning);
-	}
 	@RequestMapping("preferences")
 	public String viewPreferencesPage() {
 		// System.out.println("Here");

@@ -77,7 +77,6 @@ public class SurveyDaoImpl implements SurveyDao {
 	 */
 	@Override
 	public List<SurveyDto> searchSurvey(String surveyID) {
-		System.out.println("In beginning of method " + surveyID);
 
 		Configuration config = new Configuration().configure("hibernate.cfg.xml");
 
