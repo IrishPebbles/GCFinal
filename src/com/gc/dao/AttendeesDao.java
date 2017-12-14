@@ -14,12 +14,14 @@ public interface AttendeesDao {
 	List<AttendeesDto> searchID (int attendeesID);
 	// searching ID
 	
-	List<AttendeesDto> unpdateID (AttendeesDto newUser);
+	List<AttendeesDto> updateAttendees (AttendeesDto newUser);
 	// updating ID in case Attendees will become organizer
 	
 	List<AttendeesDto> getID (AttendeesDto newUser);
 	
 	List<AttendeesDto> searchByPersonID (int personID);
+	
+	List<AttendeesDto> searchByOutingID (int outingID); 
 	
 	
 }

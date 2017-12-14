@@ -98,6 +98,24 @@ public class PersonDaoImpl implements PersonDao {
 		return getEmail;
 		
 	}
+		public void  updatePassword(PersonDto person) {
+		
+			Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
+
+			SessionFactory sessionFact = cfg.buildSessionFactory();
+
+			Session codes = sessionFact.openSession();
+
+			codes.beginTransaction();
+			
+
+			codes.update(person); // update the object from the list
+
+			codes.getTransaction().commit(); // update the row from the database table
+			
+			codes.close();
+
+		}
 
 
 	@Override

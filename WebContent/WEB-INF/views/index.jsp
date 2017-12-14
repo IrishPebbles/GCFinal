@@ -11,7 +11,6 @@
 </head>
 <body>
 
-
   <main role="main">
   <form action="voting" id="login-form" method="POST" style = "text-align: center" >
   <!-- Main jumbotron for a primary marketing message or call to action -->

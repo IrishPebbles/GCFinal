@@ -7,6 +7,8 @@ public class RestaurantObj {
 	private String restLocation;
 	private String restRating;
 	private String restURL;
+	private 	String featImgURL;
+	private String cusineType;
 	
 	public String getRestURL() {
 		return restURL;
@@ -65,11 +67,29 @@ public class RestaurantObj {
 		this.restRating = restRating;
 	}
 
+	public String getFeatImgURL() {
+		return featImgURL;
+	}
+
+	public void setFeatImgURL(String featImgURL) {
+		this.featImgURL = featImgURL;
+	}
+
+	public String getCusineType() {
+		return cusineType;
+	}
+
+	public void setCusineType(String cusineType) {
+		this.cusineType = cusineType;
+	}
+
 	@Override
 	public String toString() {
 		return "RestaurantObj [zomatoID=" + zomatoID + ", restName=" + restName + ", restLocation=" + restLocation
-				+ ", restRating=" + restRating + ", restURL=" + restURL + "]";
+				+ ", restRating=" + restRating + ", restURL=" + restURL + ", featImgURL=" + featImgURL + ", cusineType="
+				+ cusineType + "]";
 	}
+
 	
 	
 

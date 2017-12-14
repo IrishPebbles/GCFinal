@@ -15,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.gc.dto.AttendeesDto;
 import com.gc.dto.CurrentScoreDto;
+import com.gc.dto.SurveyDto;
 
 /**
  * @author Serhiy Bardysh
@@ -88,6 +89,26 @@ public class AttendeesDaoImpl implements AttendeesDao {
 		session.close();
 		return list;
 	}
+	
+	@Override
+	public List<AttendeesDto> searchByOutingID(int outingID) {
+		Configuration config = new Configuration().configure("hibernate.cfg.xml");
+
+		SessionFactory sessionFactory = config.buildSessionFactory();
+
+		Session session = sessionFactory.openSession();
+
+		Transaction tx = session.beginTransaction();
+
+		Criteria crit = session.createCriteria(AttendeesDto.class);
+
+		crit.add(Restrictions.eq("outingID", outingID));
+
+		ArrayList<AttendeesDto> list = (ArrayList<AttendeesDto>) crit.list();
+		tx.commit();
+		session.close();
+		return list;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -95,8 +116,33 @@ public class AttendeesDaoImpl implements AttendeesDao {
 	 * @see com.gc.factory.AttendeesDao#unpdateID(com.gc.dto.AttendeesDto)
 	 */
 	@Override
-	public List<AttendeesDto> unpdateID(AttendeesDto newUser) {
-		// TODO Auto-generated method stub
+	public List<AttendeesDto> updateAttendees(AttendeesDto newUser) {
+		// TODO Auto-generated method stub@Override
+
+			//SurveyDto temp = new SurveyDto();
+			// by passing in the product id from a hidden field we can determine what row to edit
+			
+			
+			/*temp.set;
+			temp.setCode(code);
+			temp.setDescription(desc);
+			temp.setListPrice(price);
+	*/
+			Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
+
+			SessionFactory sessionFact = cfg.buildSessionFactory();
+
+			Session codes = sessionFact.openSession();
+
+			codes.beginTransaction();
+
+			codes.update(newUser); // update the object from the list
+
+			codes.getTransaction().commit(); // update the row from the database table
+			
+			codes.close();
+
+		
 		return null;
 	}
 
