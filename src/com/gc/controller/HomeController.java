@@ -217,10 +217,10 @@ public class HomeController {
 		mySurvey.votingMethod(restaurantVote, surveyDto, surveyDB);
 
 		hasAttendeeVoted(voterEmail, surveyID);
-		hasEveryoneVoted(surveyID);
-		countVotesAndPickWinner(surveyID);
-		RestaurantObj winner = new RestaurantObj("16774318");
-		int votersLeft = 0; 
+		int votersLeft = hasEveryoneVoted(surveyID);
+		
+		RestaurantObj winner = new RestaurantObj(countVotesAndPickWinner(surveyID));
+		
 		String outingObjHTML = "";
 		outingObjHTML = mySurvey.buildResultRestaurantTable(winner, votersLeft);// when we have the object built
 
