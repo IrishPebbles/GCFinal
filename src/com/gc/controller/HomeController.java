@@ -56,7 +56,7 @@ public class HomeController {
 		SurveyDao sdao = new SurveyDaoImpl();
 		model.addAttribute("displayPreference", "\"display:none;\"");
 
-		tallyFinalVoteCount();
+		attendeeHasVoted("helpingofburgers@gmail.com");
 		return new ModelAndView("index", "result", "");
 
 	}
@@ -320,18 +320,18 @@ public class HomeController {
 	
 		}
 //has been rendered irrelevant by Lena's code	
-	/*public void attendeeHasVoted(String voterEmail@RequestParam("voterEmail") String voterEmail, @RequestParam("surveyID") String surveyID){
+	public void attendeeHasVoted(@RequestParam("voterEmail") String voterEmail){
 		PersonDaoImpl personDAO = new PersonDaoImpl();
 		PersonDto personDTO = new PersonDto();
 		AttendeesDaoImpl attendeeDAO = new AttendeesDaoImpl();
 		AttendeesDto attendeeDTO = new AttendeesDto();
 		
 		
-		//below I create a person object so that we can access the attendee information. We use the person DAP to search for the relevant
+		//below I create a person object so that we can access the attendee information. We use the person DAO to search for the relevant
 		//person by their email (they are created when their email is entered for the first time). We then have it "get" the object out of 
 		//the array it is returned in.
 		personDTO = personDAO.searchByEmail(voterEmail).get(0);
-		System.out.println("We got: " + personDTO.getUserEmail());
+		System.out.println("We got: " + personDTO.getUserEmail()); //test purposes TODO delete when ready
 		
 		
 		// use person id to find attendee
@@ -340,11 +340,21 @@ public class HomeController {
 		//the person ID by calling it from the person DTO. The get 0 is because the attendeeDAO returns an attendee object in an array,
 		//so we need to "get" it so it can be converted into the object we call attendeeDTO
 		//switch false to true
-		attendeeDTO.setVoted(true);
 		
-		//Here we set the value to true
-		*/
+		if(attendeeDTO.getVoted() == false) {
+			attendeeDTO.setVoted(true);
+		} else {
+			System.out.println("He already voted!");
+		}
+		
+		
+		attendeeDAO.updateAttendees(attendeeDTO);
+		System.out.println("The ID should be 95: " + attendeeDTO.getPersonID()); //test purposes TODO delete when ready
+		
+		//Here we set the value to true and send it to the database
+		
 	}
+}
 	
 
 	
