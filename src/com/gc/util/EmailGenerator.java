@@ -50,7 +50,7 @@ public class EmailGenerator {
        // generateMailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress("Lena.L.Hand@gmail.com"));
         //If we send the organizer as a person to get the name or sned the envent info
         generateMailMessage.setSubject("Vote for Event");
-        String emailBody = "Hello,  " + "<br><br><p>Please click the link or paste it in your url bar" +  "<a href=\"" + link+ "\">"  + link + " </a> </p><br><br> Regards, <br>Outings by Somebody";
+        String emailBody = "Hello,  " + "<br><br><p>Please click the link or paste it in your url bar  " +  "<a href=\"" + link+ "\">"  + link + " </a> </p><br><br> Regards, <br>Outings by Somebody";
         generateMailMessage.setContent(emailBody, "text/html");
         System.out.println("Mail Session has been created successfully..");
  
@@ -122,7 +122,7 @@ public class EmailGenerator {
        // generateMailMessage.addRecipient(Message.RecipientType.CC, new InternetAddress("Lena.L.Hand@gmail.com"));
         //If we send the organizer as a person to get the name or send the event info
         generateMailMessage.setSubject("Results for Event");
-        String emailBody = "Hello,  " + "<br><br><p>Please click the link or paste it in your url bar to see the results and the restaurant location:" +  "<a href=\"" + link+ "\">"  + link + " </a> </p><br><br> Regards, <br>Outings by Somebody";
+        String emailBody = "Hello,  " + "<br><br><p>Please click the link or paste it in your url bar to see the results and the restaurant location:  " +  "<a href=\"" + link+ "\">"  + link + " </a> </p><br><br> Regards, <br>Outings by Somebody";
         generateMailMessage.setContent(emailBody, "text/html");
         System.out.println("Mail Session has been created successfully..");
  
