@@ -172,7 +172,7 @@ public class ZoomatoAPI {
 				"</a></div>";*/
 		String htmlCard = "<div class=\"card text-center\" style=\"width: 20rem;\"> ";
 		System.out.println(" Rest url is \"" +restaurant.getFeatImgURL() + "\"" );
-		if(!restaurant.getFeatImgURL().contains("http")) {
+		if(restaurant.getFeatImgURL().contains("http")) {
 			htmlCard += "<img class=\"card-img-top\" src=\"" + restaurant.getFeatImgURL() + "\" alt=\" \">";
 		}
 		else {
