@@ -23,10 +23,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
 <script src="/resources/passwordvalidation.js"></script>
-<<<<<<< HEAD
 
 <br><br>
-=======
->>>>>>> 34368300b24ec066e8296d9fffc7795e26c6f13f
+
 </body>
 </html>

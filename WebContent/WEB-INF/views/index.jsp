@@ -4,16 +4,13 @@
 <html>
 <head>
 <script src="https://use.fontawesome.com/84c291ee55.js"></script>
-<<<<<<< HEAD
+
  <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Welcome to Outings </title>
-=======
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Welcome to Out with Friends!</title>
->>>>>>> 34368300b24ec066e8296d9fffc7795e26c6f13f
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 <link rel="stylesheet" href="resources/modallogin.css" type="text/css">
 
