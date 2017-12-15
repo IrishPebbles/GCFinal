@@ -34,7 +34,7 @@ public class OutingDaoImpl implements OutingDao {
 	
 		newOuting.setDateOfEvent(dateOfEvent);
 		newOuting.setFinalLocation(finalLoc);
-		newOuting.setOrganizer(14);
+		newOuting.setOrganizer(organizer);
 		newOuting.setOutingName(outingName);
 		newOuting.setSurveyID(surveyID);
 		

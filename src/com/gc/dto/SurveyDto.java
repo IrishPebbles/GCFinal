@@ -59,13 +59,6 @@ public class SurveyDto implements Serializable {
 		this.sIntID = sIntID;
 	}
 
-	public int getFinalVenueID() {
-		return finalVenueID;
-	}
-
-	public void setFinalVenueID(int finalVenueID) {
-		this.finalVenueID = finalVenueID;
-	}
 
 	public String getSurveyID() {
 		return surveyID;

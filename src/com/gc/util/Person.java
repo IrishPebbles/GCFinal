@@ -109,12 +109,12 @@ public class Person {
 		String userLoginText = "";
 		if (!user.isEmpty()) {
 			PersonDto searchUser = user.get(0); // getting userEmail from ArrayList<PersonDto> at location zero
-			userLoginText =" <h2> Welcome " + searchEmail+ "</h2> Your user name: <input type=\"email\" name=\"voterEmail\"value=\"" + searchEmail + "\"><br><br> Please enter your password:  <input type=\"password\"name=\"passwordBox1\">";
+			userLoginText =" <h4> Welcome " + searchEmail +"</h4> <input type=\"hidden\" name=\"voterEmail\" value=\""+ searchEmail + "\">";
 			
 		}
 			
 		else {
-		userLoginText = "<p > You do not have an account associated with  "+ searchEmail + ". </p>" +"Please create an account below: </p> Your email: <input type=\"email\"name=\"voterEmail\"value=\"" + searchEmail + "\"><br><br> Please enter your password:     <input type=\"password\"name=\"passwordBox1\"><br> <br> Please Re-enter password your: <input type=\"password\"name=\"passwordBox2\"> <br><br> "; 
+		userLoginText = "<h4> Welcome \" "+ searchEmail +"\"</h4> <input type=\"hidden\" name=\"voterEmail\" value="+ searchEmail + ">"; 
 			
 			// what we want to do if they don't have account created. 
 			pdao.addPerson(searchEmail, "1");

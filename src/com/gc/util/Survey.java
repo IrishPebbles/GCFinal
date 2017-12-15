@@ -147,8 +147,9 @@ public class Survey {
 		return tableHtml;
 	}
 
-	public String buildResultRestaurantTable(RestaurantObj winner, int votersLeft) {
-
+	public String buildResultRestaurantTable(String restID, int votersLeft) {
+		System.out.println(" Build table " + restID);
+		RestaurantObj winner = ZoomatoAPI.searchByRestID(restID);
 		String tableHtml = "<h3> Thank you for voting!</h3> ";
 		if(votersLeft ==0 ) {
 			tableHtml += "<h4> You are the last voter, so here are the results for this outing. We will also send an email to all the participants";

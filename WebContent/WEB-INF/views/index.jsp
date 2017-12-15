@@ -4,10 +4,14 @@
 <html>
 <head>
 <script src="https://use.fontawesome.com/84c291ee55.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Welcome to Outings </title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 <link rel="stylesheet" href="resources/modallogin.css" type="text/css">
+
 </head>
 <body>
 
@@ -17,14 +21,14 @@
  
 	  <div class="jumbotron">
 	    <div class="container" >
-	    		<div style="background: white; opacity: 0.90; border-radius: 4px;">
+	    		<div style="background: rgba(255, 255, 255, .9); border-radius: 4px; padding: 20 px max-width:550px;">
 		      <h1 class="display-3" style = "text-align: center">Welcome to Out with Friends</h1>
 		      
 		      <p style = "text-align: center">Organize fun events with your friends and family and easily decide where to go. Getting together easier and more enjoyable than ever before.</p>
 		     
 		     
 		     <div class="input-group">
-				<input type="email" class="form-control" placeholder="your-email@emailAddress.com"   name="organizerEmail">
+				<input type="email" class="form-control" placeholder="email@emailAddress.com"   name="organizerEmail" required>
      			 <span class="input-group-btn">
         				<button id="outingbutton" class="btn btn-primary btn-default" type="button"  data-toggle="modal" data-target="#login-modal">Create an Outing</button>
       			</span>

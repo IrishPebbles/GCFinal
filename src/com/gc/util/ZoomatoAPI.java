@@ -99,7 +99,7 @@ public class ZoomatoAPI {
 
 	public static RestaurantObj searchByRestID(String restID) {
 		JSONObject restaurant = connectToAPI(buildParameterforSearch(restID));
-		
+		System.out.println(" Search " + restID);
 		String restName = restaurant.getString("name");
 		String restLocation = restaurant.getJSONObject("location").getString("address");
 		String restRating = restaurant.getJSONObject("user_rating").getString("aggregate_rating");
