@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div class="container">
-		<div>
+		<div style="margin: 0 auto; max-width: 600px;">
 		${userResult}
 		${result }
 		</div>

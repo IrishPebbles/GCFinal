@@ -21,7 +21,7 @@
  
 	  <div class="jumbotron">
 	    <div class="container" >
-	    		<div style="background: rgba(255, 255, 255, .9); border-radius: 4px; padding: 20 px max-width:550px;">
+	    		<div style="background: rgba(255, 255, 255, .9); border-radius: 4px; padding: 20 px; max-width:550px; margin: 0 auto; padding: 20px;">
 		      <h1 class="display-3" style = "text-align: center">Welcome to Out with Friends</h1>
 		      
 		      <p style = "text-align: center">Organize fun events with your friends and family and easily decide where to go. Getting together easier and more enjoyable than ever before.</p>

@@ -99,7 +99,6 @@ public class ZoomatoAPI {
 
 	public static RestaurantObj searchByRestID(String restID) {
 		JSONObject restaurant = connectToAPI(buildParameterforSearch(restID));
-		System.out.println(" Search " + restID);
 		String restName = restaurant.getString("name");
 		String restLocation = restaurant.getJSONObject("location").getString("address");
 		String restRating = restaurant.getJSONObject("user_rating").getString("aggregate_rating");
@@ -163,13 +162,34 @@ public class ZoomatoAPI {
 	}
 	
 	public static String getStyling(RestaurantObj restaurant) {
-		//System.out.println("Url= " + restaurant.getFeatImgURL());
+		//System.out.println("Url= " + restaurant.getFeatImgURL()); 
+		/*
 		String htmlCard = "<div class=\"card\"><a href=\"" + restaurant.getRestURL()+"\" target=\"_blank\" >" + 
 				"  <img class=\"card-img-top\" src=\"\" alt=\"\">\n" + 
 				"  <div class=\"card-block\">\n" + 
 				"    <p class=\"card-text\">" + restaurant.getRestName() + " Cusine Type:" + restaurant.getCusineType()+" with a rating of " + restaurant.getRestRating()+
 				"  <br> Located at "+ restaurant.getRestLocation() + "  </p>" + "  </div>\n" + 
-				"</a></div>";
+				"</a></div>";*/
+		String htmlCard = "<div class=\"card text-center\" style=\"width: 20rem;\"> ";
+		System.out.println(" Rest url is \"" +restaurant.getFeatImgURL() + "\"" );
+		if(!restaurant.getFeatImgURL().contains("http")) {
+			htmlCard += "<img class=\"card-img-top\" src=\"" + restaurant.getFeatImgURL() + "\" alt=\" \">";
+		}
+		else {
+			htmlCard += "<i class=\"fa fa-cutlery fa-3\" aria-hidden=\"true\"></i>";
+		}
+			htmlCard += " <div class=\"card-block\"> "+
+						" <h4 class=\"card-title\">"+ restaurant.getRestName() + "</h4> "+
+						" <p class=\"card-text\"> <a href=\""+ restaurant.getRestURL() +"\" target=\"_blank\"> Visit Zomato Page </a></p> "+
+						"</div>"+
+						"  <ul class=\"list-group list-group-flush\"> " +
+						"<li class=\"list-group-item\"> Type: "+ restaurant.getCusineType() +"</li> " +
+						" <li class=\"list-group-item\">Rating: "+ restaurant.getRestRating() +"</li> " +
+						" </ul> " +
+						"<div class=\"card-block\"> " + restaurant.getRestLocation() +   
+						"</div> " +
+						"</div> ";
+				
 		
 		return htmlCard;
 		

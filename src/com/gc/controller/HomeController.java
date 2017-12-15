@@ -231,15 +231,18 @@ public class HomeController {
 
 		hasAttendeeVoted(voterEmail, surveyID);
 		int votersLeft = hasEveryoneVoted(surveyID);
-		String outingObjHTML = "";
-		if(votersLeft == 0) {
+		System.out.println();
+		String outingObjHTML = "<h3> Thank you for voting!</h3> ";
+		
 		String winnerID = countVotesAndPickWinner(surveyID);
-	
-		outingObjHTML = mySurvey.buildResultRestaurantTable(winnerID, votersLeft);// when we have the object built
+		System.out.println("Voters Left " + votersLeft);
+		if (votersLeft == 0) {
+			outingObjHTML += "<h4> You are the last voter, so here are the results for this outing. We will also send an email to all the participants. </h4>";
 		}
-		else {
-			buildfinalPage(model, surveyID, voterEmail);
-		}
+		
+		
+		outingObjHTML += mySurvey.buildResultRestaurantTable(winnerID, votersLeft);// when we have the object built
+		
 		return new ModelAndView("finalResult", "result", outingObjHTML);
 	}
 	
@@ -266,32 +269,45 @@ public class HomeController {
 		if(mySurvey.getHasVoted()) {
 			//display finalResult
 			Survey surveyInst = new Survey(mySurvey);
-			outingObjHTML = surveyInst.buildResultRestaurantTable(Integer.toString(mySurvey.getfinalVenueID()), 0);
+			outingObjHTML += surveyInst.buildResultRestaurantTable(Integer.toString(mySurvey.getfinalVenueID()), 0);
 		} else{ 
 			if (hasEveryoneVoted(surveyID)<2) {
 				outingObjHTML += "<p> There is " + hasEveryoneVoted(surveyID) +  " voter left. </p>";
 			} else {
-			outingObjHTML += "<p> There are " + hasEveryoneVoted(surveyID) +  " voters left.";
+			outingObjHTML += "<p> There are " + hasEveryoneVoted(surveyID) +  " voters left. </p> ";
 			}
-			System.out.println(" Request " + requesterID + " organizer " + outInstance.getOrganizer());
+			//System.out.println(" Request " + requesterID + " organizer " + outInstance.getOrganizer());
 			if(requesterID==outInstance.getOrganizer()) {
-				outingObjHTML+= "<form action=\"endVoting\" method=\"get\"> <input type=\"hidden\" value=\""+surveyID+ "> <input type=\"submit\" value=\"End Voting\"> </form>";
+				outingObjHTML+= "<form action=\"endVoting\" method=\"get\">" +
+					 "<input type=\"hidden\" name=\"surveyID\" value=\"" + surveyID+ "\">" +
+					"<input type=\"submit\"  value=\"End Voting\"> </form>";
 			}	
 		}
-		
+		//System.out.println(" HTML THAT IS SUPPOSED TO SHOW  " + outingObjHTML);
 		return new ModelAndView("finalResult", "result", outingObjHTML); 
 		
 	}
 	
+	@RequestMapping("finalResult")
+	public String resultPage() {
+		return "finalResult";
+	}
+	
 	@RequestMapping(value = "endVoting", method = RequestMethod.GET)
-	public void endtheVoting(Model model, @RequestParam("surveyID") String surveyID) throws AddressException, MessagingException {
+	public ModelAndView endtheVoting(Model model, @RequestParam("surveyID") String surveyID) throws AddressException, MessagingException {
 		SurveyDaoImpl sdao = new SurveyDaoImpl();
 		OutingDaoImpl odao = new OutingDaoImpl();
 		OutingDto outInstance = odao.searchSurveyID(surveyID).get(0);
 		SurveyDto mySurvey = sdao.searchSurvey(surveyID).get(0);
-		
+		Survey surveyData = new Survey(mySurvey);
 		mySurvey.setHasVoted(true);
-		countVotesAndPickWinner(surveyID);
+		String restID = countVotesAndPickWinner(surveyID);
+		String htmlObj = "<h2> You have ended the voting, your attendees will be notified of the result.";
+		htmlObj +="<h3> Results for " + outInstance.getOutingName() + " on " +outInstance.getDateOfEvent().getMonth() + "-"+ outInstance.getDateOfEvent().getDay()+ "-" + outInstance.getDateOfEvent().getYear() + "</h3>";
+		htmlObj += surveyData.buildResultRestaurantTable(restID, 0);
+		
+		
+		return new ModelAndView("finalResult", "result", htmlObj);
 	}
 	
 

@@ -148,23 +148,38 @@ public class Survey {
 	}
 
 	public String buildResultRestaurantTable(String restID, int votersLeft) {
-		System.out.println(" Build table " + restID);
-		RestaurantObj winner = ZoomatoAPI.searchByRestID(restID);
-		String tableHtml = "<h3> Thank you for voting!</h3> ";
-		if(votersLeft ==0 ) {
-			tableHtml += "<h4> You are the last voter, so here are the results for this outing. We will also send an email to all the participants";
-			tableHtml += " <table style=\"a { text-decoration:none;}\">";
-			tableHtml += "<td> " + ZoomatoAPI.getStyling(winner) + "</td> </tr>";
-			tableHtml += "<table style=\"a { text-decoration:none;}\"> </table> ";
+		
+		String tableHtml = "";
+		if(votersLeft == 0 ) {
+			
+			RestaurantObj winner = ZoomatoAPI.searchByRestID(restID);
+			/*tableHtml += "<div class=\"card text-center\" style=\"width: 20rem;\"> "+ 
+			"<img class=\"card-img-top\" src=\"" + winner.getFeatImgURL() + "\">"+
+			 " <div class=\"card-block\"> "+
+			   " <h4 class=\"card-title\">"+ winner.getRestName() + "</h4> "+
+			   " <p class=\"card-text\"> <a href=\""+ winner.getRestURL() +"\" target=\"_blank\"> Visit Zomato Page </a></p> "+
+			  "</div>"+
+			"  <ul class=\"list-group list-group-flush\"> " +
+			    "<li class=\"list-group-item\"> Type: "+ winner.getCusineType() +"</li> " +
+ 			   " <li class=\"list-group-item\">Rating: "+ winner.getRestRating() +"</li> " +
+			 " </ul> " +
+			  "<div class=\"card-block\"> " + winner.getRestLocation() +   
+			  "</div> " +
+			"</div> ";
+			*/
+			
+			tableHtml +=  ZoomatoAPI.getStyling(winner) ;
+		
 		
 		}
 		else {
 			if(votersLeft == 1) {
-				tableHtml += " <h5> There is " + votersLeft + "person that still needs to vote.c" + "We will send you an email when we have the final vote. </h5>";
+				tableHtml += " <h5> There is " + votersLeft + " person that still needs to vote." + "  We will send you an email when we have the final vote. </h5>";
+				tableHtml +=" <h5>  Would you like to  <a href= \"index.html\"> create an outing yourself </a> ?</h5>";
+			} else {
+				tableHtml += " <h5> There are " + votersLeft + " people that still need to vote. " + "  We will send you an email when we have the final vote. </h5>";
 				tableHtml +=" <h5>  Would you like to  <a href= \"index.html\"> create an outing yourself </a> ?</h5>";
 			}
-			tableHtml += " <h5> There are " + votersLeft + "people that still need to vote. " + " We will send you an email when we have the final vote. </h5>";
-			tableHtml +=" <h5>  Would you like to  <a href= \"index.html\"> create an outing yourself </a> ?</h5>";
 		}
 			
 
