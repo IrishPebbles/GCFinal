@@ -18,7 +18,6 @@ import com.gc.api.Credentials;
  */
 
 public class EmailGenerator {
-<<<<<<< HEAD
  
     static Properties mailServerProperties;
     static Session getMailSession;
