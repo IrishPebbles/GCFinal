@@ -11,13 +11,14 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.gc.api.Credentials;
- 
+
 /**
  * @author Crunchify.com
  * 
  */
- 
+
 public class EmailGenerator {
+<<<<<<< HEAD
  
     static Properties mailServerProperties;
     static Session getMailSession;
@@ -138,3 +139,4 @@ public class EmailGenerator {
         }
         
     }
+

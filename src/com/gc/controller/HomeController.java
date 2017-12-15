@@ -157,6 +157,7 @@ public class HomeController {
 			votingLink = "http://gcoutings.us-east-2.elasticbeanstalk.com/emailLink?surveyID=" + surveyID
 					+ "&voterEmail=" + emailAddresses[i] + "&lat=" + location.getLatitude() + "&long="
 					+ location.getLongitude();
+
 			email.generateAndSendEmail(organizerEmail, emailAddresses[i], votingLink);
 		}
 		
@@ -201,7 +202,8 @@ public class HomeController {
 	// in this method we are recording the users vote
 	@RequestMapping(value = "/recordVote", method = RequestMethod.GET)
 	public ModelAndView recordVote(Model model, @RequestParam("voterEmail") String voterEmail,
-			@RequestParam("surveyID") String surveyID, @RequestParam("rstrnt") String[] restaurantVote) throws AddressException, MessagingException {
+
+		@RequestParam("surveyID") String surveyID, @RequestParam("rstrnt") String[] restaurantVote) throws AddressException, MessagingException {
 		PersonDaoImpl userList = new PersonDaoImpl();
 
 		// if the voterEmail have an account where we have added a " " as the password
@@ -244,6 +246,7 @@ public class HomeController {
 		outingObjHTML += mySurvey.buildResultRestaurantTable(winnerID, votersLeft);// when we have the object built
 		
 		return new ModelAndView("finalResult", "result", outingObjHTML);
+
 	}
 	
 	
